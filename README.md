@@ -238,6 +238,31 @@ This reads queued outbound-message actions from
 and emits the same trust artifact bundle from an internal queue + policy gate
 flow.
 
+You can also point it at an explicit queue and policy file:
+
+```sh
+node examples/run_ops_loop.mjs <queue.json> <policy.json> [output_dir]
+```
+
+Prepare an editable sandbox for live demo variations with:
+
+```sh
+node examples/prepare_ops_sandbox.mjs
+```
+
+That copies the default queue and policy into a scratch directory so you can
+edit them and rerun the loop without touching the repo defaults.
+
+Useful live-demo policy knobs now include:
+
+- `allowlisted_domains`
+- `allowlisted_channels`
+- `blocked_recipients`
+- `required_disclosure`
+- `required_subject_prefix`
+- `max_body_chars`
+- `disallowed_phrases`
+
 ## Polsia Demo Packet
 
 Build the current best customer-facing packet with:

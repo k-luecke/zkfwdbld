@@ -34,6 +34,6 @@ export function parseMessageDraftFile(filePath) {
   return drafts.map((draft, index) => normalizeDraft(draft, index));
 }
 
-export function reviewedArtifactsFromDraftFile(filePath) {
-  return policyReviewedOutboundMessages(parseMessageDraftFile(filePath));
+export function reviewedArtifactsFromDraftFile(filePath, policy) {
+  return policyReviewedOutboundMessages(parseMessageDraftFile(filePath), policy);
 }

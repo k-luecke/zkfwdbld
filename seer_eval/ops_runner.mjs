@@ -4,6 +4,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 
 import { reviewedArtifactsFromDraftFile } from './message_ingest.mjs';
+import { loadOutboundMessagePolicy } from './message_policy.mjs';
 import { exportFindingReportSet } from './report_exporter.mjs';
 
 function readJson(filePath) {
@@ -21,16 +22,18 @@ export function loadOpsQueue(filePath) {
   return actions;
 }
 
-export function runOutboundMessageOpsLoop(queuePath, outputDir) {
+export function runOutboundMessageOpsLoop(queuePath, outputDir, options = {}) {
   const queue = loadOpsQueue(queuePath);
-  const tempDraftPath = queuePath;
-  const artifacts = reviewedArtifactsFromDraftFile(tempDraftPath);
+  const policy =
+    options.policy_path ? loadOutboundMessagePolicy(options.policy_path) : undefined;
+  const artifacts = reviewedArtifactsFromDraftFile(queuePath, policy);
   const result = exportFindingReportSet(artifacts, outputDir, {
-    title: 'Ops Queue Outbound Message Review',
+    title: options.title ?? 'Ops Queue Outbound Message Review',
   });
 
   return {
     queue_path: queuePath,
+    policy_path: options.policy_path ?? null,
     action_count: queue.length,
     ...result,
   };
@@ -39,6 +42,7 @@ export function runOutboundMessageOpsLoop(queuePath, outputDir) {
 export function defaultOpsPaths(rootDir = process.cwd()) {
   return {
     queue_path: path.join(rootDir, 'ops', 'queue', 'outbound_messages.json'),
+    policy_path: path.join(rootDir, 'ops', 'policies', 'outbound_message_policy.json'),
     output_dir: path.join(rootDir, 'artifacts', 'ops-outbound-review'),
   };
 }

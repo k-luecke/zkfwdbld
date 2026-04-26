@@ -1,6 +1,10 @@
 {
   "allowlisted_domains": ["customer.example", "prospect.example"],
+  "allowlisted_channels": ["email"],
+  "blocked_recipients": [],
   "disallowed_phrases": ["guarantee", "guaranteed results", "no-risk promise"],
   "required_disclosure": "Sent by AI assistant",
+  "required_subject_prefix": "",
+  "max_body_chars": 500,
   "approved_families": ["support_followup", "demo_outreach"]
 }

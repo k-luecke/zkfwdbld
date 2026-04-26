@@ -7,9 +7,9 @@ export function artifactsFromOutboundMessages(messages = []) {
   return messages.map(message => adaptOutboundMessageAction(message));
 }
 
-export function policyReviewedOutboundMessages(messages = []) {
+export function policyReviewedOutboundMessages(messages = [], policy) {
   return messages.map(message => {
-    const result = evaluateOutboundMessagePolicy(message);
+    const result = evaluateOutboundMessagePolicy(message, policy);
     return adaptOutboundMessageAction({
       ...message,
       title:

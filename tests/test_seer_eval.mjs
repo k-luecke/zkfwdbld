@@ -477,6 +477,38 @@ test('evaluateOutboundMessagePolicy returns needs_review for noncompliant messag
   assert.ok(result.reasons.length > 0);
 });
 
+test('evaluateOutboundMessagePolicy respects blocked recipient list', () => {
+  const [message] = defaultOutboundMessages();
+  const result = evaluateOutboundMessagePolicy(message, {
+    allowlisted_domains: ['customer.example'],
+    allowlisted_channels: ['email'],
+    blocked_recipients: ['owner@customer.example'],
+    disallowed_phrases: [],
+    required_disclosure: 'Sent by AI assistant',
+    required_subject_prefix: '',
+    max_body_chars: 500,
+    approved_families: ['support_followup'],
+  });
+  assert.equal(result.trust_state, 'needs_review');
+  assert.ok(result.reasons.includes('Recipient is explicitly blocked.'));
+});
+
+test('evaluateOutboundMessagePolicy respects required subject prefix', () => {
+  const [message] = defaultOutboundMessages();
+  const result = evaluateOutboundMessagePolicy(message, {
+    allowlisted_domains: ['customer.example'],
+    allowlisted_channels: ['email'],
+    blocked_recipients: [],
+    disallowed_phrases: [],
+    required_disclosure: 'Sent by AI assistant',
+    required_subject_prefix: '[Approved]',
+    max_body_chars: 500,
+    approved_families: ['support_followup'],
+  });
+  assert.equal(result.trust_state, 'needs_review');
+  assert.ok(result.reasons.includes('Required subject prefix is missing.'));
+});
+
 test('artifactsFromOutboundMessages emits agent_action artifacts', () => {
   const artifacts = artifactsFromOutboundMessages(defaultOutboundMessages());
   assert.equal(artifacts.length, 2);
@@ -517,9 +549,12 @@ test('parseMessageDraftFile also accepts ops queue object shape', () => {
 test('runOutboundMessageOpsLoop exports bundle from ops queue', () => {
   const queuePath = path.join(process.cwd(), 'ops', 'queue', 'outbound_messages.json');
   const dir = tmpDir();
-  const result = runOutboundMessageOpsLoop(queuePath, dir);
+  const result = runOutboundMessageOpsLoop(queuePath, dir, {
+    policy_path: path.join(process.cwd(), 'ops', 'policies', 'outbound_message_policy.json'),
+  });
   assert.equal(result.action_count, 2);
   assert.ok(existsSync(result.handoff_path));
+  assert.equal(result.policy_path.endsWith('outbound_message_policy.json'), true);
 });
 
 // -- 12. report renderer -----------------------------------------------------
