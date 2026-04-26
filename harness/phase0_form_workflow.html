@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--
+  phase0_form_workflow.html — Phase 0 synthetic test harness.
+
+  Pattern family: form_workflow_inconsistency
+  Purpose:        Provide a deterministic, observable form lifecycle for
+                  Seer baseline measurement runs.
+
+  State machine (data-state attribute on <body>):
+    initial     → page loaded, form visible but submit disabled
+    stable      → 1000 ms after load; submit button enabled
+    submitted   → form submission intercepted; showing spinner
+    success     → credential accepted (observer/baseline)
+    fail        → credential rejected
+
+  Hidden fields are intentionally present to exercise hidden_field_leak detection.
+  All transitions are deterministic and observable via data-* attributes.
+-->
+<html lang="en" data-pattern-family="form_workflow_inconsistency">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase 0 — Form Workflow Harness</title>
+  <style>
+    body        { font-family: monospace; max-width: 480px; margin: 60px auto; padding: 0 16px; }
+    h1          { font-size: 1rem; letter-spacing: .05em; color: #444; }
+    label       { display: block; margin: 12px 0 4px; font-size: .85rem; color: #555; }
+    input[type=text],
+    input[type=password] {
+      width: 100%; padding: 6px 8px; font-family: monospace;
+      border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box;
+    }
+    button      { margin-top: 16px; padding: 8px 20px; font-family: monospace;
+                  background: #2a5; color: #fff; border: none; border-radius: 3px; cursor: pointer; }
+    button:disabled { background: #aaa; cursor: not-allowed; }
+    #status     { margin-top: 20px; font-size: .85rem; min-height: 1.2em; color: #333; }
+    #spinner    { display: none; }
+    body[data-state=submitted] #spinner  { display: inline; }
+    body[data-state=success]   #status   { color: #2a5; }
+    body[data-state=fail]      #status   { color: #c33; }
+  </style>
+</head>
+<body data-state="initial">
+
+  <h1>Phase 0 &mdash; Form Workflow Harness</h1>
+  <p id="state-display" style="font-size:.75rem;color:#999;">state: <span id="state-label">initial</span></p>
+
+  <form id="login-form" autocomplete="off" novalidate>
+    <!-- Visible fields -->
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" spellcheck="false" autocomplete="off">
+
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="off">
+
+    <!-- Hidden fields intentionally present for pattern detection -->
+    <input type="hidden" name="_csrf"     value="phase0-static-token-aabbccdd">
+    <input type="hidden" name="_workflow" value="login-v1">
+    <input type="hidden" name="_session"  value="00000000-0000-0000-0000-000000000000">
+
+    <button id="submit-btn" type="submit" disabled>Sign in</button>
+  </form>
+
+  <div id="status">
+    <span id="spinner">&#9203; Verifying&hellip;</span>
+    <span id="message"></span>
+  </div>
+
+  <script>
+    // Deterministic credentials for Phase 0 baseline runs.
+    const VALID_USER = 'observer';
+    const VALID_PASS = 'baseline';
+
+    const body      = document.body;
+    const form      = document.getElementById('login-form');
+    const btn       = document.getElementById('submit-btn');
+    const msg       = document.getElementById('message');
+    const stateLabel = document.getElementById('state-label');
+
+    function setState(s) {
+      body.dataset.state = s;
+      stateLabel.textContent = s;
+    }
+
+    // Enable submit after 1000 ms (initial → stable).
+    setTimeout(() => {
+      setState('stable');
+      btn.disabled = false;
+    }, 1000);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      setState('submitted');
+      msg.textContent = '';
+
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+
+      // Simulate async verification (200 ms).
+      setTimeout(() => {
+        if (user === VALID_USER && pass === VALID_PASS) {
+          setState('success');
+          msg.textContent = 'Authentication accepted.';
+        } else {
+          setState('fail');
+          msg.textContent = 'Invalid credentials.';
+          btn.disabled = false;
+        }
+      }, 200);
+    });
+  </script>
+</body>
+</html>

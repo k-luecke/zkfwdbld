@@ -1,0 +1,21 @@
+[package]
+name = "zkfwdbld"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+# cdylib  → produces the .wasm binary for AO deployment
+# rlib    → keeps the Rust library linkable for native cargo test
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+ark-ff        = "0.4.0"
+ark-serialize = "0.4.0"
+ark-std       = "0.4.0"
+serde         = { version = "1", features = ["derive"] }
+serde_json    = "1"
+
+[profile.release]
+lto       = true      # Link-Time Optimisation: merges all crates for maximum dead-code removal
+opt-level = "z"       # Optimise for binary size over speed (critical for Wasm)
+panic     = "abort"   # Removes unwinding machinery (~30 KB saved); AO has no unwinding host
