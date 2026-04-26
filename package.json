@@ -1,7 +1,17 @@
 {
+  "scripts": {
+    "app:sync": "node app/generate_packet_json.mjs",
+    "app:dev": "node app/generate_packet_json.mjs && node app/server.mjs",
+    "app:packet": "node examples/build_polsia_packet.mjs && node app/generate_packet_json.mjs && node app/server.mjs",
+    "tauri:dev": "node app/generate_packet_json.mjs && tauri dev",
+    "tauri:build": "node examples/build_polsia_packet.mjs && node app/generate_packet_json.mjs && tauri build"
+  },
   "dependencies": {
     "@ardrive/turbo-sdk": "1.41.0",
     "@dha-team/arbundles": "1.0.3",
     "@permaweb/aoconnect": "0.0.94"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
   }
 }

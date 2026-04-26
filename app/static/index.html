@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>zkfwdbld Viewer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-kicker">zkfwdbld</div>
+          <h1>Trust Layer Viewer</h1>
+          <p>Browse packet summaries, handoff docs, reports, and artifacts.</p>
+        </div>
+        <nav class="nav" id="nav"></nav>
+      </aside>
+      <main class="content">
+        <header class="topbar">
+          <div>
+            <div class="eyebrow">Packet</div>
+            <h2 id="view-title">Loading...</h2>
+            <p id="view-subtitle" class="muted"></p>
+          </div>
+          <div class="status-card" id="packet-meta"></div>
+        </header>
+        <section class="hero-grid" id="bundle-summary"></section>
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="eyebrow">Document</div>
+              <h3 id="document-title">Overview</h3>
+            </div>
+            <div class="view-controls">
+              <button class="tab active" data-tab="rendered">Rendered</button>
+              <button class="tab" data-tab="raw">Raw</button>
+            </div>
+          </div>
+          <div id="document-rendered" class="markdown-body"></div>
+          <pre id="document-raw" class="raw-block hidden"></pre>
+        </section>
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="eyebrow">Bundle Items</div>
+              <h3>Artifacts</h3>
+            </div>
+          </div>
+          <div id="item-list" class="item-list empty-state">Select a bundle to inspect its reports.</div>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="/app.js"></script>
+  </body>
+  </html>

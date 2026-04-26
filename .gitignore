@@ -5,3 +5,5 @@ node_modules/
 *.tmp
 seer.wasm
 artifacts/
+app/static/generated/
+src-tauri/target/

@@ -97,6 +97,47 @@ Formatting check:
 cargo fmt --check
 ```
 
+## Local App
+
+Run the lightweight local app shell with:
+
+```sh
+npm run app:dev
+```
+
+This launches a browser UI for the current packet at `http://127.0.0.1:4173`.
+
+To rebuild the main packet and then launch the app:
+
+```sh
+npm run app:packet
+```
+
+The app is intentionally thin for now:
+
+- Node server in [app/server.mjs](/home/kyle_w_luecke/zkfwdbld/app/server.mjs)
+- static UI in [app/static/index.html](/home/kyle_w_luecke/zkfwdbld/app/static/index.html)
+- packet snapshot builder in [app/generate_packet_json.mjs](/home/kyle_w_luecke/zkfwdbld/app/generate_packet_json.mjs)
+- packet API at `GET /api/packet`
+
+The current app-shape notes live in
+[docs/app_surface.md](/home/kyle_w_luecke/zkfwdbld/docs/app_surface.md).
+
+Run the Tauri desktop shell with:
+
+```sh
+npm run tauri:dev
+```
+
+Build the release binary and Debian package with:
+
+```sh
+npm run tauri:build
+```
+
+The desktop shell lives in [src-tauri](/home/kyle_w_luecke/zkfwdbld/src-tauri)
+and uses a generated packet snapshot from `app/static/generated/packet.json`.
+
 ## Prover Scaling Experiment
 
 Run the current scaling example with:
