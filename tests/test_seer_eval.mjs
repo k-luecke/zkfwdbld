@@ -12,6 +12,29 @@ import { scoreRun, LAMBDA } from '../seer_eval/score.mjs';
 import { classify, PATTERN_DEFINITIONS } from '../seer_eval/classify.mjs';
 import { buildRecord, appendRun } from '../seer_eval/audit.mjs';
 import { loadAll, getBaselineForFamily } from '../seer_eval/registry.mjs';
+import { buildFindingArtifact } from '../seer_eval/finding_artifact.mjs';
+import {
+  adaptHarnessFinding,
+  adaptScannerFinding,
+  adaptAgentFinding,
+  adaptOutboundMessageAction,
+} from '../seer_eval/adapters.mjs';
+import { encodeHiddenInputClaim } from '../seer_eval/claim_encoder.mjs';
+import { scanHarnessHtml, artifactsFromHarnessHtml } from '../seer_eval/harness_pipeline.mjs';
+import { defaultOutboundMessages, evaluateOutboundMessagePolicy } from '../seer_eval/message_policy.mjs';
+import {
+  artifactsFromOutboundMessages,
+  reviewedOutboundMessageArtifacts,
+} from '../seer_eval/message_pipeline.mjs';
+import { artifactsFromScannerFindings, verifiedScannerArtifacts } from '../seer_eval/scanner_pipeline.mjs';
+import {
+  buildReportSummary,
+  renderEngineeringHandoff,
+  renderFindingReport,
+  renderFindingReportSet,
+} from '../seer_eval/report_renderer.mjs';
+import { exportFindingReportSet } from '../seer_eval/report_exporter.mjs';
+import { buildDemoPacket } from '../seer_eval/demo_packet.mjs';
 import { median, mad, tagOutliers } from '../consolidate_baselines.mjs';
 
 // ── Test infrastructure ───────────────────────────────────────────────────────
@@ -292,9 +315,337 @@ test('appendRun accumulates multiple JSONL lines', () => {
   assert.equal(audit.run_id, 'r2');
 });
 
-// ── 9. registry ───────────────────────────────────────────────────────────────
+// ── 9. finding artifact and adapters ─────────────────────────────────────────
 
-console.log('\n9. registry — loadAll and getBaselineForFamily');
+console.log('\n9. verified finding artifact and adapters');
+
+test('buildFindingArtifact fills top-level shape and defaults', () => {
+  const artifact = buildFindingArtifact({
+    finding_id: 'f-1',
+    source: { tool: 'mock-tool' },
+    claim: { family: 'hidden_field_leak' },
+  });
+  assert.equal(artifact.artifact_type, 'verified_finding');
+  assert.equal(artifact.finding_id, 'f-1');
+  assert.equal(artifact.source.tool, 'mock-tool');
+  assert.equal(artifact.claim.family, 'hidden_field_leak');
+  assert.equal(artifact.verification.trust_state, 'error');
+});
+
+test('all adapters emit the same artifact type', () => {
+  const harness = adaptHarnessFinding({ pattern_type: 'HIDDEN_INPUT' });
+  const scanner = adaptScannerFinding({});
+  const agent   = adaptAgentFinding({});
+  assert.equal(harness.artifact_type, 'verified_finding');
+  assert.equal(scanner.artifact_type, 'verified_finding');
+  assert.equal(agent.artifact_type, 'verified_finding');
+});
+
+test('harness adapter emits demo_only trust state by default', () => {
+  const artifact = adaptHarnessFinding({ pattern_type: 'HIDDEN_INPUT' });
+  assert.equal(artifact.source.kind, 'synthetic_harness');
+  assert.equal(artifact.verification.trust_state, 'demo_only');
+  assert.equal(artifact.verification.demo_only, true);
+});
+
+test('scanner adapter preserves upstream source identity', () => {
+  const artifact = adaptScannerFinding({
+    tool: 'mock-dast',
+    source_finding_id: 'DAST-1042',
+  });
+  assert.equal(artifact.source.tool, 'mock-dast');
+  assert.equal(artifact.source.finding_id, 'DAST-1042');
+  assert.equal(artifact.source.kind, 'scanner_export');
+  assert.equal(artifact.finding_id, 'scanner-dast-1042');
+});
+
+test('agent adapter preserves rationale metadata', () => {
+  const artifact = adaptAgentFinding({
+    rationale: 'Observed hidden state transition',
+  });
+  assert.equal(artifact.source.kind, 'agent_output');
+  assert.equal(artifact.evidence.metadata.rationale, 'Observed hidden state transition');
+});
+
+test('outbound message adapter emits agent_action artifact shape', () => {
+  const artifact = adaptOutboundMessageAction({
+    message_id: 'MSG-1001',
+    recipient: 'owner@customer.example',
+    message_body: 'Sent by AI assistant.',
+  });
+  assert.equal(artifact.artifact_type, 'agent_action');
+  assert.equal(artifact.action.type, 'outbound_message');
+  assert.equal(artifact.action.recipient, 'owner@customer.example');
+  assert.equal(artifact.verification.trust_state, 'needs_review');
+});
+
+test('encodeHiddenInputClaim is deterministic and produces prove/verify payloads', () => {
+  const finding = {
+    raw_string: '<input type="hidden" name="_csrf" value="phase0-static-token-aabbccdd">',
+    url: 'http://127.0.0.1:7490/',
+    workflow_id: 'phase0_form_workflow',
+  };
+  const a = encodeHiddenInputClaim(finding);
+  const b = encodeHiddenInputClaim(finding);
+  assert.equal(a.category, 'csrf_state');
+  assert.deepEqual(a.proof_request, b.proof_request);
+  assert.equal(a.proof_request.Action, 'Prove');
+  assert.equal(a.verify_request_base.Action, 'Verify');
+});
+
+// ── 10. harness pipeline ─────────────────────────────────────────────────────
+
+console.log('\n10. harness pipeline');
+
+test('scanHarnessHtml finds hidden inputs in the real harness shape', () => {
+  const html = `
+    <form>
+      <input type="hidden" name="_csrf" value="abc">
+      <input type="password" name="password">
+    </form>
+  `;
+  const findings = scanHarnessHtml(html);
+  assert.ok(findings.some(f => f.pattern_type === 'HIDDEN_INPUT'));
+  assert.ok(findings.some(f => f.pattern_type === 'PASSWORD_FIELD'));
+});
+
+test('artifactsFromHarnessHtml emits canonical verified-finding artifacts', () => {
+  const html = `
+    <body>
+      <input type="hidden" name="_workflow" value="login-v1">
+    </body>
+  `;
+  const artifacts = artifactsFromHarnessHtml(html, { url: 'http://127.0.0.1:7490/' });
+  assert.equal(artifacts.length, 1);
+  assert.equal(artifacts[0].artifact_type, 'verified_finding');
+  assert.equal(artifacts[0].source.kind, 'synthetic_harness');
+  assert.equal(artifacts[0].verification.trust_state, 'demo_only');
+});
+
+// ── 11. scanner pipeline ────────────────────────────────────────────────────
+
+console.log('\n11. scanner pipeline');
+
+test('artifactsFromScannerFindings emits canonical scanner artifacts', () => {
+  const artifacts = artifactsFromScannerFindings([
+    {
+      tool: 'mock-dast',
+      source_finding_id: 'DAST-1042',
+      url: 'https://demo.example/login',
+      snippet: '<input type="hidden" name="_workflow" value="login-v1">',
+      family: 'hidden_field_leak',
+    },
+  ]);
+  assert.equal(artifacts.length, 1);
+  assert.equal(artifacts[0].source.kind, 'scanner_export');
+  assert.equal(artifacts[0].verification.trust_state, 'unsupported');
+});
+
+test('verifiedScannerArtifacts upgrades hidden-field findings to verified', () => {
+  const artifacts = verifiedScannerArtifacts([
+    {
+      tool: 'mock-dast',
+      source_finding_id: 'DAST-1042',
+      url: 'https://demo.example/login',
+      snippet: '<input type="hidden" name="_workflow" value="login-v1">',
+      family: 'hidden_field_leak',
+    },
+  ]);
+  assert.equal(artifacts.length, 1);
+  assert.equal(artifacts[0].claim.family, 'HIDDEN_INPUT');
+  assert.equal(artifacts[0].verification.trust_state, 'verified');
+  assert.equal(artifacts[0].verification.demo_only, false);
+});
+
+// -- 12. outbound message actions --------------------------------------------
+
+console.log('\n12. outbound message actions');
+
+test('evaluateOutboundMessagePolicy returns ready_to_send for compliant message', () => {
+  const [message] = defaultOutboundMessages();
+  const result = evaluateOutboundMessagePolicy(message);
+  assert.equal(result.trust_state, 'ready_to_send');
+  assert.equal(result.verifier_status, 'policy_passed');
+});
+
+test('evaluateOutboundMessagePolicy returns needs_review for noncompliant message', () => {
+  const [, message] = defaultOutboundMessages();
+  const result = evaluateOutboundMessagePolicy(message);
+  assert.equal(result.trust_state, 'needs_review');
+  assert.ok(result.reasons.length > 0);
+});
+
+test('artifactsFromOutboundMessages emits agent_action artifacts', () => {
+  const artifacts = artifactsFromOutboundMessages(defaultOutboundMessages());
+  assert.equal(artifacts.length, 2);
+  assert.equal(artifacts[0].artifact_type, 'agent_action');
+  assert.equal(artifacts[0].verification.trust_state, 'needs_review');
+});
+
+test('reviewedOutboundMessageArtifacts emits ready and review states', () => {
+  const artifacts = reviewedOutboundMessageArtifacts();
+  assert.equal(artifacts.length, 2);
+  assert.equal(artifacts[0].verification.trust_state, 'ready_to_send');
+  assert.equal(artifacts[1].verification.trust_state, 'needs_review');
+});
+
+// -- 12. report renderer -----------------------------------------------------
+
+console.log('\n12. report renderer');
+
+test('renderFindingReport includes summary, verification, and evidence', () => {
+  const artifact = adaptHarnessFinding({
+    finding_id: 'h-1',
+    pattern_type: 'HIDDEN_INPUT',
+    raw_string: '<input type="hidden" name="_csrf" value="abc">',
+    summary: 'Harness finding normalized for triage.',
+  });
+  const report = renderFindingReport(artifact);
+  assert.ok(report.includes('# Verified Finding: h-1'));
+  assert.ok(report.includes('Harness finding normalized for triage.'));
+  assert.ok(report.includes('trust_state: demo_only'));
+  assert.ok(report.includes('recommended_action: Treat HIDDEN_INPUT as a triage hint'));
+  assert.ok(report.includes('snippet:'));
+});
+
+test('renderFindingReport includes action section for agent_action artifacts', () => {
+  const artifact = adaptOutboundMessageAction({
+    message_id: 'MSG-1001',
+    recipient: 'owner@customer.example',
+    message_body: 'Sent by AI assistant.',
+    trust_state: 'ready_to_send',
+    verifier_status: 'policy_passed',
+    proof_status: 'policy_checked',
+    demo_only: true,
+  });
+  const report = renderFindingReport(artifact);
+  assert.ok(report.includes('# Agent Action: message-msg-1001'));
+  assert.ok(report.includes('## Action'));
+  assert.ok(report.includes('recipient: owner@customer.example'));
+});
+
+test('renderFindingReportSet summarizes trust states across artifacts', () => {
+  const artifacts = [
+    adaptHarnessFinding({ pattern_type: 'HIDDEN_INPUT' }),
+    adaptScannerFinding({ family: 'hidden_field_leak', trust_state: 'unsupported' }),
+  ];
+  const report = renderFindingReportSet(artifacts, { title: 'Demo Report' });
+  assert.ok(report.includes('# Demo Report'));
+  assert.ok(report.includes('artifact_count: 2'));
+  assert.ok(report.includes('demo_only=1'));
+  assert.ok(report.includes('handoff_readiness:'));
+  assert.ok(report.includes('unsupported=1'));
+});
+
+test('buildReportSummary exposes verified finding ids and handoff summary', () => {
+  const verifiedArtifact = adaptScannerFinding({
+    finding_id: 'scanner-verified-1',
+    trust_state: 'verified',
+    proof_status: 'generated',
+    verifier_status: 'passed',
+    demo_only: false,
+  });
+  const summary = buildReportSummary([verifiedArtifact], { title: 'Summary Report' });
+  assert.equal(summary.title, 'Summary Report');
+  assert.equal(summary.artifact_count, 1);
+  assert.deepEqual(summary.verified_finding_ids, ['scanner-verified-1']);
+  assert.ok(summary.handoff_readiness.includes('ready for high-confidence engineering handoff'));
+});
+
+test('renderEngineeringHandoff separates ready and pending findings', () => {
+  const artifacts = [
+    adaptScannerFinding({
+      finding_id: 'scanner-ready-1',
+      trust_state: 'verified',
+      proof_status: 'generated',
+      verifier_status: 'passed',
+      demo_only: false,
+      title: 'Verified hidden input: _workflow',
+      url: 'https://demo.example/login',
+    }),
+    adaptHarnessFinding({
+      finding_id: 'h-pending-1',
+      pattern_type: 'INLINE_SCRIPT',
+    }),
+  ];
+  const report = renderEngineeringHandoff(artifacts, { title: 'Handoff Report' });
+  assert.ok(report.includes('# Handoff Report Engineering Handoff'));
+  assert.ok(report.includes('scanner-ready-1: Verified hidden input: _workflow'));
+  assert.ok(report.includes('h-pending-1: INLINE_SCRIPT remains demo_only'));
+});
+
+test('exportFindingReportSet writes report index, manifest, and per-finding bundles', () => {
+  const dir = tmpDir();
+  const artifacts = [
+    adaptHarnessFinding({
+      finding_id: 'h-report-1',
+      pattern_type: 'HIDDEN_INPUT',
+      raw_string: '<input type="hidden" name="_csrf" value="abc">',
+    }),
+    adaptScannerFinding({
+      tool: 'mock-dast',
+      source_finding_id: 'DAST-1042',
+      family: 'hidden_field_leak',
+    }),
+  ];
+  const exported = exportFindingReportSet(artifacts, dir, { title: 'Bundle Report' });
+  assert.ok(existsSync(exported.handoff_path));
+  assert.ok(existsSync(exported.index_path));
+  assert.ok(existsSync(exported.manifest_path));
+  assert.equal(exported.bundles.length, 2);
+  assert.ok(existsSync(exported.bundles[0].report_path));
+  assert.ok(existsSync(exported.bundles[0].artifact_path));
+  assert.ok(readFileSync(exported.index_path, 'utf-8').includes('# Bundle Report'));
+  assert.ok(readFileSync(exported.handoff_path, 'utf-8').includes('## Ready Now'));
+  assert.ok(readFileSync(exported.manifest_path, 'utf-8').includes('handoff_readiness'));
+});
+
+test('buildDemoPacket writes overview and packet manifest', () => {
+  const dir = tmpDir();
+  const packet = buildDemoPacket(
+    {
+      harness: {
+        root_dir: path.join(dir, 'harness'),
+        handoff_path: path.join(dir, 'harness', 'engineering_handoff.md'),
+        index_path: path.join(dir, 'harness', 'index.md'),
+        manifest_path: path.join(dir, 'harness', 'manifest.json'),
+        summary: {
+          handoff_readiness: '1 finding is ready for high-confidence handoff.',
+        },
+      },
+      scanner: {
+        root_dir: path.join(dir, 'scanner'),
+        handoff_path: path.join(dir, 'scanner', 'engineering_handoff.md'),
+        index_path: path.join(dir, 'scanner', 'index.md'),
+        manifest_path: path.join(dir, 'scanner', 'manifest.json'),
+        summary: {
+          handoff_readiness: '2 findings are ready for high-confidence handoff.',
+        },
+      },
+      messages: {
+        root_dir: path.join(dir, 'messages'),
+        handoff_path: path.join(dir, 'messages', 'engineering_handoff.md'),
+        index_path: path.join(dir, 'messages', 'index.md'),
+        manifest_path: path.join(dir, 'messages', 'manifest.json'),
+        summary: {
+          handoff_readiness: '1 action is ready to proceed and 1 needs review.',
+        },
+      },
+    },
+    path.join(dir, 'packet')
+  );
+  assert.ok(existsSync(packet.overview_path));
+  assert.ok(existsSync(packet.talk_track_path));
+  assert.ok(existsSync(packet.manifest_path));
+  assert.ok(readFileSync(packet.overview_path, 'utf-8').includes('# Polsia Demo Packet'));
+  assert.ok(readFileSync(packet.talk_track_path, 'utf-8').includes('# Polsia Demo Talk Track'));
+  assert.ok(packet.bundles.messages);
+  assert.ok(readFileSync(packet.manifest_path, 'utf-8').includes('polsia_demo_packet'));
+});
+
+// ── 12. registry ──────────────────────────────────────────────────────────────
+
+console.log('\n12. registry — loadAll and getBaselineForFamily');
 
 test('loadAll with missing files returns empty objects (no crash)', () => {
   const { registry, candidates } = loadAll({
@@ -321,9 +672,9 @@ test('getBaselineForFamily does not reach into candidates', () => {
   assert.equal(entry, null);
 });
 
-// ── 10. consolidation statistics ─────────────────────────────────────────────
+// ── 13. consolidation statistics ─────────────────────────────────────────────
 
-console.log('\n10. consolidation — median, mad, tagOutliers');
+console.log('\n13. consolidation — median, mad, tagOutliers');
 
 test('median of odd-length array', () => {
   assert.equal(median([3, 1, 4, 1, 5]), 3);

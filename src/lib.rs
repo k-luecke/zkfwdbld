@@ -313,6 +313,18 @@ fn pack_response(response: Response) -> u64 {
     ((resp_ptr as u64) << 32) | (resp_len as u64)
 }
 
+pub fn process_json_request(input: &[u8]) -> Vec<u8> {
+    let response = match serde_json::from_slice::<Request>(input) {
+        Ok(req) => dispatch(req),
+        Err(e) => error_response(format!("JSON decode failed: {e}")),
+    };
+
+    match serde_json::to_vec(&response) {
+        Ok(b) => b,
+        Err(_) => br#"{"success":false,"error":"JSON encode failed"}"#.to_vec(),
+    }
+}
+
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 #[cfg(test)]
