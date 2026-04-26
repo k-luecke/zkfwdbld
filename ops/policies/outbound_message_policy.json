@@ -1,0 +1,6 @@
+{
+  "allowlisted_domains": ["customer.example", "prospect.example"],
+  "disallowed_phrases": ["guarantee", "guaranteed results", "no-risk promise"],
+  "required_disclosure": "Sent by AI assistant",
+  "approved_families": ["support_followup", "demo_outreach"]
+}

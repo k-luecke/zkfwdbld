@@ -21,7 +21,9 @@ import {
 } from '../seer_eval/adapters.mjs';
 import { encodeHiddenInputClaim } from '../seer_eval/claim_encoder.mjs';
 import { scanHarnessHtml, artifactsFromHarnessHtml } from '../seer_eval/harness_pipeline.mjs';
+import { parseMessageDraftFile, reviewedArtifactsFromDraftFile } from '../seer_eval/message_ingest.mjs';
 import { defaultOutboundMessages, evaluateOutboundMessagePolicy } from '../seer_eval/message_policy.mjs';
+import { defaultOpsPaths, loadOpsQueue, runOutboundMessageOpsLoop } from '../seer_eval/ops_runner.mjs';
 import {
   artifactsFromOutboundMessages,
   reviewedOutboundMessageArtifacts,
@@ -487,6 +489,37 @@ test('reviewedOutboundMessageArtifacts emits ready and review states', () => {
   assert.equal(artifacts.length, 2);
   assert.equal(artifacts[0].verification.trust_state, 'ready_to_send');
   assert.equal(artifacts[1].verification.trust_state, 'needs_review');
+});
+
+test('parseMessageDraftFile loads drafts from fixture object shape', () => {
+  const filePath = path.join(process.cwd(), 'examples', 'fixtures', 'real_message_drafts.json');
+  const drafts = parseMessageDraftFile(filePath);
+  assert.equal(drafts.length, 2);
+  assert.equal(drafts[0].tool, 'polsia-agent');
+  assert.equal(drafts[0].message_id, 'REAL-2001');
+});
+
+test('reviewedArtifactsFromDraftFile emits policy-reviewed action artifacts', () => {
+  const filePath = path.join(process.cwd(), 'examples', 'fixtures', 'real_message_drafts.json');
+  const artifacts = reviewedArtifactsFromDraftFile(filePath);
+  assert.equal(artifacts.length, 2);
+  assert.equal(artifacts[0].verification.trust_state, 'ready_to_send');
+  assert.equal(artifacts[1].verification.trust_state, 'needs_review');
+});
+
+test('parseMessageDraftFile also accepts ops queue object shape', () => {
+  const filePath = path.join(process.cwd(), 'ops', 'queue', 'outbound_messages.json');
+  const drafts = parseMessageDraftFile(filePath);
+  assert.equal(drafts.length, 2);
+  assert.equal(drafts[0].message_id, 'OPS-MSG-3001');
+});
+
+test('runOutboundMessageOpsLoop exports bundle from ops queue', () => {
+  const queuePath = path.join(process.cwd(), 'ops', 'queue', 'outbound_messages.json');
+  const dir = tmpDir();
+  const result = runOutboundMessageOpsLoop(queuePath, dir);
+  assert.equal(result.action_count, 2);
+  assert.ok(existsSync(result.handoff_path));
 });
 
 // -- 12. report renderer -----------------------------------------------------

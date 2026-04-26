@@ -1,0 +1,32 @@
+{
+  "messages": [
+    {
+      "message_id": "REAL-2001",
+      "source_system": "polsia-agent",
+      "recipient": "ops@customer.example",
+      "channel": "email",
+      "subject": "Follow-up on rollout timing",
+      "message_family": "support_followup",
+      "message_body": "Hello,\n\nSent by AI assistant.\nWe reviewed your rollout request and can confirm a follow-up window for Tuesday afternoon.\n\nBest,\nzkfwdbld",
+      "workflow_id": "polsia_outbound_review",
+      "metadata": {
+        "drafted_by_agent": "polsia-support-v1",
+        "thread_id": "thread-204"
+      }
+    },
+    {
+      "message_id": "REAL-2002",
+      "source_system": "polsia-agent",
+      "recipient": "buyer@unknown-domain.test",
+      "channel": "email",
+      "subject": "Guaranteed pilot outcome",
+      "message_family": "demo_outreach",
+      "message_body": "Hello,\n\nWe guarantee results from the pilot with no-risk promise. Reply if you want to schedule a call.\n\nBest,\nzkfwdbld agent",
+      "workflow_id": "polsia_outbound_review",
+      "metadata": {
+        "drafted_by_agent": "polsia-growth-v1",
+        "thread_id": "thread-205"
+      }
+    }
+  ]
+}

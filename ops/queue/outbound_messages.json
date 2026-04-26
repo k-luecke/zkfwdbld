@@ -1,0 +1,34 @@
+{
+  "actions": [
+    {
+      "action_id": "OPS-MSG-3001",
+      "action_family": "outbound_message",
+      "source_system": "zkfwdbld-ops",
+      "recipient": "ops@customer.example",
+      "channel": "email",
+      "subject": "Follow-up on deployment review",
+      "message_family": "support_followup",
+      "message_body": "Hello,\n\nSent by AI assistant.\nWe reviewed your deployment questions and can follow up tomorrow with the requested details.\n\nBest,\nzkfwdbld",
+      "workflow_id": "ops_outbound_review",
+      "metadata": {
+        "drafted_by_agent": "ops-coordinator-v1",
+        "thread_id": "ops-thread-3001"
+      }
+    },
+    {
+      "action_id": "OPS-MSG-3002",
+      "action_family": "outbound_message",
+      "source_system": "zkfwdbld-ops",
+      "recipient": "buyer@unknown-domain.test",
+      "channel": "email",
+      "subject": "Guaranteed improvement in one week",
+      "message_family": "demo_outreach",
+      "message_body": "Hello,\n\nWe guarantee results in one week with no-risk promise. Reply if you want to move forward.\n\nBest,\nzkfwdbld agent",
+      "workflow_id": "ops_outbound_review",
+      "metadata": {
+        "drafted_by_agent": "growth-assistant-v1",
+        "thread_id": "ops-thread-3002"
+      }
+    }
+  ]
+}

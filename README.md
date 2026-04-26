@@ -216,6 +216,28 @@ Export this action family as markdown and JSON bundles with:
 node examples/export_message_reports.mjs
 ```
 
+Run the real file-based inbound draft path with:
+
+```sh
+node examples/ingest_message_drafts.mjs
+```
+
+This consumes [real_message_drafts.json](/home/kyle_w_luecke/zkfwdbld/examples/fixtures/real_message_drafts.json)
+and emits the same report bundle shape from a real file-based workflow handoff.
+
+## Native Ops Loop
+
+Run the first zkfwdbld-native ops loop with:
+
+```sh
+node examples/run_ops_loop.mjs
+```
+
+This reads queued outbound-message actions from
+[outbound_messages.json](/home/kyle_w_luecke/zkfwdbld/ops/queue/outbound_messages.json)
+and emits the same trust artifact bundle from an internal queue + policy gate
+flow.
+
 ## Polsia Demo Packet
 
 Build the current best customer-facing packet with:
