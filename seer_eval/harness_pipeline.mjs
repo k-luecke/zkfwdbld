@@ -112,17 +112,22 @@ export function verifiedHarnessArtifacts(options = {}) {
         ],
       },
       verification: {
-        trust_state: result.trust_state,
+        // See scanner_pipeline.mjs for the rationale: the demo encoder
+        // binds finding identity but not semantics, so promote a
+        // successful Rust roundtrip to 'liveness_verified', not 'verified'.
+        trust_state: result.trust_state === 'verified'
+          ? 'liveness_verified'
+          : result.trust_state,
         proof_status: result.prove?.success ? 'generated' : 'error',
         verifier_status: result.verifier_status,
         satisfiable: result.verify?.satisfiable ?? result.prove?.satisfiable ?? null,
-        demo_only: false,
+        demo_only: true,
         artifact_ref: null,
       },
       summary:
         result.trust_state === 'verified'
-          ? 'Hidden input encoded and verified through the Rust proof bridge.'
-          : 'Hidden input claim encoding attempted but verification did not pass.',
+          ? 'Hidden input encoded; prover liveness and finding-identity binding verified through the Rust proof bridge. Semantic data binding pending the production encoder.'
+          : 'Hidden input claim encoding attempted but the prover did not return a satisfying witness.',
     };
   });
 }

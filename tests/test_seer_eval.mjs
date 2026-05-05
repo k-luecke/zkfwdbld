@@ -465,7 +465,7 @@ test('artifactsFromScannerFindings emits canonical scanner artifacts', () => {
   assert.equal(artifacts[0].verification.trust_state, 'unsupported');
 });
 
-test('verifiedScannerArtifacts upgrades hidden-field findings to verified', () => {
+test('verifiedScannerArtifacts upgrades hidden-field findings to liveness_verified (demo encoder)', () => {
   const artifacts = verifiedScannerArtifacts([
     {
       tool: 'mock-dast',
@@ -477,8 +477,11 @@ test('verifiedScannerArtifacts upgrades hidden-field findings to verified', () =
   ]);
   assert.equal(artifacts.length, 1);
   assert.equal(artifacts[0].claim.family, 'HIDDEN_INPUT');
-  assert.equal(artifacts[0].verification.trust_state, 'verified');
-  assert.equal(artifacts[0].verification.demo_only, false);
+  // The demo encoder binds finding identity but not semantics; the prover
+  // roundtrip attests to liveness only. Reserve 'verified' for the
+  // production encoder.
+  assert.equal(artifacts[0].verification.trust_state, 'liveness_verified');
+  assert.equal(artifacts[0].verification.demo_only, true);
 });
 
 // -- 12. outbound message actions --------------------------------------------
