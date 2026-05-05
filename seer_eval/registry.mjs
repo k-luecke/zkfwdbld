@@ -19,7 +19,13 @@ import { readFileSync } from 'fs';
 function loadJson(filePath) {
   try {
     return JSON.parse(readFileSync(filePath, 'utf-8'));
-  } catch {
+  } catch (err) {
+    // ENOENT (missing file) is expected and silent; any other error
+    // (parse failure, permission denied, etc.) is a config bug worth
+    // surfacing so the caller doesn't silently degrade to empty registry.
+    if (err.code !== 'ENOENT') {
+      console.warn(`[registry] failed to load ${filePath}: ${err.message}`);
+    }
     return null;
   }
 }
