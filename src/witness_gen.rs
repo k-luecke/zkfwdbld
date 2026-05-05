@@ -123,11 +123,11 @@ pub fn generate_fields(num_vars: usize, seed: u64) -> (Vec<f64>, Vec<f64>) {
 ///  3. Among satisfying assignments, select the one maximising the curvature score.
 ///  4. Pack into a `SatWitness` ready for `to_witness_vec`.
 pub fn generate_witness(cnf: &[Clause], num_vars: usize, seed: u64) -> Option<SatWitness> {
-    // Guard: exhaustive search beyond 26 variables would run for minutes or
+    // Guard: exhaustive search beyond MAX_VARS would run for minutes or
     // exhaust Wasm linear memory. Return None (treated as UNSAT by the caller)
     // rather than panic — the dispatch layer rejects oversized inputs before
     // reaching here, so this is a belt-and-suspenders check only.
-    if num_vars == 0 || num_vars > 26 {
+    if num_vars == 0 || num_vars > crate::MAX_VARS {
         return None;
     }
 
