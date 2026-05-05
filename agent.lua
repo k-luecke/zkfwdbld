@@ -32,10 +32,49 @@ PendingProofs = PendingProofs or {}
 ProofSeq = ProofSeq or 0
 PendingProofCount = PendingProofCount or 0
 
--- The current encoder sends a fixed sample CNF and is useful only for prover
--- liveness/message-flow checks. Keep this true until a real pattern-family
--- encoder binds fact + context into the generated constraints.
+-- The current encoder produces a CNF whose polarities are derived from
+-- FNV-1a(finding.raw_string), so the proof binds to finding identity (any
+-- byte change → different CNF → different proof). It does not yet prove
+-- anything semantic about the finding's content; that lives in the future
+-- pattern-family encoders. Keep DEMO_PROOF_MODE true until a real
+-- semantic-binding encoder is wired in.
 DEMO_PROOF_MODE = DEMO_PROOF_MODE ~= false
+
+-- ── Shared CNF derivation ─────────────────────────────────────────────────────
+-- FNV-1a 32-bit, byte-accurate over UTF-8. Mirror of seer_eval/claim_encoder.mjs's
+-- fnv1a32; the two implementations must produce the same output for the same
+-- input so agent.lua and the Node pipeline agree on the CNF for a given fact.
+local function fnv1a32(text)
+    local hash = 2166136261
+    for i = 1, #text do
+        hash = bit32.bxor(hash, string.byte(text, i))
+        hash = (hash * 16777619) % 4294967296
+    end
+    return hash
+end
+
+-- Derive a 24-variable / 8-clause 3-SAT instance whose polarities are
+-- determined by FNV-1a(fact). Mirror of deriveCnfFromFact in claim_encoder.mjs.
+local function derive_cnf_from_fact(fact)
+    local polarity_hash = fnv1a32(fact or "")
+    local seed_hash = fnv1a32((fact or "") .. "|cnf")
+    local cnf = {}
+    for j = 0, 7 do
+        local clause = {}
+        for k = 0, 2 do
+            local bit_idx = 3 * j + k
+            local bit = bit32.band(bit32.rshift(polarity_hash, bit_idx), 1)
+            local v = 3 * j + k + 1
+            if bit == 1 then
+                clause[k + 1] = v
+            else
+                clause[k + 1] = -v
+            end
+        end
+        cnf[j + 1] = clause
+    end
+    return cnf, 24, seed_hash
+end
 
 local function buffer_push(entry)
     table.insert(ScanBuffer, entry)
@@ -135,19 +174,21 @@ local function fcc_dispatch(finding, level, url, requester)
     }
     PendingProofCount = PendingProofCount + 1
 
+    local cnf, num_vars, seed = derive_cnf_from_fact(finding.raw_string or "")
+
     local claim = json.encode({
-        Action  = "Prove",
-        fact    = finding.raw_string,
-        context = json.encode({
+        Action   = "Prove",
+        fact     = finding.raw_string,
+        context  = json.encode({
             level = level,
             url = url,
             pattern = finding.pattern_type,
             correlation_id = corr_id,
             encoder_mode = encoder_mode,
         }),
-        cnf     = { {1, 2, -3}, {-1, 2, 3}, {1, -2, 3} },   -- stub
-        num_vars = 3,
-        seed    = 42,
+        cnf      = cnf,
+        num_vars = num_vars,
+        seed     = seed,
     })
 
     ao.send({
