@@ -5,11 +5,15 @@ if (typeof crypto === 'undefined') {
 
 const { spawn, createDataItemSigner } = require('@permaweb/aoconnect');
 const { readFileSync } = require('fs');
+const path = require('path');
+const os = require('os');
+
+const WALLET_PATH = process.env.AOS_WALLET || path.join(os.homedir(), '.aos.json');
 
 async function deploy() {
   try {
     const wasm   = readFileSync('./seer.wasm');
-    const wallet = JSON.parse(readFileSync('/home/kyle_w_luecke/.aos.json', 'utf-8'));
+    const wallet = JSON.parse(readFileSync(WALLET_PATH, 'utf-8'));
 
     console.log(`Spawning Seer-Agent (${wasm.length} bytes)...`);
     const processId = await spawn({
