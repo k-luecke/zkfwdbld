@@ -42,17 +42,24 @@ export function verifiedScannerArtifacts(findings = []) {
         ],
       },
       verification: {
-        trust_state: result.trust_state,
+        // The current encoder is the demo (identity-binding) one; even when
+        // the Rust prover roundtrip succeeds, the proof only attests to
+        // prover liveness and finding-identity binding, not to any
+        // semantic property of the data. Reserve trust_state='verified'
+        // for the future production encoder.
+        trust_state: result.trust_state === 'verified'
+          ? 'liveness_verified'
+          : result.trust_state,
         proof_status: result.prove?.success ? 'generated' : 'error',
         verifier_status: result.verifier_status,
         satisfiable: result.verify?.satisfiable ?? result.prove?.satisfiable ?? null,
-        demo_only: false,
+        demo_only: true,
         artifact_ref: null,
       },
       summary:
         result.trust_state === 'verified'
-          ? 'Scanner finding encoded and verified through the Rust proof bridge.'
-          : 'Scanner finding claim encoding attempted but verification did not pass.',
+          ? 'Scanner finding encoded; prover liveness and finding-identity binding verified through the Rust proof bridge. Semantic data binding pending the production encoder.'
+          : 'Scanner finding claim encoding attempted but the prover did not return a satisfying witness.',
     };
   });
 }
