@@ -15,7 +15,7 @@ use crate::witness_gen::{Clause, generate_fields, generate_witness};
 
 /// Maximum number of SAT variables allowed.
 /// Exhaustive search is 2^n — 26 keeps runtime under ~1 second.
-const MAX_VARS: usize = 26;
+pub const MAX_VARS: usize = 26;
 /// Maximum number of 3-SAT clauses accepted in one request.
 /// Work is O(2^num_vars * clauses), and R1CS memory is O(clauses).
 const MAX_CLAUSES: usize = 4096;
