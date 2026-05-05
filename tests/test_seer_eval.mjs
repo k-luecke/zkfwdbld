@@ -393,6 +393,28 @@ test('encodeHiddenInputClaim is deterministic and produces prove/verify payloads
   assert.deepEqual(a.proof_request, b.proof_request);
   assert.equal(a.proof_request.Action, 'Prove');
   assert.equal(a.verify_request_base.Action, 'Verify');
+  // CNF is bound to finding identity: 24 vars, 8 clauses of 3 literals.
+  assert.equal(a.proof_request.num_vars, 24);
+  assert.equal(a.proof_request.cnf.length, 8);
+  for (const clause of a.proof_request.cnf) {
+    assert.equal(clause.length, 3);
+    for (const lit of clause) {
+      assert.notEqual(lit, 0);
+      assert.ok(Math.abs(lit) >= 1 && Math.abs(lit) <= 24);
+    }
+  }
+});
+
+test('encodeHiddenInputClaim binds CNF to raw_string identity', () => {
+  const a = encodeHiddenInputClaim({
+    raw_string: '<input type="hidden" name="_csrf" value="A">',
+  });
+  const b = encodeHiddenInputClaim({
+    raw_string: '<input type="hidden" name="_csrf" value="B">',
+  });
+  // Different raw_strings yield different CNFs (and different seeds).
+  assert.notDeepEqual(a.proof_request.cnf, b.proof_request.cnf);
+  assert.notEqual(a.proof_request.seed, b.proof_request.seed);
 });
 
 // ── 10. harness pipeline ─────────────────────────────────────────────────────
@@ -443,7 +465,7 @@ test('artifactsFromScannerFindings emits canonical scanner artifacts', () => {
   assert.equal(artifacts[0].verification.trust_state, 'unsupported');
 });
 
-test('verifiedScannerArtifacts upgrades hidden-field findings to verified', () => {
+test('verifiedScannerArtifacts upgrades hidden-field findings to liveness_verified (demo encoder)', () => {
   const artifacts = verifiedScannerArtifacts([
     {
       tool: 'mock-dast',
@@ -455,8 +477,11 @@ test('verifiedScannerArtifacts upgrades hidden-field findings to verified', () =
   ]);
   assert.equal(artifacts.length, 1);
   assert.equal(artifacts[0].claim.family, 'HIDDEN_INPUT');
-  assert.equal(artifacts[0].verification.trust_state, 'verified');
-  assert.equal(artifacts[0].verification.demo_only, false);
+  // The demo encoder binds finding identity but not semantics; the prover
+  // roundtrip attests to liveness only. Reserve 'verified' for the
+  // production encoder.
+  assert.equal(artifacts[0].verification.trust_state, 'liveness_verified');
+  assert.equal(artifacts[0].verification.demo_only, true);
 });
 
 // -- 12. outbound message actions --------------------------------------------

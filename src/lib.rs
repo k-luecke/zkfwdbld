@@ -253,38 +253,54 @@ pub extern "C" fn dealloc(ptr: u32, size: u32) {
 /// Memory contract
 /// ───────────────
 ///   In:  UTF-8 JSON `Request` at linear memory address `ptr`, `len` bytes.
+///        The host MUST have obtained `ptr` from this module's `alloc(len)`
+///        export. `handle` CONSUMES the input buffer: do NOT call `dealloc`
+///        on `(ptr, len)` after `handle` returns — `handle` already did.
 ///   Out: packed u64 → high 32 bits = pointer to UTF-8 JSON `Response`
-///                      low 32 bits = byte length of that response
-///
-/// The host MUST call `dealloc(response_ptr, response_len)` after reading.
-/// On allocation failure the function returns 0.
+///                      low 32 bits = byte length of that response.
+///        The host MUST call `dealloc(response_ptr, response_len)` after
+///        reading. On allocation failure `handle` returns 0.
 ///
 /// Safety
 /// ──────
 /// Block 1 constructs a slice from host-provided (ptr, len) — valid because
 /// AO guarantees the region is within Wasm linear memory and live for the call.
-/// Block 2 copies the encoded response into a freshly allocated buffer — valid
-/// because the buffer is exclusively owned until it is returned.
+/// Block 2 frees that buffer; safe because the host obtained it via this
+/// module's `alloc`, the slice has been fully consumed by `serde_json::
+/// from_slice` (which copies into owned types), and no later code in this
+/// function references `input`.
+/// Block 3 copies the encoded response into a freshly allocated buffer —
+/// valid because the buffer is exclusively owned until it is returned.
 #[unsafe(no_mangle)]
 pub extern "C" fn handle(ptr: u32, len: u32) -> u64 {
     if ptr == 0 {
         return pack_response(error_response("input pointer must be non-zero"));
     }
     if len as usize > MAX_INPUT_BYTES {
+        // Free the input buffer even on rejection so the host doesn't have
+        // to special-case error paths.
+        dealloc(ptr, len);
         return pack_response(error_response(format!(
             "input is {len} bytes but maximum is {MAX_INPUT_BYTES}"
         )));
     }
 
-    // ── 1. Read inbound bytes ─────────────────────────────────────────────
-    let input = unsafe { std::slice::from_raw_parts(ptr as *const u8, len as usize) };
-
-    // ── 2. Parse JSON → dispatch → encode response ────────────────────────
-    let response = match serde_json::from_slice::<Request>(input) {
-        Ok(req) => dispatch(req),
-        Err(e) => error_response(format!("JSON decode failed: {e}")),
+    // ── 1. Parse JSON from inbound bytes (copies into owned types). ───────
+    let response = {
+        let input = unsafe { std::slice::from_raw_parts(ptr as *const u8, len as usize) };
+        match serde_json::from_slice::<Request>(input) {
+            Ok(req) => dispatch(req),
+            Err(e) => error_response(format!("JSON decode failed: {e}")),
+        }
     };
 
+    // ── 2. Free the host-supplied input buffer. ───────────────────────────
+    // The slice borrow above has ended; `serde_json::from_slice` copied any
+    // bytes it kept. Dropping the input buffer now prevents a per-call leak
+    // of `len` bytes of linear memory.
+    dealloc(ptr, len);
+
+    // ── 3. Pack the response into a freshly allocated buffer. ─────────────
     pack_response(response)
 }
 
