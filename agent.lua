@@ -277,16 +277,36 @@ Handlers.add(
 
             local action = "Causation-Proof"
             local result_tag = "LEVEL_CLEAR"
+            local out_data = msg.Data
             if pending.encoder_mode == "demo" then
                 action = "Demo-Proof-Result"
                 result_tag = "DEMO_ONLY"
+                -- Audit H-1 (#5): demo-mode results MUST NOT propagate the
+                -- prover's `satisfiable=true` and witness verbatim. A
+                -- consumer gated only on `Action` would otherwise be
+                -- tricked into trusting a demo proof. We emit a distinct
+                -- schema with the prover's verdict preserved under a
+                -- RENAMED key (`prover_satisfiable`); no `satisfiable`
+                -- field at all, so any consumer reading the old key
+                -- fails loudly rather than silently.
+                local witness_len = 0
+                if result.witness and type(result.witness) == "table" then
+                    witness_len = #result.witness
+                end
+                out_data = json.encode({
+                    schema                = "demo-proof-result/v1",
+                    demo_only             = true,
+                    prover_satisfiable    = result.satisfiable,
+                    prover_witness_length = witness_len,
+                    correlation_id        = corr_id,
+                })
                 print(string.format("[PROOF] %s used demo CNF — not emitting Causation-Proof", corr_id))
             end
 
             ao.send({
                 Target = pending.requester,
                 Action = action,
-                Data   = msg.Data,
+                Data   = out_data,
                 Tags   = {
                     ["Correlation-Id"] = corr_id,
                     ["Result"]         = result_tag,
