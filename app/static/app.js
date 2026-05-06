@@ -27,11 +27,17 @@ async function loadPacket() {
   throw new Error("Failed to load packet from generated snapshot or local API.");
 }
 
+// Audit H-5 (#9): escape attribute-context characters (`"` and `'`) and
+// backtick to close attribute-injection paths. innerHTML sites must
+// route all user-controllable values through this function.
 function escapeHtml(text) {
-  return text
+  return String(text)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+    .replaceAll("`", "&#96;");
 }
 
 function inlineMarkdown(text) {
@@ -157,9 +163,9 @@ function renderNav() {
   nav.innerHTML = buttons
     .map(
       (button) => `
-        <button class="${state.selectedView === button.key ? "active" : ""}" data-view="${button.key}">
-          <span class="title">${button.title}</span>
-          <span class="meta">${button.meta}</span>
+        <button class="${state.selectedView === button.key ? "active" : ""}" data-view="${escapeHtml(button.key)}">
+          <span class="title">${escapeHtml(button.title)}</span>
+          <span class="meta">${escapeHtml(button.meta ?? "")}</span>
         </button>
       `
     )
@@ -176,9 +182,9 @@ function renderNav() {
 function renderPacketMeta() {
   const meta = document.getElementById("packet-meta");
   meta.innerHTML = `
-    <div><strong>Type:</strong> ${state.packet.packet_type}</div>
-    <div><strong>Generated:</strong> ${new Date(state.packet.generated_at).toLocaleString()}</div>
-    <div><strong>Packet dir:</strong> <code>${state.packet.packet_dir}</code></div>
+    <div><strong>Type:</strong> ${escapeHtml(state.packet.packet_type)}</div>
+    <div><strong>Generated:</strong> ${escapeHtml(new Date(state.packet.generated_at).toLocaleString())}</div>
+    <div><strong>Packet dir:</strong> <code>${escapeHtml(state.packet.packet_dir)}</code></div>
   `;
 }
 
@@ -187,13 +193,13 @@ function renderBundleSummary() {
   container.innerHTML = state.packet.bundles
     .map((bundle) => {
       const pills = Object.entries(bundle.summary.trust_states)
-        .map(([key, value]) => `<span class="pill ${key}">${key}: ${value}</span>`)
+        .map(([key, value]) => `<span class="pill ${escapeHtml(key)}">${escapeHtml(key)}: ${escapeHtml(value)}</span>`)
         .join("");
       return `
         <article class="bundle-card">
-          <div class="eyebrow">${bundleLabel(bundle.name)}</div>
-          <h3>${bundle.summary.title}</h3>
-          <p>${bundle.summary.handoff_readiness}</p>
+          <div class="eyebrow">${escapeHtml(bundleLabel(bundle.name))}</div>
+          <h3>${escapeHtml(bundle.summary.title)}</h3>
+          <p>${escapeHtml(bundle.summary.handoff_readiness)}</p>
           <div class="bundle-stats">${pills}</div>
         </article>
       `;
@@ -233,16 +239,16 @@ function renderArtifactCard(bundle, item) {
     <article class="artifact-card">
       <div class="item-header">
         <div>
-          <div class="eyebrow">${bundleLabel(bundle.name)}</div>
-          <h4>${title}</h4>
-          <div class="item-meta">${item.finding_id}</div>
+          <div class="eyebrow">${escapeHtml(bundleLabel(bundle.name))}</div>
+          <h4>${escapeHtml(title)}</h4>
+          <div class="item-meta">${escapeHtml(item.finding_id)}</div>
         </div>
-        <span class="pill ${trustState}">${trustState}</span>
+        <span class="pill ${escapeHtml(trustState)}">${escapeHtml(trustState)}</span>
       </div>
       <div>${escapeHtml(item.artifact.summary || "No summary available.")}</div>
       <div class="actions">
-        <button data-doc="report" data-bundle="${bundle.name}" data-id="${item.finding_id}">Open report</button>
-        <button data-doc="artifact" data-bundle="${bundle.name}" data-id="${item.finding_id}">Open artifact</button>
+        <button data-doc="report" data-bundle="${escapeHtml(bundle.name)}" data-id="${escapeHtml(item.finding_id)}">Open report</button>
+        <button data-doc="artifact" data-bundle="${escapeHtml(bundle.name)}" data-id="${escapeHtml(item.finding_id)}">Open artifact</button>
       </div>
     </article>
   `;
