@@ -38,8 +38,13 @@ export function scoreRun(metrics, cognitiveState, adaptation, flags, baseline = 
   }
 
   // ── Tier 1: Outcome ────────────────────────────────────────────────────────
+  // Absent outcome defaults to FAIL (sparse-record ergonomic, see buildRecord).
+  // Unknown keys throw — silent 0 would let typos masquerade as legitimate FAILs.
   const outcomeKey = m.outcome ?? 'FAIL';
-  let O = OUTCOME_BASE[outcomeKey] ?? 0;
+  if (!Object.prototype.hasOwnProperty.call(OUTCOME_BASE, outcomeKey)) {
+    throw new Error(`scoreRun: unknown outcome key ${JSON.stringify(outcomeKey)}; expected one of ${Object.keys(OUTCOME_BASE).join(', ')}`);
+  }
+  let O = OUTCOME_BASE[outcomeKey];
 
   const bannedViolations = m.banned_violations ?? 0;
   if (bannedViolations > 0) O = O * 0.5;   // halve outcome contribution
@@ -75,7 +80,7 @@ export function scoreRun(metrics, cognitiveState, adaptation, flags, baseline = 
   return {
     breakdown: {
       transport_leak_override: false,
-      outcome:           { raw: OUTCOME_BASE[outcomeKey] ?? 0, after_ban_penalty: O, weight: W.outcome },
+      outcome:           { raw: OUTCOME_BASE[outcomeKey], after_ban_penalty: O, weight: W.outcome },
       efficiency:        { S_T, A_total, R, lambda: LAMBDA, score: E, weight: W.efficiency },
       discipline:        { V_b, F_p, score: D, weight: W.discipline },
       adaptation:        { delta: adp.t_stable_delta ?? null, score: A, source: adaptationSource, weight: W.adaptation },
