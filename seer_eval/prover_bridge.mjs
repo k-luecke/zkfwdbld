@@ -39,9 +39,14 @@ function runRustRequest(request) {
       throw child.error;
     }
 
+    // Audit H-2 (#6): use `wsl.exe --cd <path>` instead of
+    // `bash -lc "cd '${wslCwd}' && ..."`. With --cd the path is a
+    // single argv to wsl.exe; there is no shell, so a directory
+    // containing `'`, `;`, `$`, or any other metacharacter cannot
+    // break out of the quoted context.
     child = runCommand(
       'wsl.exe',
-      ['bash', '-lc', `cd '${wslCwd}' && cargo run --quiet --example prove_request`],
+      ['--cd', wslCwd, 'cargo', 'run', '--quiet', '--example', 'prove_request'],
       request
     );
   }
