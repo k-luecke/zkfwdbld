@@ -124,6 +124,16 @@ fn validate_cnf(cnf: &[Vec<i32>], num_vars: usize) -> Result<Vec<Clause>, String
 // Wire values (Goldilocks field elements) fit in 64 bits.
 // Representation: little-endian u64 per element, tightly packed.
 
+// Audit L-3 (#27): `witness_to_bytes` reads `f.into_bigint().0[0]` and silently
+// truncates any higher limbs. That is correct for the single-limb Goldilocks
+// Mont backend used today, but if `MontBackend<_, N>` is ever swapped for an
+// `N > 1` field a witness round-trip would silently produce invalid bytes.
+// Pin the assumption at compile time so that swap turns into a build break.
+const _: () = assert!(
+    <F as PrimeField>::MODULUS_BIT_SIZE <= 64,
+    "witness_to_bytes / bytes_to_witness assume a single-limb (≤64-bit) field"
+);
+
 fn witness_to_bytes(w: &[F]) -> Vec<u8> {
     let mut bytes = Vec::with_capacity(w.len() * 8);
     for &f in w {

@@ -54,7 +54,23 @@ function runCommand(command, args, request) {
   });
 }
 
+// Audit I-7 (#42): a dry-run mode lets tests and offline operators exercise
+// the prove/verify control flow without spawning cargo. The synthetic response
+// is intentionally distinguishable from a real proof (success: true,
+// satisfiable: true, witness: empty Buffer; trust_state surfaces 'dry_run'
+// downstream via proveAndVerify).
+function dryRunResponse(request) {
+  if (request?.Action === 'Prove') {
+    return { success: true, satisfiable: true, witness: [], dry_run: true };
+  }
+  return { success: true, satisfiable: true, dry_run: true };
+}
+
 function runRustRequest(request) {
+  if (process.env.SEER_PROVER_DRY_RUN === '1') {
+    return dryRunResponse(request);
+  }
+
   let child = runCommand(
     'cargo',
     ['run', '--quiet', '--example', 'prove_request'],

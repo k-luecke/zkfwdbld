@@ -6,6 +6,21 @@
 //   - all candidates above threshold still contribute banned-inference union
 //   - if |top1 - top2| < conflict_threshold → DEEP_OBSERVATION (no active pattern)
 //   - if no candidate above threshold → UNKNOWN_PATTERN
+//
+// Audit I-4 (#39): threshold defaults are policy decisions and now live as
+// env-overridable constants. Operators can audit current behaviour by
+// inspecting CONFLICT_THRESHOLD_DEFAULT / ACTIVATION_THRESHOLD_DEFAULT and
+// override per-process via SEER_CONFLICT_THRESHOLD / SEER_ACTIVATION_THRESHOLD.
+
+function envFloat(key, fallback) {
+  const raw = process.env?.[key];
+  if (raw === undefined || raw === '') return fallback;
+  const n = Number.parseFloat(raw);
+  return Number.isFinite(n) ? n : fallback;
+}
+
+export const CONFLICT_THRESHOLD_DEFAULT   = envFloat('SEER_CONFLICT_THRESHOLD',   0.10);
+export const ACTIVATION_THRESHOLD_DEFAULT = envFloat('SEER_ACTIVATION_THRESHOLD', 0.30);
 
 // Per-family banned inferences.  Extend as new families are observed.
 export const PATTERN_DEFINITIONS = {
@@ -87,8 +102,8 @@ export const PATTERN_DEFINITIONS = {
  * }}
  */
 export function classify(candidates, options = {}) {
-  const conflictThreshold    = options.conflictThreshold    ?? 0.10;
-  const activationThreshold  = options.activationThreshold  ?? 0.30;
+  const conflictThreshold    = options.conflictThreshold    ?? CONFLICT_THRESHOLD_DEFAULT;
+  const activationThreshold  = options.activationThreshold  ?? ACTIVATION_THRESHOLD_DEFAULT;
 
   const sorted = [...(candidates ?? [])].sort((a, b) => b.confidence - a.confidence);
 

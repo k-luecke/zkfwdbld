@@ -41,7 +41,32 @@ const GW_POLL_MS    = 30_000;
 const GW_TIMEOUT_MS = 10_000;
 const GW_MAX_WAIT   = 10 * 60_000;
 const PUSH_TIMEOUT  = 30_000;
-const TOTAL_STEPS   = 8;
+
+// Audit I-2 (#37): derive the step count from the actual list of steps so a
+// future re-shuffle can never drift from a hardcoded constant. Mirrored by
+// the shared SMOKE_FIXTURE below.
+export const STEPS = Object.freeze([
+  'Upload seer.wasm via Turbo',
+  'Wait for module TX on gateway',
+  'Spawn new Seer process',
+  'Verify PID Module tag',
+  'WASM local smoke test',
+  'Patch PROVER_PID in agent.lua',
+  'Verify patch was written correctly',
+  'Log result and print reload instructions',
+]);
+const TOTAL_STEPS   = STEPS.length;
+
+// Audit I-2 (#37): the WASM smoke test fixture is exported so an out-of-band
+// test (tests/test_wasm_handle.mjs) can exercise the same input and assert
+// the smoke step would still pass. If the kernel input shape changes, both
+// callers update in lockstep.
+export const SMOKE_FIXTURE = Object.freeze({
+  Action: 'Prove',
+  cnf: [[1, 2, -3], [-1, 2, 3]],
+  num_vars: 3,
+  seed: 42,
+});
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -227,7 +252,7 @@ async function smokeTestWasm() {
   const { instance } = await WebAssembly.instantiate(wasmBytes);
   const { memory, alloc, dealloc, handle } = instance.exports;
 
-  const input      = JSON.stringify({ Action: 'Prove', cnf: [[1, 2, -3], [-1, 2, 3]], num_vars: 3, seed: 42 });
+  const input      = JSON.stringify(SMOKE_FIXTURE);
   const inputBytes = Buffer.from(input, 'utf-8');
 
   const ptr = alloc(inputBytes.length);
@@ -364,7 +389,11 @@ async function main() {
   console.log('  Seer PID: ', pid);
 }
 
-main().catch(e => {
-  console.error('\nFATAL:', e.message);
-  process.exit(1);
-});
+// Only run main() when invoked directly (not when imported by tests for
+// SMOKE_FIXTURE / STEPS — see audit I-2).
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('\nFATAL:', e.message);
+    process.exit(1);
+  });
+}

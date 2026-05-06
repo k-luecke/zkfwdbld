@@ -8,7 +8,29 @@ export const CONFLICT_THRESHOLD = 0.10;
 const OUTCOME_BASE = { SUCCESS: 1.0, SAFE_ABORT: 0.4, FAIL: 0.0 };
 
 // Composite weights must sum to 1.
-const W = { outcome: 0.40, efficiency: 0.25, discipline: 0.25, adaptation: 0.10 };
+const W_RAW = { outcome: 0.40, efficiency: 0.25, discipline: 0.25, adaptation: 0.10 };
+
+// Audit I-3 (#38): a future edit that breaks the sum-to-1 invariant should
+// produce a visible warning AND a still-meaningful score (operator-friendly:
+// throwing here would take the entire scoring pipeline offline). We
+// renormalize once at module load and emit a single warning with the raw
+// values so the drift is auditable.
+const W = (() => {
+  const sum = W_RAW.outcome + W_RAW.efficiency + W_RAW.discipline + W_RAW.adaptation;
+  if (Math.abs(sum - 1) > 1e-9) {
+    console.warn(
+      `score.mjs: WARNING — composite weights sum to ${sum} (expected 1). ` +
+        `Renormalizing for safety; fix W_RAW and rerun.`
+    );
+    return {
+      outcome:    W_RAW.outcome    / sum,
+      efficiency: W_RAW.efficiency / sum,
+      discipline: W_RAW.discipline / sum,
+      adaptation: W_RAW.adaptation / sum,
+    };
+  }
+  return W_RAW;
+})();
 
 /**
  * Score a completed run.

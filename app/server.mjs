@@ -27,8 +27,19 @@ function sendFile(res, filePath) {
     ".json": "application/json; charset=utf-8"
   }[ext] || "text/plain; charset=utf-8";
 
+  // Audit L-7: existsSync → createReadStream is a TOCTOU race. If the file
+  // disappears between the check and the open, the stream emits 'error' after
+  // the 200 status line is already on the wire. Send the headers first, then
+  // pipe with a stream-error handler so the connection is closed cleanly
+  // instead of leaving the response object dangling.
   res.writeHead(200, { "Content-Type": contentType });
-  createReadStream(filePath).pipe(res);
+  const stream = createReadStream(filePath);
+  stream.on("error", (err) => {
+    console.error(`sendFile error for ${filePath}: ${err.message}`);
+    // Headers are already flushed; we can't change the status. Just abort.
+    res.destroy(err);
+  });
+  stream.pipe(res);
 }
 
 const server = createServer((req, res) => {
