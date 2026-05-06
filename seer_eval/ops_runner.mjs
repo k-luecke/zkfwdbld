@@ -3,7 +3,8 @@
 import { readFileSync } from 'fs';
 import path from 'path';
 
-import { reviewedArtifactsFromDraftFile } from './message_ingest.mjs';
+import { parseMessageDraftFile } from './message_ingest.mjs';
+import { policyReviewedOutboundMessages } from './message_pipeline.mjs';
 import { loadOutboundMessagePolicy } from './message_policy.mjs';
 import { exportFindingReportSet } from './report_exporter.mjs';
 
@@ -23,10 +24,10 @@ export function loadOpsQueue(filePath) {
 }
 
 export function runOutboundMessageOpsLoop(queuePath, outputDir, options = {}) {
-  const queue = loadOpsQueue(queuePath);
   const policy =
     options.policy_path ? loadOutboundMessagePolicy(options.policy_path) : undefined;
-  const artifacts = reviewedArtifactsFromDraftFile(queuePath, policy);
+  const drafts = parseMessageDraftFile(queuePath);
+  const artifacts = policyReviewedOutboundMessages(drafts, policy);
   const result = exportFindingReportSet(artifacts, outputDir, {
     title: options.title ?? 'Ops Queue Outbound Message Review',
   });
@@ -34,7 +35,7 @@ export function runOutboundMessageOpsLoop(queuePath, outputDir, options = {}) {
   return {
     queue_path: queuePath,
     policy_path: options.policy_path ?? null,
-    action_count: queue.length,
+    action_count: drafts.length,
     ...result,
   };
 }
