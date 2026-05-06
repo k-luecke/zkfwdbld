@@ -106,16 +106,27 @@ local PATTERNS = {
     { name = "PASSWORD_FIELD",  pat = '<input[^>]+name%s*=%s*["\']?passw'   },
 }
 
+-- Audit H-7 (#11): walk every match per pattern (was first-match only).
+-- Node harness_pipeline.mjs uses matchAll; Lua scan_dom must match
+-- semantics or the two scanners diverge on multi-occurrence pages.
+-- The per-pattern cap defends against pathological pages allocating
+-- huge findings tables before the agent's global buffer cap fires.
+local MAX_MATCHES_PER_PATTERN = 100
 local function scan_dom(html)
     local findings = {}
     for _, rule in ipairs(PATTERNS) do
-        local s, e, capture = string.find(html, "(" .. rule.pat .. ")", 1)
-        if s then
+        local pos = 1
+        local count = 0
+        while count < MAX_MATCHES_PER_PATTERN do
+            local s, e = string.find(html, rule.pat, pos)
+            if not s then break end
             table.insert(findings, {
                 pattern_type = rule.name,
                 raw_string   = string.sub(html, s, math.min(e, s + 256)),
                 offset       = s,
             })
+            pos = e + 1
+            count = count + 1
         end
     end
     return findings
