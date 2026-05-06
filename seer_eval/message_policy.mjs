@@ -38,9 +38,20 @@ function domainFromRecipient(recipient) {
   return recipient.split('@')[1].toLowerCase();
 }
 
+// Shared text normaliser for policy substring matching.
+// Intentionally minimal: lowercase + trim only. We do NOT collapse internal
+// whitespace (would let an attacker hide adversarial padding inside an
+// otherwise-matching disclosure) and we do NOT strip HTML (bodies are
+// plaintext in every current ingest path — see defaultOutboundMessages,
+// examples/fixtures/real_message_drafts.json, ops/queue/outbound_messages.json).
+// Re-used by M-6 (#17) — keep this seam stable.
+function normaliseForMatch(text) {
+  return String(text ?? '').toLowerCase().trim();
+}
+
 function includesAnyPhrase(text, phrases) {
-  const lowered = String(text ?? '').toLowerCase();
-  return phrases.some(phrase => lowered.includes(phrase.toLowerCase()));
+  const normalised = normaliseForMatch(text);
+  return phrases.some(phrase => normalised.includes(normaliseForMatch(phrase)));
 }
 
 export function evaluateOutboundMessagePolicy(message = {}, policy = DEFAULT_POLICY) {
@@ -70,7 +81,7 @@ export function evaluateOutboundMessagePolicy(message = {}, policy = DEFAULT_POL
   if ((policy.blocked_recipients ?? []).includes(message.recipient)) {
     reasons.push('Recipient is explicitly blocked.');
   }
-  if (!body.includes(policy.required_disclosure)) {
+  if (!normaliseForMatch(body).includes(normaliseForMatch(policy.required_disclosure))) {
     reasons.push('Required disclosure string is missing.');
   }
   if (policy.required_subject_prefix && !subject.startsWith(policy.required_subject_prefix)) {
