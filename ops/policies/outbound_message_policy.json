@@ -1,10 +1,18 @@
 {
+  "_comment": "Demo-grade outbound-message policy. Operators MUST review and tighten before any production use. Tracked by GH issue #18 (M-7).",
   "allowlisted_domains": ["customer.example", "prospect.example"],
   "allowlisted_channels": ["email"],
-  "blocked_recipients": [],
+  "blocked_recipients": [
+    "abuse@customer.example",
+    "security@customer.example",
+    "noreply@customer.example",
+    "abuse@prospect.example",
+    "security@prospect.example",
+    "noreply@prospect.example"
+  ],
   "disallowed_phrases": ["guarantee", "guaranteed results", "no-risk promise"],
   "required_disclosure": "Sent by AI assistant",
-  "required_subject_prefix": "",
+  "required_subject_prefix": "[UNREVIEWED-DEMO] ",
   "max_body_chars": 500,
   "approved_families": ["support_followup", "demo_outreach"]
 }
