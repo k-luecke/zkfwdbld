@@ -16,11 +16,23 @@ local json = require('json')
 
 -- ── Configuration ────────────────────────────────────────────────────────────
 
--- Permanently anchored Seer brain (Arweave module TX).
-MODULE_ID  = MODULE_ID  or "Iql5WjEcg8T8vkSm4k7d0WxFDTLfZnxooTPcZK8JNl0"
+-- Audit M-2 (#13): defaults are placeholders, not real anchored IDs.
+-- Operators MUST set these (e.g. via `aos> MODULE_ID = "..."` before
+-- `.load agent.lua`, or via the `Set-Prover` handler at runtime). A
+-- mis-anchored default would silently route every finding to a wrong
+-- process; we refuse to dispatch until both are explicitly configured.
+-- We do NOT add a probe handshake here: the Seer kernel (src/lib.rs)
+-- only handles Prove/Verify — there is no Ping/Probe/Info action to
+-- roundtrip, and adding one without prover-side cooperation would
+-- wedge dispatch behind an unanswerable message.
+MODULE_ID  = MODULE_ID  or "UNSET"
+PROVER_PID = PROVER_PID or "UNSET"
 
--- Set this once spawn_seer.js returns the live Process ID.
-PROVER_PID = PROVER_PID or "GFtPupsXe1BBCFI7HROtoz6hzOaOYSfh2LUv3DnT76o"
+local function prover_configured()
+    return PROVER_PID ~= "UNSET"
+        and PROVER_PID ~= ""
+        and PROVER_PID ~= "<PASTE_SPAWN_OUTPUT_HERE>"
+end
 
 -- ── FIFO Buffer (1,000-slot) ──────────────────────────────────────────────────
 -- Absorbs rapid-fire page crawls without losing findings.
@@ -147,7 +159,7 @@ end
 
 local function fcc_dispatch(finding, level, url, requester)
     requester = requester or ao.env.Process.Owner
-    if PROVER_PID == "<PASTE_SPAWN_OUTPUT_HERE>" then
+    if not prover_configured() then
         print("[WARN] PROVER_PID not set — buffering finding for later dispatch")
         buffer_push({
             url          = url,
@@ -412,7 +424,7 @@ Handlers.add(
                 buffer_depth = #ScanBuffer,
                 buffer_cap   = BUFFER_CAP,
                 pending_proofs = PendingProofCount,
-                prover_ready = PROVER_PID ~= "<PASTE_SPAWN_OUTPUT_HERE>",
+                prover_ready = prover_configured(),
                 module_id    = MODULE_ID,
                 demo_proof_mode = DEMO_PROOF_MODE,
             }),
