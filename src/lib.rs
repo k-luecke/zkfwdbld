@@ -134,6 +134,13 @@ fn witness_to_bytes(w: &[F]) -> Vec<u8> {
 }
 
 fn bytes_to_witness(bytes: &[u8], expected_elements: usize) -> Result<Vec<F>, String> {
+    // Audit H-6 (#10): reject non-canonical encodings. F::from on a u64
+    // value >= p silently reduces mod p, so two distinct byte strings can
+    // map to the same field element. Any downstream byte-level tool
+    // (transcript hash, cache key, signature over proof bytes) would then
+    // disagree with what `verify` accepts. Enforce v < p at the parse
+    // boundary so accepted byte strings and witness vectors are bijective.
+    const GOLDILOCKS_P: u64 = 0xFFFFFFFF00000001;
     let expected_bytes = expected_elements * 8;
     if bytes.len() != expected_bytes {
         return Err(format!(
@@ -145,7 +152,13 @@ fn bytes_to_witness(bytes: &[u8], expected_elements: usize) -> Result<Vec<F>, St
     for chunk in bytes.chunks_exact(8) {
         // chunks_exact guarantees exactly 8 bytes per chunk
         let arr: [u8; 8] = chunk.try_into().unwrap();
-        result.push(F::from(u64::from_le_bytes(arr)));
+        let v = u64::from_le_bytes(arr);
+        if v >= GOLDILOCKS_P {
+            return Err(format!(
+                "witness element {v} is non-canonical (>= field modulus {GOLDILOCKS_P})"
+            ));
+        }
+        result.push(F::from(v));
     }
     Ok(result)
 }
