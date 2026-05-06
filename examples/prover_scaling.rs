@@ -73,14 +73,21 @@ fn run_case(num_vars: usize, num_clauses: usize, seed: u64) {
     let verify_ms = t2.elapsed().as_secs_f64() * 1000.0;
 
     println!(
-        "{num_vars},{num_clauses},{},{},{witness_ms:.3},{build_ms:.3},{verify_ms:.3},{valid}",
+        "{num_vars},{num_clauses},{seed},{},{},{witness_ms:.3},{build_ms:.3},{verify_ms:.3},{valid}",
         r1cs.num_constraints(),
         r1cs.num_wires()
     );
 }
 
+// Audit I-9 (#44): the previous version reported a single timing per
+// (num_vars, num_clauses) tuple at seed=42, with no variance estimate. Use a
+// dense `(0..NUM_SEEDS)` sweep so a downstream CSV consumer can compute
+// per-cell median/MAD without picking arbitrary primes that bias toward
+// "interesting" XorShift trajectories.
+const NUM_SEEDS: u64 = 5;
+
 fn main() {
-    println!("num_vars,num_clauses,constraints,wires,witness_ms,build_ms,verify_ms,valid");
+    println!("num_vars,num_clauses,seed,constraints,wires,witness_ms,build_ms,verify_ms,valid");
 
     for &(num_vars, num_clauses) in &[
         (8, 64),
@@ -92,6 +99,8 @@ fn main() {
         (12, 1024),
         (12, 4096),
     ] {
-        run_case(num_vars, num_clauses, 42);
+        for seed in 0..NUM_SEEDS {
+            run_case(num_vars, num_clauses, seed);
+        }
     }
 }

@@ -297,7 +297,16 @@ pub fn build_sat_constraints(
         row += 1;
     }
 
-    debug_assert_eq!(row, n + 4 * m + 1, "row count mismatch");
+    // Runtime check (not debug_assert!): release builds set `panic = "abort"`
+    // and strip debug assertions, so a future builder change that mis-counts
+    // rows would silently produce a malformed R1CS in production. Return an
+    // error so the dispatch layer can surface it.
+    let expected = n + 4 * m + 1;
+    if row != expected {
+        return Err(format!(
+            "internal error: row count mismatch (got {row}, expected {expected})"
+        ));
+    }
 
     Ok(R1CSInstance {
         num_vars: n,
@@ -537,6 +546,35 @@ mod tests {
         let cnf: Vec<Clause> = vec![[1, 2, 99]];
         let (sym, ent) = generate_fields(3, SEED);
         assert!(build_sat_constraints(&cnf, 3, &sym, &ent).is_err());
+    }
+
+    /// The builder's terminal row count must equal `num_constraints()` for
+    /// every legal (n, m). This guards against the original M-12 hazard:
+    /// a future builder change that pushes the wrong number of rows would
+    /// otherwise silently produce a malformed R1CS in release (where
+    /// `debug_assert!` is stripped and `panic = "abort"` is set).
+    #[test]
+    fn builder_row_count_matches_num_constraints_invariant() {
+        // Several (num_vars, num_clauses) shapes. Clauses are valid literals
+        // bounded by num_vars; concrete satisfiability is irrelevant here —
+        // we only care that build_sat_constraints completes successfully and
+        // that the row-count invariant n + 4m + 1 holds end-to-end.
+        let cases: &[(usize, Vec<Clause>)] = &[
+            (1, vec![[1, 1, 1]]),
+            (3, vec![[1, 2, -3], [-1, 2, 3]]),
+            (5, vec![[1, -2, 3], [4, -5, 1], [-3, 2, 5], [1, 4, -2]]),
+        ];
+        for (num_vars, cnf) in cases {
+            let (sym, ent) = generate_fields(*num_vars, SEED);
+            let r1cs = build_sat_constraints(cnf, *num_vars, &sym, &ent)
+                .expect("build_sat_constraints must succeed for valid inputs");
+            assert_eq!(
+                r1cs.num_constraints(),
+                num_vars + 4 * cnf.len() + 1,
+                "row-count invariant violated for n={num_vars}, m={}",
+                cnf.len()
+            );
+        }
     }
 
     #[test]

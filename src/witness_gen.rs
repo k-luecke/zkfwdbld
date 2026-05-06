@@ -57,6 +57,12 @@ impl SatWitness {
 // ---------------------------------------------------------------------------
 
 pub(crate) fn gaussian_smooth_1d(input: &[f64], sigma: f64) -> Vec<f64> {
+    // Audit L-2 (#26): the reflect-padding clamp `(j as usize).min(n - 1)`
+    // would underflow when `n == 0`. Callers in this crate guard against
+    // num_vars == 0 upstream, but the helper is `pub(crate)` and could be
+    // reused. A debug_assert! here documents the precondition without
+    // adding release overhead.
+    debug_assert!(!input.is_empty(), "gaussian_smooth_1d: input must not be empty");
     let half = (3.0 * sigma).ceil() as usize;
     let kernel_len = 2 * half + 1;
 

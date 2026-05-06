@@ -77,6 +77,26 @@ The current proof boundary is documented in
 - `Heuristics/`: research notebooks, benchmark inputs, and exploratory material
 - `docs/`: proof contract, market positioning, and MVP planning
 
+## Setup
+
+Install Node dependencies from the lockfile (reproducible, audit-friendly).
+Prefer `npm ci` over `npm install` for CI and clean checkouts so the exact
+versions in `package-lock.json` are used:
+
+```sh
+npm ci
+```
+
+For local development you can use the regular install path:
+
+```sh
+npm install
+```
+
+Rust toolchain: install via `rustup` and ensure the version satisfies the
+`rust-version` floor declared in `Cargo.toml` (currently `1.85`+, required by
+`edition = "2024"`).
+
 ## Local Verification
 
 Rust tests:
@@ -89,6 +109,12 @@ Node evaluator tests:
 
 ```sh
 node tests/test_seer_eval.mjs
+```
+
+Wasm `handle` ABI smoke test (auto-skips when `seer.wasm` is absent):
+
+```sh
+node tests/test_wasm_handle.mjs
 ```
 
 Formatting check:

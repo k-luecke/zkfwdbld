@@ -71,18 +71,26 @@ export function tagOutliers(values) {
 
 /**
  * Parse seer_runs.jsonl lines.  Skips blank lines and parse errors.
+ * Returns { runs, skipped } so the caller can surface a count of malformed
+ * lines (audit L-8: silent drops would let a corrupted run log degrade
+ * baselines invisibly).
+ *
  * @param {string} raw
- * @returns {object[]}
+ * @returns {{ runs: object[], skipped: number }}
  */
 function parseRunsJsonl(raw) {
-  return raw
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
-    .flatMap(line => {
-      try { return [JSON.parse(line)]; }
-      catch { return []; }
-    });
+  const runs = [];
+  let skipped = 0;
+  for (const line of raw.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    try {
+      runs.push(JSON.parse(trimmed));
+    } catch {
+      skipped += 1;
+    }
+  }
+  return { runs, skipped };
 }
 
 /**
@@ -142,7 +150,14 @@ async function main() {
     process.exit(1);
   }
 
-  const runs       = parseRunsJsonl(raw);
+  const { runs, skipped } = parseRunsJsonl(raw);
+  if (skipped > 0) {
+    // Audit L-8 (#32): emit a warning so a corrupted JSONL does not silently
+    // produce a degraded baseline. Tests / CI can grep for this prefix.
+    console.warn(
+      `consolidate_baselines: WARNING — skipped ${skipped} malformed JSONL line(s) in ${runsPath}`
+    );
+  }
   const groups     = groupByFamily(runs);
   const candidates = buildCandidates(groups);
 

@@ -30,12 +30,43 @@ const GW_BASE    = 'https://arweave.net';
 const WASM_PATH  = path.join(__dirname, 'seer.wasm');
 const AGENT_PATH = path.join(__dirname, 'agent.lua');
 const LOG_PATH   = path.join(__dirname, 'cutover.log');
+const ROLLBACK_PATH = path.join(__dirname, 'rollback-needed.json');
+
+// Regex for the PROVER_PID assignment in agent.lua. Tolerates either single
+// or double quotes around the default literal — keep this in sync between the
+// pre-spawn assertion (Step 0) and the actual patch (Step 6).
+const PROVER_PID_RE = /PROVER_PID\s*=\s*PROVER_PID\s+or\s+(['"])[^'"]*\1/;
 
 const GW_POLL_MS    = 30_000;
 const GW_TIMEOUT_MS = 10_000;
 const GW_MAX_WAIT   = 10 * 60_000;
 const PUSH_TIMEOUT  = 30_000;
-const TOTAL_STEPS   = 8;
+
+// Audit I-2 (#37): derive the step count from the actual list of steps so a
+// future re-shuffle can never drift from a hardcoded constant. Mirrored by
+// the shared SMOKE_FIXTURE below.
+export const STEPS = Object.freeze([
+  'Upload seer.wasm via Turbo',
+  'Wait for module TX on gateway',
+  'Spawn new Seer process',
+  'Verify PID Module tag',
+  'WASM local smoke test',
+  'Patch PROVER_PID in agent.lua',
+  'Verify patch was written correctly',
+  'Log result and print reload instructions',
+]);
+const TOTAL_STEPS   = STEPS.length;
+
+// Audit I-2 (#37): the WASM smoke test fixture is exported so an out-of-band
+// test (tests/test_wasm_handle.mjs) can exercise the same input and assert
+// the smoke step would still pass. If the kernel input shape changes, both
+// callers update in lockstep.
+export const SMOKE_FIXTURE = Object.freeze({
+  Action: 'Prove',
+  cnf: [[1, 2, -3], [-1, 2, 3]],
+  num_vars: 3,
+  seed: 42,
+});
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
@@ -221,7 +252,7 @@ async function smokeTestWasm() {
   const { instance } = await WebAssembly.instantiate(wasmBytes);
   const { memory, alloc, dealloc, handle } = instance.exports;
 
-  const input      = JSON.stringify({ Action: 'Prove', cnf: [[1, 2, -3], [-1, 2, 3]], num_vars: 3, seed: 42 });
+  const input      = JSON.stringify(SMOKE_FIXTURE);
   const inputBytes = Buffer.from(input, 'utf-8');
 
   const ptr = alloc(inputBytes.length);
@@ -252,14 +283,27 @@ async function smokeTestWasm() {
 // Write to a temp file, then rename into place.
 // rename() is atomic on POSIX: a crash mid-write cannot produce a partial file.
 
-function patchAgentLua(newPid) {
+function patchAgentLua(newPid, moduleId) {
   step(6, `Patching PROVER_PID in agent.lua → ${newPid}`);
   const src     = readFileSync(AGENT_PATH, 'utf-8');
   const patched = src.replace(
-    /PROVER_PID\s*=\s*PROVER_PID\s+or\s+"[^"]+"/,
+    PROVER_PID_RE,
     `PROVER_PID = PROVER_PID or "${newPid}"`
   );
-  if (src === patched) die('Could not find PROVER_PID line in agent.lua — patch failed.');
+  if (src === patched) {
+    // Post-spawn failure: a new module + PID exist on-chain but agent.lua was
+    // not updated. Emit a rollback marker so operators know what to clean up.
+    const marker = {
+      ts:        new Date().toISOString(),
+      reason:    'patchAgentLua regex did not match after spawn',
+      module_tx: moduleId,
+      orphan_pid: newPid,
+      action:    'Manually edit agent.lua PROVER_PID, or rotate via Set-Prover and discard this PID.',
+    };
+    try { writeFileSync(ROLLBACK_PATH, JSON.stringify(marker, null, 2) + '\n', 'utf-8'); }
+    catch (e) { console.error('  (also failed to write rollback marker:', e.message, ')'); }
+    die(`Could not find PROVER_PID line in agent.lua — patch failed. Orphan PID ${newPid} recorded in ${ROLLBACK_PATH}.`);
+  }
 
   const tmp = AGENT_PATH + '.tmp';
   writeFileSync(tmp, patched, 'utf-8');   // write full content to tmp
@@ -325,12 +369,18 @@ async function main() {
 
   const wallet = JSON.parse(readFileSync(path.join(HOME, '.aos.json'), 'utf-8'));
 
+  // Pre-spawn assertion: fail fast if agent.lua's PROVER_PID line won't match
+  // the patch regex. Cheaper than orphaning a new module after a successful spawn.
+  if (!PROVER_PID_RE.test(readFileSync(AGENT_PATH, 'utf-8'))) {
+    die('agent.lua PROVER_PID line does not match patch regex — fix before spawning.');
+  }
+
   const moduleId = await upload(wallet);
   await waitForModule(moduleId);
   const pid = await spawnSeer(wallet, moduleId);
   await verifyBinding(pid, moduleId);   // hard-fails on mismatch
   await smokeTestWasm();
-  patchAgentLua(pid);                   // atomic write
+  patchAgentLua(pid, moduleId);         // atomic write
   verifyPatch(pid);                     // read-back sanity check
   finalise(moduleId, pid, true);
 
@@ -339,7 +389,11 @@ async function main() {
   console.log('  Seer PID: ', pid);
 }
 
-main().catch(e => {
-  console.error('\nFATAL:', e.message);
-  process.exit(1);
-});
+// Only run main() when invoked directly (not when imported by tests for
+// SMOKE_FIXTURE / STEPS — see audit I-2).
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch(e => {
+    console.error('\nFATAL:', e.message);
+    process.exit(1);
+  });
+}

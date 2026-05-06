@@ -124,6 +124,16 @@ fn validate_cnf(cnf: &[Vec<i32>], num_vars: usize) -> Result<Vec<Clause>, String
 // Wire values (Goldilocks field elements) fit in 64 bits.
 // Representation: little-endian u64 per element, tightly packed.
 
+// Audit L-3 (#27): `witness_to_bytes` reads `f.into_bigint().0[0]` and silently
+// truncates any higher limbs. That is correct for the single-limb Goldilocks
+// Mont backend used today, but if `MontBackend<_, N>` is ever swapped for an
+// `N > 1` field a witness round-trip would silently produce invalid bytes.
+// Pin the assumption at compile time so that swap turns into a build break.
+const _: () = assert!(
+    <F as PrimeField>::MODULUS_BIT_SIZE <= 64,
+    "witness_to_bytes / bytes_to_witness assume a single-limb (≤64-bit) field"
+);
+
 fn witness_to_bytes(w: &[F]) -> Vec<u8> {
     let mut bytes = Vec::with_capacity(w.len() * 8);
     for &f in w {
@@ -235,6 +245,17 @@ fn dispatch(req: Request) -> Response {
 // ── Wasm linear memory interface ──────────────────────────────────────────────
 
 /// Allocate `size` bytes in Wasm linear memory; return pointer, or 0 on failure.
+///
+/// Edge cases (audit M-11, GH #22)
+/// ────────────────────────────────
+/// `alloc(0)` returns 0. This collapses two distinct conditions into the
+/// same return value: a zero-byte request and a genuine allocator failure.
+/// Hosts MUST NOT call `alloc(0)` and treat 0 as failure; instead they must
+/// avoid zero-sized requests at the call site (the AO host always pairs a
+/// non-empty payload with a non-zero `len`, so this is satisfied by
+/// construction). The audit classified the resulting "is this address
+/// allocated?" probe as NOT EXPLOITABLE in the AO model — there is no
+/// secret address to leak to a same-instance attacker.
 #[unsafe(no_mangle)]
 pub extern "C" fn alloc(size: u32) -> u32 {
     if size == 0 {
@@ -249,6 +270,17 @@ pub extern "C" fn alloc(size: u32) -> u32 {
 }
 
 /// Free a buffer previously returned by `alloc` or `handle`.
+///
+/// Edge cases (audit M-11, GH #22)
+/// ────────────────────────────────
+/// `dealloc(0, _)` and `dealloc(_, 0)` are no-ops. Rationale:
+///   • `(0, _)`: pointer 0 is reserved as the null/error sentinel.
+///   • `(_, 0)`: a zero-size layout is not a valid `Layout::array::<u8>`
+///     argument and cannot have come from this module's `alloc`.
+/// A misbehaving host that calls `dealloc(p, 0)` with `p` non-zero leaks
+/// the buffer; this is preferred over invoking the global allocator with a
+/// mismatched layout (which is UB). The host contract requires `(ptr, len)`
+/// to round-trip exactly the values returned by `alloc` / `handle`.
 #[unsafe(no_mangle)]
 pub extern "C" fn dealloc(ptr: u32, size: u32) {
     if ptr == 0 || size == 0 {
@@ -448,6 +480,47 @@ mod tests {
         assert!(!resp.success);
         let err = resp.error.unwrap();
         assert!(err.contains("clause count"), "error was: {err}");
+    }
+
+    // ── M-11 / GH #22: alloc(0) and dealloc edge-case semantics ─────────────
+    // The audit declared the "address probe" via alloc(0)/dealloc(0,_) NOT
+    // EXPLOITABLE in the AO threat model. These tests pin the documented
+    // behaviour so any future change (e.g. switching to a sentinel return)
+    // is a deliberate, reviewed ABI break rather than an accidental one.
+
+    #[test]
+    fn alloc_zero_returns_null_sentinel() {
+        // Documented contract: zero-size requests collapse to the null sentinel.
+        assert_eq!(alloc(0), 0);
+    }
+
+    #[test]
+    fn dealloc_with_zero_pointer_is_noop() {
+        // Must not invoke the global allocator with ptr=0.
+        dealloc(0, 16);
+        dealloc(0, 0);
+    }
+
+    #[test]
+    fn dealloc_with_zero_size_is_noop() {
+        // Must not invoke the global allocator with size=0 (invalid Layout).
+        // We deliberately pass a non-zero pointer that we never allocated;
+        // the early return guarantees no UB.
+        dealloc(0xDEAD_BEEF, 0);
+    }
+
+    // The positive-size alloc/dealloc round-trip relies on `usize == u32`
+    // (Wasm32 linear memory) — on a 64-bit host the u32 pointer cast
+    // truncates the real heap pointer and freeing it is UB. The non-trivial
+    // path is exercised end-to-end by `cutover.mjs`'s WASM smoke test
+    // (which loads the actual wasm32 artifact and round-trips a Prove
+    // request through `alloc` / `handle` / `dealloc`).
+    #[cfg(target_arch = "wasm32")]
+    #[test]
+    fn alloc_then_dealloc_roundtrip_succeeds() {
+        let p = alloc(64);
+        assert_ne!(p, 0, "alloc(64) must not return the null sentinel");
+        dealloc(p, 64);
     }
 
     #[test]

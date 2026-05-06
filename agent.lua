@@ -16,11 +16,87 @@ local json = require('json')
 
 -- ── Configuration ────────────────────────────────────────────────────────────
 
--- Permanently anchored Seer brain (Arweave module TX).
-MODULE_ID  = MODULE_ID  or "Iql5WjEcg8T8vkSm4k7d0WxFDTLfZnxooTPcZK8JNl0"
+-- Audit M-2 (#13): defaults are placeholders, not real anchored IDs.
+-- Operators MUST set these (e.g. via `aos> MODULE_ID = "..."` before
+-- `.load agent.lua`, or via the `Set-Prover` handler at runtime). A
+-- mis-anchored default would silently route every finding to a wrong
+-- process; we refuse to dispatch until both are explicitly configured.
+-- We do NOT add a probe handshake here: the Seer kernel (src/lib.rs)
+-- only handles Prove/Verify — there is no Ping/Probe/Info action to
+-- roundtrip, and adding one without prover-side cooperation would
+-- wedge dispatch behind an unanswerable message.
+MODULE_ID  = MODULE_ID  or "UNSET"
+PROVER_PID = PROVER_PID or "UNSET"
 
--- Set this once spawn_seer.js returns the live Process ID.
-PROVER_PID = PROVER_PID or "GFtPupsXe1BBCFI7HROtoz6hzOaOYSfh2LUv3DnT76o"
+local function prover_configured()
+    return PROVER_PID ~= "UNSET"
+        and PROVER_PID ~= ""
+        and PROVER_PID ~= "<PASTE_SPAWN_OUTPUT_HERE>"
+end
+
+-- ── Audit M-3 (#14): admin allowlist + two-admin handshake ───────────────────
+-- The audit observed that gating Set-Prover / Flush-Buffer on
+-- `msg.From == ao.env.Process.Owner` makes a single owner-key compromise
+-- equivalent to total system compromise: an attacker can redirect every
+-- outbound proof request (and the embedded raw_string findings) to an
+-- attacker-controlled PROVER_PID and then forge "Causation-Proof"
+-- replies (msg.From == attacker PROVER_PID passes the Proof-Result gate).
+--
+-- AOS has no built-in multi-sig primitive; we build it from the persistent
+-- globals AOS already preserves across messages. The design:
+--
+--   1. Admins is a set (table keyed by address → true). It starts as
+--      `{Owner: true}` so Phase 0 single-operator deploys keep working.
+--      Operators on Phase 1+ can add a second admin via Add-Admin
+--      (current Owner-only) and then narrow further via Revoke-Admin
+--      (any admin can drop themselves or another, no resurrection).
+--   2. Set-Prover and Flush-Buffer require an admin sender. When there
+--      is only ONE admin, Set-Prover commits immediately (Phase 0 story
+--      preserved). When there are TWO OR MORE admins, Set-Prover writes
+--      a PendingProverChange and a *distinct* admin must Confirm-Set-Prover
+--      with the matching nonce to commit it. This is the literal multi-sig
+--      the audit recommended, but it auto-degrades to single-sig in
+--      Phase 0 so we don't ship a footgun the operator can't unlock.
+--   3. Revoke is one-way: Add-Admin is gated on the current Owner only,
+--      so a compromised non-Owner admin cannot bring in attacker keys.
+--      Revoke-Admin is admin-gated so a compromised Owner cannot stop a
+--      legitimate admin from evicting them.
+--
+-- This is intentionally NOT a generic role system. The threat model is
+-- "one wallet key was stolen"; the mitigation is "a second key must
+-- co-sign before outbound routing changes."
+
+Admins = Admins or nil  -- lazily initialised on first message (Owner not
+                        -- known until ao.env is populated under aos)
+PendingProverChange = PendingProverChange or nil
+ProverChangeNonceSeq = ProverChangeNonceSeq or 0
+
+local function ensure_admins()
+    if Admins == nil then
+        Admins = {}
+        local owner = ao.env and ao.env.Process and ao.env.Process.Owner
+        if owner then Admins[owner] = true end
+    end
+    return Admins
+end
+
+local function admin_count()
+    ensure_admins()
+    local n = 0
+    for _ in pairs(Admins) do n = n + 1 end
+    return n
+end
+
+local function is_admin(addr)
+    ensure_admins()
+    return addr ~= nil and Admins[addr] == true
+end
+
+local function is_owner(addr)
+    return addr ~= nil
+        and ao.env and ao.env.Process
+        and addr == ao.env.Process.Owner
+end
 
 -- ── FIFO Buffer (1,000-slot) ──────────────────────────────────────────────────
 -- Absorbs rapid-fire page crawls without losing findings.
@@ -147,7 +223,7 @@ end
 
 local function fcc_dispatch(finding, level, url, requester)
     requester = requester or ao.env.Process.Owner
-    if PROVER_PID == "<PASTE_SPAWN_OUTPUT_HERE>" then
+    if not prover_configured() then
         print("[WARN] PROVER_PID not set — buffering finding for later dispatch")
         buffer_push({
             url          = url,
@@ -347,19 +423,21 @@ Handlers.add(
 
 -- ── Handler: Flush-Buffer ─────────────────────────────────────────────────────
 -- Re-dispatches buffered findings after PROVER_PID is set.
+-- Audit M-3 (#14): admin-gated, not Owner-gated. Flush-Buffer no longer
+-- accepts a Prover-Pid tag — that path was a back-door equivalent of
+-- Set-Prover that bypassed the two-admin handshake. PID changes go through
+-- Set-Prover / Confirm-Set-Prover only.
 
 Handlers.add(
     "Flush-Buffer",
     Handlers.utils.hasMatchingTag("Action", "Flush-Buffer"),
     function(msg)
-        if msg.From ~= ao.env.Process.Owner then
-            print(string.format("[AUTH] Flush-Buffer rejected from %s", msg.From))
+        if not is_admin(msg.From) then
+            print(string.format("[AUTH] Flush-Buffer rejected from %s (not admin)", msg.From))
             return
         end
-        local pid = msg.Tags and msg.Tags["Prover-Pid"]
-        if pid then
-            PROVER_PID = pid
-            print(string.format("[CONFIG] PROVER_PID set → %s", PROVER_PID))
+        if msg.Tags and msg.Tags["Prover-Pid"] then
+            print("[AUTH] Flush-Buffer ignoring Prover-Pid tag — use Set-Prover")
         end
 
         local count = #ScanBuffer
@@ -381,21 +459,204 @@ Handlers.add(
 )
 
 -- ── Handler: Set-Prover ───────────────────────────────────────────────────────
+-- Audit M-3 (#14): admin-gated, with auto-degrading two-admin handshake.
+--   admin_count == 1 → commit immediately (Phase 0 single-operator story)
+--   admin_count >= 2 → record PendingProverChange; require a *distinct*
+--                      admin to call Confirm-Set-Prover with the nonce.
 
 Handlers.add(
     "Set-Prover",
     Handlers.utils.hasMatchingTag("Action", "Set-Prover"),
     function(msg)
-        if msg.From ~= ao.env.Process.Owner then
-            print(string.format("[AUTH] Set-Prover rejected from %s", msg.From))
+        if not is_admin(msg.From) then
+            print(string.format("[AUTH] Set-Prover rejected from %s (not admin)", msg.From))
             return
         end
         local pid = msg.Tags and msg.Tags["Prover-Pid"]
-        if pid then
+        if not pid or pid == "" then
+            print("[CONFIG] Set-Prover missing Prover-Pid tag — ignored")
+            return
+        end
+
+        if admin_count() < 2 then
+            -- Phase 0: single admin commits directly.
             PROVER_PID = pid
             ao.send({ Target = msg.From, Action = "Prover-Set", Data = pid })
-            print(string.format("[CONFIG] PROVER_PID updated → %s", PROVER_PID))
+            print(string.format("[CONFIG] PROVER_PID updated → %s (single-admin commit)", PROVER_PID))
+            return
         end
+
+        -- Phase 1+: stage the change, require distinct-admin confirmation.
+        ProverChangeNonceSeq = ProverChangeNonceSeq + 1
+        local nonce = tostring(ProverChangeNonceSeq) .. "-" .. tostring(os.time and os.time() or 0)
+        PendingProverChange = {
+            pid       = pid,
+            proposer  = msg.From,
+            nonce     = nonce,
+            timestamp = os.time and os.time() or 0,
+        }
+        ao.send({
+            Target = msg.From,
+            Action = "Prover-Change-Pending",
+            Data   = json.encode({ pid = pid, nonce = nonce }),
+            Tags   = { ["Nonce"] = nonce, ["Proposed-Pid"] = pid },
+        })
+        print(string.format("[CONFIG] PROVER_PID change to %s staged by %s (nonce=%s) — awaiting confirm",
+                            pid, msg.From, nonce))
+    end
+)
+
+-- ── Handler: Confirm-Set-Prover ───────────────────────────────────────────────
+-- Audit M-3 (#14): second admin co-signs a staged Set-Prover. Confirmer
+-- must be an admin AND must not be the proposer (literal multi-sig).
+
+Handlers.add(
+    "Confirm-Set-Prover",
+    Handlers.utils.hasMatchingTag("Action", "Confirm-Set-Prover"),
+    function(msg)
+        if not is_admin(msg.From) then
+            print(string.format("[AUTH] Confirm-Set-Prover rejected from %s (not admin)", msg.From))
+            return
+        end
+        local pending = PendingProverChange
+        if not pending then
+            print("[CONFIG] Confirm-Set-Prover with no pending change — ignored")
+            return
+        end
+        local nonce = msg.Tags and msg.Tags["Nonce"]
+        if nonce ~= pending.nonce then
+            print(string.format("[AUTH] Confirm-Set-Prover nonce mismatch (got %s, want %s)",
+                                tostring(nonce), pending.nonce))
+            return
+        end
+        if msg.From == pending.proposer then
+            print(string.format("[AUTH] Confirm-Set-Prover rejected: %s is proposer (need distinct admin)",
+                                msg.From))
+            return
+        end
+        PROVER_PID = pending.pid
+        local committed_pid = pending.pid
+        PendingProverChange = nil
+        ao.send({ Target = msg.From,        Action = "Prover-Set", Data = committed_pid })
+        ao.send({ Target = pending.proposer, Action = "Prover-Set", Data = committed_pid })
+        print(string.format("[CONFIG] PROVER_PID updated → %s (confirmed by %s)",
+                            PROVER_PID, msg.From))
+    end
+)
+
+-- ── Handler: Cancel-Set-Prover ────────────────────────────────────────────────
+-- Either admin can drop a staged change (e.g. wrong PID typed). No commit.
+
+Handlers.add(
+    "Cancel-Set-Prover",
+    Handlers.utils.hasMatchingTag("Action", "Cancel-Set-Prover"),
+    function(msg)
+        if not is_admin(msg.From) then
+            print(string.format("[AUTH] Cancel-Set-Prover rejected from %s (not admin)", msg.From))
+            return
+        end
+        if not PendingProverChange then return end
+        print(string.format("[CONFIG] PendingProverChange cancelled by %s (was nonce=%s)",
+                            msg.From, PendingProverChange.nonce))
+        PendingProverChange = nil
+    end
+)
+
+-- ── Handler: Add-Admin ────────────────────────────────────────────────────────
+-- Audit M-3 (#14): Owner-gated. Adds a co-signer so Phase 1+ engages the
+-- two-admin handshake. The asshole's critique applies: a compromised Owner
+-- can add an attacker here, defeating the handshake. Mitigation: deploy
+-- runbook adds the second admin BEFORE the operator rotates the PROVER_PID
+-- the first time, and Revoke-Admin (below) is admin-gated so a legitimate
+-- second admin can evict a compromised Owner without Owner cooperation.
+
+Handlers.add(
+    "Add-Admin",
+    Handlers.utils.hasMatchingTag("Action", "Add-Admin"),
+    function(msg)
+        ensure_admins()
+        if not is_owner(msg.From) then
+            print(string.format("[AUTH] Add-Admin rejected from %s (not Owner)", msg.From))
+            return
+        end
+        local addr = msg.Tags and msg.Tags["Admin"]
+        if not addr or addr == "" then
+            print("[CONFIG] Add-Admin missing Admin tag — ignored")
+            return
+        end
+        Admins[addr] = true
+        ao.send({ Target = msg.From, Action = "Admin-Added", Data = addr })
+        print(string.format("[CONFIG] Admin added: %s (count=%d)", addr, admin_count()))
+    end
+)
+
+-- ── Handler: Revoke-Admin ─────────────────────────────────────────────────────
+-- Audit M-3 (#14): admin-gated and one-way. Any admin may revoke any admin
+-- (including themselves and the Owner). This is the "Revoke-only floor"
+-- the asshole asked for: once admin_count >= 2, a compromised Owner cannot
+-- prevent the legitimate co-admin from evicting them. We refuse to drop
+-- below 1 admin to avoid bricking the process.
+
+Handlers.add(
+    "Revoke-Admin",
+    Handlers.utils.hasMatchingTag("Action", "Revoke-Admin"),
+    function(msg)
+        if not is_admin(msg.From) then
+            print(string.format("[AUTH] Revoke-Admin rejected from %s (not admin)", msg.From))
+            return
+        end
+        local addr = msg.Tags and msg.Tags["Admin"]
+        if not addr or addr == "" then
+            print("[CONFIG] Revoke-Admin missing Admin tag — ignored")
+            return
+        end
+        if not Admins[addr] then
+            print(string.format("[CONFIG] Revoke-Admin: %s is not an admin — no-op", addr))
+            return
+        end
+        if admin_count() <= 1 then
+            print(string.format("[AUTH] Revoke-Admin refused: would leave 0 admins (last=%s)", addr))
+            return
+        end
+        Admins[addr] = nil
+        -- A staged change loses meaning if its proposer was just evicted.
+        if PendingProverChange and PendingProverChange.proposer == addr then
+            print(string.format("[CONFIG] Dropping PendingProverChange (proposer %s revoked)", addr))
+            PendingProverChange = nil
+        end
+        ao.send({ Target = msg.From, Action = "Admin-Revoked", Data = addr })
+        print(string.format("[CONFIG] Admin revoked: %s (count=%d)", addr, admin_count()))
+    end
+)
+
+-- ── Handler: List-Admins ──────────────────────────────────────────────────────
+-- Read-only introspection so an operator can audit the current set.
+
+Handlers.add(
+    "List-Admins",
+    Handlers.utils.hasMatchingTag("Action", "List-Admins"),
+    function(msg)
+        ensure_admins()
+        local list = {}
+        for addr in pairs(Admins) do table.insert(list, addr) end
+        local pending = nil
+        if PendingProverChange then
+            pending = {
+                pid       = PendingProverChange.pid,
+                proposer  = PendingProverChange.proposer,
+                nonce     = PendingProverChange.nonce,
+                timestamp = PendingProverChange.timestamp,
+            }
+        end
+        ao.send({
+            Target = msg.From,
+            Action = "Admins-Reply",
+            Data   = json.encode({
+                admins                  = list,
+                count                   = admin_count(),
+                pending_prover_change   = pending,
+            }),
+        })
     end
 )
 
@@ -412,9 +673,11 @@ Handlers.add(
                 buffer_depth = #ScanBuffer,
                 buffer_cap   = BUFFER_CAP,
                 pending_proofs = PendingProofCount,
-                prover_ready = PROVER_PID ~= "<PASTE_SPAWN_OUTPUT_HERE>",
+                prover_ready = prover_configured(),
                 module_id    = MODULE_ID,
                 demo_proof_mode = DEMO_PROOF_MODE,
+                admin_count  = admin_count(),
+                prover_change_pending = PendingProverChange ~= nil,
             }),
         })
     end
