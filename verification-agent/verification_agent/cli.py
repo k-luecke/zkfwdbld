@@ -50,6 +50,19 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("--json", default=None,
                    help="Write a structured run log (verdict + predicate per case).")
 
+    hy = sub.add_parser(
+        "hypothesize",
+        help="Rank candidate hypotheses for a target model (M3).")
+    hy.add_argument("--model", required=True,
+                    help="Path to an M0 target model JSON.")
+    hy.add_argument("--k", type=int, default=5, help="KB priors per function.")
+    hy.add_argument("--top", type=int, default=10, help="How many to print.")
+    hy.add_argument("--json", default=None, help="Write ranked hypotheses JSON.")
+    hy.add_argument("--connect-gate", default=None, metavar="REPO",
+                    help="Path to the cloned target; run the M1 gate on the "
+                         "top gate-bound hypothesis to show its predicate clears "
+                         "baseline/control.")
+
     kq = sub.add_parser(
         "kb", help="Query the knowledge base for hypothesis priors (M2).")
     kq.add_argument("--surface", action="append", default=[],
@@ -73,8 +86,78 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_verify(args)
     if args.command == "kb":
         return _cmd_kb(args)
+    if args.command == "hypothesize":
+        return _cmd_hypothesize(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_hypothesize(args) -> int:
+    import json as _json
+    from .hypothesize import HypothesisEngine
+
+    model = _json.loads(Path(args.model).read_text())
+    hyps = HypothesisEngine(k_priors=args.k).run(model)
+
+    print("Verification-Agent — M3 hypothesis engine (proposes; never confirms)")
+    print(f"target model: {args.model}")
+    print(f"{len(hyps)} candidate hypotheses, EV-ranked "
+          f"(EV = severity x evidence / verify-cost):\n")
+    for i, h in enumerate(hyps[: args.top], 1):
+        bound = "  [gate-bound]" if h.invariant.gate_binding else ""
+        print(f"{i:2d}. EV={h.ev.score:.3f}  {h.target_contract}.{h.target_function}{bound}")
+        print(f"     statement : {h.statement}")
+        print(f"     PREDICATE : {h.invariant.name} — {h.invariant.description}")
+        print(f"       baseline: {h.invariant.baseline_expectation}")
+        print(f"       control : {h.invariant.control_expectation}")
+        print(f"       break   : {h.invariant.break_expectation}")
+        print(f"     ev: sev={h.ev.severity} prior={h.ev.prior_strength} "
+              f"struct={h.ev.structural_risk} cost={h.ev.verify_cost}")
+        print(f"     priors: {list(zip(h.prior_ids, h.prior_sources))}  "
+              f"(llm_confidence={h.llm_confidence}, advisory — zero weight on verdict)")
+        print()
+
+    if hyps:
+        floor = hyps[-1]
+        print(f"lowest-EV (deprioritized): {floor.target_contract}.{floor.target_function} "
+              f"EV={floor.ev.score:.3f}")
+
+    if args.json:
+        payload = {"model": args.model, "count": len(hyps),
+                   "hypotheses": [h.to_dict() for h in hyps]}
+        Path(args.json).write_text(_json.dumps(payload, indent=2))
+        print(f"\nranked hypotheses -> {args.json}")
+
+    if args.connect_gate:
+        _connect_gate(hyps, args.connect_gate)
+    return 0
+
+
+def _connect_gate(hyps, repo) -> None:
+    """Hand the top gate-bound hypothesis to the M1 gate (the proposes->verify
+    handoff). This is where hypothesize meets verify — in the orchestrator, not
+    inside the hypothesize package."""
+    from .verify import DECENT_M1_CASES, VerifyHarness
+
+    bound = next((h for h in hyps if h.invariant.gate_binding), None)
+    if not bound:
+        print("\n[connect-gate] no gate-bound hypothesis in this batch.")
+        return
+    binding = bound.invariant.gate_binding
+    case = next((c for c in DECENT_M1_CASES if c.contract_name == binding), None)
+    if not case:
+        print(f"\n[connect-gate] no M1 case for binding {binding}.")
+        return
+    print(f"\n[connect-gate] handing '{bound.target_contract}.{bound.target_function}' "
+          f"to the M1 gate via case {binding} ...")
+    print(f"  hypothesis predicate: {bound.invariant.name} "
+          f"({bound.invariant.measured_quantity})")
+    harness = VerifyHarness(Path(repo))
+    results = harness.run_suite([case])
+    r = results[0]
+    print(f"  gate verdict: {r.verdict.value}  (predicate cleared baseline+control: "
+          f"{r.verdict.value not in ('REJECTED_MALFORMED_BASELINE','REJECTED_MALFORMED_CONTROL')})")
+    print("  -> the engine PROPOSED the target+predicate; the GATE decided truth.")
 
 
 def _cmd_kb(args) -> int:

@@ -1,0 +1,88 @@
+# M3 hypothesis engine — ranked candidates on the Decent surface
+# date: 2026-06-22T22:43:05Z
+
+Verification-Agent — M3 hypothesis engine (proposes; never confirms)
+target model: examples/2024-01-decent.model.json
+7 candidate hypotheses, EV-ranked (EV = severity x evidence / verify-cost):
+
+ 1. EV=0.329  UTB.bridgeAndExecute
+     statement : A call sequence reaching UTB.bridgeAndExecute may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on c4.2024-01-decent.M-03).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.5109 struct=1.0 cost=2.0
+     priors: [('c4.2024-01-decent.M-03', 'contest_finding')]  (llm_confidence=0.5109, advisory — zero weight on verdict)
+
+ 2. EV=0.328  UTB.swapAndExecute
+     statement : A call sequence reaching UTB.swapAndExecute may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on c4.2024-01-decent.M-03).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.5075 struct=1.0 cost=2.0
+     priors: [('c4.2024-01-decent.M-03', 'contest_finding')]  (llm_confidence=0.5075, advisory — zero weight on verdict)
+
+ 3. EV=0.287  UTBFeeCollector.collectFees
+     statement : A call sequence reaching UTBFeeCollector.collectFees may reach a state violating 'signature-authenticity', root-cause class 'signature-malleability' (grounded on oak.sig.malleable).
+     PREDICATE : signature-authenticity — [replay-resistance] A privileged effect occurs only under a signature by the trusted signer over exactly the parameters that drive the effect.
+       baseline: no effect without a signer-bound signature.
+       control : a correctly signed call produces the effect.
+       break   : an effect occurs under a forged/zero/unbound signature.
+     ev: sev=1.0 prior=0.7566 struct=0.15 cost=2.0
+     priors: [('oak.sig.malleable', 'oak_taxonomy')]  (llm_confidence=0.7566, advisory — zero weight on verdict)
+
+ 4. EV=0.240  UniSwapper.swapExactIn
+     statement : A call sequence reaching UniSwapper.swapExactIn may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.3223 struct=0.85 cost=2.0
+     priors: [('c4.2024-01-decent.H-01', 'contest_finding')]  (llm_confidence=0.3223, advisory — zero weight on verdict)
+
+ 5. EV=0.239  UniSwapper.swapExactOut
+     statement : A call sequence reaching UniSwapper.swapExactOut may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.3186 struct=0.85 cost=2.0
+     priors: [('c4.2024-01-decent.H-01', 'contest_finding')]  (llm_confidence=0.3186, advisory — zero weight on verdict)
+
+ 6. EV=0.232  UTB.receiveFromBridge  [gate-bound]
+     statement : A call sequence reaching UTB.receiveFromBridge may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.2972 struct=0.85 cost=2.0
+     priors: [('c4.2024-01-decent.H-01', 'contest_finding')]  (llm_confidence=0.2972, advisory — zero weight on verdict)
+
+ 7. EV=0.230  UniSwapper.swapNoPath
+     statement : A call sequence reaching UniSwapper.swapNoPath may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on oak.access.alt-entrypoint-bypass).
+     PREDICATE : authorization-conservation — [access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).
+       baseline: 0 effects, 0 authorizations -> equal.
+       control : one honest, authorized call: +1 effect, +1 authorization -> equal.
+       break   : attacker triggers the effect without authorization: effects > authorizations.
+     ev: sev=1.0 prior=0.2926 struct=0.85 cost=2.0
+     priors: [('oak.access.alt-entrypoint-bypass', 'oak_taxonomy')]  (llm_confidence=0.2926, advisory — zero weight on verdict)
+
+lowest-EV (deprioritized): UniSwapper.swapNoPath EV=0.230
+
+ranked hypotheses -> examples/m3_decent_hypotheses.json
+
+[connect-gate] handing 'UTB.receiveFromBridge' to the M1 gate via case DecentReceiveFromBridgeBypass ...
+  hypothesis predicate: authorization-conservation (count of privileged effect vs count of authorized (paid/signed) invocations)
+  gate verdict: CONFIRMED  (predicate cleared baseline+control: True)
+  -> the engine PROPOSED the target+predicate; the GATE decided truth.
+
+================ EV deprioritization on a surface with a benign over-tag ================
+ 1. EV=0.335  SurfaceSampler.relayMessage
+ 2. EV=0.295  SurfaceSampler.claimWithSig
+ 3. EV=0.278  SurfaceSampler.proveStorage
+ 4. EV=0.189  SurfaceSampler.verifyProof
+ 5. EV=0.177  SurfaceSampler.slashOperator
+ 6. EV=0.148  SurfaceSampler.setStateRoot
+ 7. EV=0.076  SurfaceSampler.contribute
+lowest-EV (deprioritized): SurfaceSampler.contribute EV=0.076

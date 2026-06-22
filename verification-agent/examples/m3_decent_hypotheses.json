@@ -1,0 +1,309 @@
+{
+  "model": "examples/2024-01-decent.model.json",
+  "count": 7,
+  "hypotheses": [
+    {
+      "id": "hyp::UTB.bridgeAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.bridgeAndExecute",
+      "statement": "A call sequence reaching UTB.bridgeAndExecute may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on c4.2024-01-decent.M-03).",
+      "surfaces": [
+        "signature_proof_verification",
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UTB.bridgeAndExecute as an unprivileged caller.",
+        "Drive the privileged effect via the shape: public receiveFromBridge calls internal _swapAndExecute, skipping the retrieveAndCollectFees modifier.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.5109,
+        "structural_risk": 1.0,
+        "verify_cost": 2.0,
+        "score": 0.3288
+      },
+      "prior_ids": [
+        "c4.2024-01-decent.M-03"
+      ],
+      "prior_sources": [
+        "contest_finding"
+      ],
+      "llm_confidence": 0.5109,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    },
+    {
+      "id": "hyp::UTB.swapAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.swapAndExecute",
+      "statement": "A call sequence reaching UTB.swapAndExecute may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on c4.2024-01-decent.M-03).",
+      "surfaces": [
+        "signature_proof_verification",
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UTB.swapAndExecute as an unprivileged caller.",
+        "Drive the privileged effect via the shape: public receiveFromBridge calls internal _swapAndExecute, skipping the retrieveAndCollectFees modifier.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.5075,
+        "structural_risk": 1.0,
+        "verify_cost": 2.0,
+        "score": 0.3276
+      },
+      "prior_ids": [
+        "c4.2024-01-decent.M-03"
+      ],
+      "prior_sources": [
+        "contest_finding"
+      ],
+      "llm_confidence": 0.5075,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    },
+    {
+      "id": "hyp::UTBFeeCollector.collectFees::signature-malleability::0",
+      "target": "UTBFeeCollector.collectFees",
+      "statement": "A call sequence reaching UTBFeeCollector.collectFees may reach a state violating 'signature-authenticity', root-cause class 'signature-malleability' (grounded on oak.sig.malleable).",
+      "surfaces": [
+        "signature_proof_verification"
+      ],
+      "bug_class": "signature-malleability",
+      "root_cause": "signature-verification",
+      "invariant_violated": "replay-resistance",
+      "invariant": {
+        "name": "signature-authenticity",
+        "predicate_kind": "binding-integrity",
+        "description": "[replay-resistance] A privileged effect occurs only under a signature by the trusted signer over exactly the parameters that drive the effect.",
+        "baseline_expectation": "no effect without a signer-bound signature.",
+        "control_expectation": "a correctly signed call produces the effect.",
+        "break_expectation": "an effect occurs under a forged/zero/unbound signature.",
+        "measured_quantity": "effects vs effects backed by a valid signer-bound signature",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UTBFeeCollector.collectFees as an unprivileged caller.",
+        "Drive the privileged effect via the shape: raw ecrecover without low-s / single-use enforcement.",
+        "Observe the break: an effect occurs under a forged/zero/unbound signature."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.7566,
+        "structural_risk": 0.15,
+        "verify_cost": 2.0,
+        "score": 0.2873
+      },
+      "prior_ids": [
+        "oak.sig.malleable"
+      ],
+      "prior_sources": [
+        "oak_taxonomy"
+      ],
+      "llm_confidence": 0.7566,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    },
+    {
+      "id": "hyp::UniSwapper.swapExactIn::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactIn",
+      "statement": "A call sequence reaching UniSwapper.swapExactIn may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).",
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UniSwapper.swapExactIn as an unprivileged caller.",
+        "Drive the privileged effect via the shape: external setRouter with no owner check.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.3223,
+        "structural_risk": 0.85,
+        "verify_cost": 2.0,
+        "score": 0.2403
+      },
+      "prior_ids": [
+        "c4.2024-01-decent.H-01"
+      ],
+      "prior_sources": [
+        "contest_finding"
+      ],
+      "llm_confidence": 0.3223,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    },
+    {
+      "id": "hyp::UniSwapper.swapExactOut::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactOut",
+      "statement": "A call sequence reaching UniSwapper.swapExactOut may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).",
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UniSwapper.swapExactOut as an unprivileged caller.",
+        "Drive the privileged effect via the shape: external setRouter with no owner check.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.3186,
+        "structural_risk": 0.85,
+        "verify_cost": 2.0,
+        "score": 0.239
+      },
+      "prior_ids": [
+        "c4.2024-01-decent.H-01"
+      ],
+      "prior_sources": [
+        "contest_finding"
+      ],
+      "llm_confidence": 0.3186,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    },
+    {
+      "id": "hyp::UTB.receiveFromBridge::missing-auth-on-privileged-entrypoint::0",
+      "target": "UTB.receiveFromBridge",
+      "statement": "A call sequence reaching UTB.receiveFromBridge may reach a state violating 'authorization-conservation', root-cause class 'missing-auth-on-privileged-entrypoint' (grounded on c4.2024-01-decent.H-01).",
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": "DecentReceiveFromBridgeBypass"
+      },
+      "attack_sketch": [
+        "Reach UTB.receiveFromBridge as an unprivileged caller.",
+        "Drive the privileged effect via the shape: external setRouter with no owner check.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.2972,
+        "structural_risk": 0.85,
+        "verify_cost": 2.0,
+        "score": 0.2315
+      },
+      "prior_ids": [
+        "c4.2024-01-decent.H-01"
+      ],
+      "prior_sources": [
+        "contest_finding"
+      ],
+      "llm_confidence": 0.2972,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": "DecentReceiveFromBridgeBypass"
+    },
+    {
+      "id": "hyp::UniSwapper.swapNoPath::alt-entrypoint-auth-bypass::0",
+      "target": "UniSwapper.swapNoPath",
+      "statement": "A call sequence reaching UniSwapper.swapNoPath may reach a state violating 'authorization-conservation', root-cause class 'alt-entrypoint-auth-bypass' (grounded on oak.access.alt-entrypoint-bypass).",
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant_violated": "access-control-consistency",
+      "invariant": {
+        "name": "authorization-conservation",
+        "predicate_kind": "counting-conservation",
+        "description": "[access-control-consistency] Every execution of the privileged effect was authorized through the canonical gate: count(privileged-effect) == count(authorized-invocations).",
+        "baseline_expectation": "0 effects, 0 authorizations -> equal.",
+        "control_expectation": "one honest, authorized call: +1 effect, +1 authorization -> equal.",
+        "break_expectation": "attacker triggers the effect without authorization: effects > authorizations.",
+        "measured_quantity": "count of privileged effect vs count of authorized (paid/signed) invocations",
+        "gate_binding": null
+      },
+      "attack_sketch": [
+        "Reach UniSwapper.swapNoPath as an unprivileged caller.",
+        "Drive the privileged effect via the shape: public fn that reaches a privileged internal action via an alternate path, skipping the validation/modifier the primary path enforces.",
+        "Observe the break: attacker triggers the effect without authorization: effects > authorizations."
+      ],
+      "ev": {
+        "severity": 1.0,
+        "prior_strength": 0.2926,
+        "structural_risk": 0.85,
+        "verify_cost": 2.0,
+        "score": 0.2299
+      },
+      "prior_ids": [
+        "oak.access.alt-entrypoint-bypass"
+      ],
+      "prior_sources": [
+        "oak_taxonomy"
+      ],
+      "llm_confidence": 0.2926,
+      "generator": "offline",
+      "is_candidate": true,
+      "gate_binding": null
+    }
+  ]
+}

@@ -80,8 +80,30 @@ Bright boundary, consistent with the gate: **a prior is never a verdict.**
 reason to *run the gate*, never to surface a finding. The retrieval makes the
 agent fast; the gate keeps it honest. Design: [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md).
 
-Hypothesis generation and path-finding (which will *produce* the PoCs the gate
-rules on) do not exist yet — by design. The build order is load-bearing: the
+## And: **M3 — the hypothesis engine (proposes; never confirms)**
+
+The discovery loop's reasoning core. It connects M0's surface and M2's priors
+into EV-ranked **candidate** hypotheses whose primary output is a
+**gate-survivable invariant predicate**.
+
+- **Proposes, never confirms** — a structural wall, not discipline. A
+  `Hypothesis` has no verdict field, `is_candidate` is always `True`, the LLM's
+  confidence carries **zero weight** on any verdict, and **nothing in
+  `hypothesize/` imports the gate** (enforced by a test). The LLM aims the gate;
+  it never vouches for what it aims at.
+- **The predicate is the product** — each hypothesis carries an invariant with
+  explicit baseline/control/break expectations. On the Decent surface the
+  gate-bound M-03 predicate (`count(privileged-effect) == count(authorized)`) is
+  exactly the M1 gate's invariant; handed to the gate it **clears baseline +
+  control and returns CONFIRMED**. The discovery layer and the truth gate are
+  connected.
+- **EV earns its keep** against M0's over-inclusive surface: a blast-radius
+  factor sinks the benign `contribute()` to the EV floor below every real
+  function. EV gets you to the right neighborhood; the gate adjudicates within
+  it. Design: [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md).
+
+Path-finding (M4 — Seer/Halmos/Medusa, which will *generate* the PoCs the gate
+rules on) does not exist yet — by design. The build order is load-bearing: the
 gate is trusted before anything upstream of it is built.
 
 ## Usage
@@ -105,6 +127,10 @@ python -m verification_agent verify --repo ./path/to/2024-01-decent
 # M2: query the knowledge base for hypothesis priors:
 python -m verification_agent kb --demo
 python -m verification_agent kb --surface bridge_inbound_handler --text "receiveFromBridge"
+
+# M3: rank candidate hypotheses for a target model (and hand the top to the gate):
+python -m verification_agent hypothesize --model model.json --top 10
+python -m verification_agent hypothesize --model 2024-01-decent.model.json --connect-gate ./2024-01-decent
 ```
 
 The output is self-describing: a `tool_status` block records which external
@@ -157,13 +183,16 @@ verification_agent/
   kb/       store.py, schema.py       — mechanism-feature retriever; prior-only (M2)
             embedder.py               — lexical tiebreaker behind a pluggable Embedder
             query.py, data/*.jsonl    — query builders + curated dual-source corpus
+  hypothesize/ engine.py, ev.py       — M0 surface + M2 priors → EV-ranked candidates (M3)
+            invariants.py             — invariant pattern library (the predicate)
+            provider.py               — offline + Claude generators; no gate import
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — `model` (M0), `verify` (M1), `kb` (M2) commands
+  cli.py                              — `model` (M0), `verify` (M1), `kb` (M2), `hypothesize` (M3)
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
-docs/       M0_recall.md, M1_verify_gate.md, M2_knowledge_base.md — design docs
-tests/      test_surface.py, test_verify_gate.py, test_kb.py — offline tests (no network/forge)
+docs/       M0_recall.md, M1_verify_gate.md, M2_knowledge_base.md, M3_hypothesis_engine.md
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize — offline tests
 ```
 
 ## Hard constraints

@@ -71,6 +71,12 @@ def run_slither(target: Path) -> SlitherExtract:
             source_file=_src_file(contract),
         ))
 
+        # Interfaces declare functions but implement nothing — they are not
+        # attacker-reachable entry points. Keep them in the contract list (for
+        # the call graph) but don't model their declarations as the surface.
+        if contract.is_interface:
+            continue
+
         # Storage layout: declared, mutable state variables in declaration
         # order. Exact packed slots require `forge inspect`; we record order
         # and leave slot/offset null rather than guess (honest labeling).

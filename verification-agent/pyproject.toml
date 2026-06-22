@@ -31,6 +31,7 @@ packages = [
     "verification_agent.model",
     "verification_agent.verify",
     "verification_agent.kb",
+    "verification_agent.hypothesize",
 ]
 
 [tool.setuptools.package-data]

@@ -23,6 +23,10 @@ MERKLE = "merkle_state_proof"
 BRIDGE = "bridge_inbound_handler"
 XDOMAIN = "cross_domain_auth"
 SLASH = "slashing_avs_state"
+# Structural surface — mirrors M0's name-independent recall tag so a function
+# flagged purely on behaviour (unguarded privileged entrypoint) still matches
+# the access-control priors. This is the M0<->M2 mechanism alignment.
+UNGUARDED = "unguarded_privileged_entrypoint"
 
 
 # ---------------------------------------------------------------------------
@@ -34,7 +38,7 @@ OAK = [
         bug_class="alt-entrypoint-auth-bypass",
         root_cause_category="access-control",
         invariant_violated="access-control-consistency",
-        surfaces=[BRIDGE, XDOMAIN],
+        surfaces=[BRIDGE, XDOMAIN, UNGUARDED],
         entrypoint_shape="public fn that reaches a privileged internal action via an alternate path, skipping the validation/modifier the primary path enforces",
         title="Privileged action reachable through an unguarded alternate entrypoint",
         mechanism="A privileged internal routine is invoked by a public function that omits the access-control / fee / signature checks applied on the canonical entrypoints, so anyone reaches the action directly and bypasses verification.",
@@ -46,7 +50,7 @@ OAK = [
         bug_class="missing-auth-on-privileged-entrypoint",
         root_cause_category="access-control",
         invariant_violated="access-control-consistency",
-        surfaces=[XDOMAIN, BRIDGE],
+        surfaces=[XDOMAIN, BRIDGE, UNGUARDED],
         entrypoint_shape="external state-changing fn with no owner/role/caller check",
         title="Privileged setter/handler missing access control",
         mechanism="A configuration setter or handler that should be owner/role gated has no modifier, letting anyone change trusted state (router, verifier set, peer).",
@@ -198,7 +202,7 @@ FINDINGS = [
         bug_class="alt-entrypoint-auth-bypass",
         root_cause_category="access-control",
         invariant_violated="access-control-consistency",
-        surfaces=[BRIDGE, XDOMAIN, SIG],
+        surfaces=[BRIDGE, XDOMAIN, SIG, UNGUARDED],
         entrypoint_shape="public receiveFromBridge calls internal _swapAndExecute, skipping the retrieveAndCollectFees modifier",
         title="UTB.receiveFromBridge bypasses fee/signature verification",
         mechanism="receiveFromBridge is public with no access control and calls _swapAndExecute directly, skipping retrieveAndCollectFees (which validates the fee/swap-instruction signature via UTBFeeCollector.collectFees). An attacker executes a swap+payload with no signature and no fee.",
@@ -212,7 +216,7 @@ FINDINGS = [
         bug_class="missing-auth-on-privileged-entrypoint",
         root_cause_category="access-control",
         invariant_violated="access-control-consistency",
-        surfaces=[XDOMAIN, BRIDGE],
+        surfaces=[XDOMAIN, BRIDGE, UNGUARDED],
         entrypoint_shape="external setRouter with no owner check",
         title="DcntEth router address settable by anyone",
         mechanism="An access-control gap lets any caller set the trusted router on the DcntEth token, redirecting bridge mint/burn authority.",
@@ -268,7 +272,7 @@ FINDINGS = [
         bug_class="cross-domain-privileged-call",
         root_cause_category="access-control",
         invariant_violated="access-control-consistency",
-        surfaces=[XDOMAIN, BRIDGE],
+        surfaces=[XDOMAIN, BRIDGE, UNGUARDED],
         entrypoint_shape="cross-chain manager executes attacker-crafted calldata reaching a privileged keeper-rotation function",
         title="Poly Network: cross-chain manager used to rotate the trusted keeper",
         mechanism="The cross-chain message executor could be made to call a privileged function that changes the trusted keeper/owner public keys, after which the attacker authorized arbitrary withdrawals.",

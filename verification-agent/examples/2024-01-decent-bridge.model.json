@@ -642,363 +642,6 @@
       "confidence": "none",
       "source_file": "src/DecentEthRouter.sol",
       "source_line": 339
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "setRouter",
-      "signature": "setRouter(address)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 8
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "mint",
-      "signature": "mint(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "mint"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 10
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "burn",
-      "signature": "burn(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 12
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "mintByOwner",
-      "signature": "mintByOwner(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "mint"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 14
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "burnByOwner",
-      "signature": "burnByOwner(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 16
-    },
-    {
-      "contract": "IDecentBridgeExecutor",
-      "name": "execute",
-      "signature": "execute(address,address,bool,uint256,bytes)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentBridgeExecutor.sol",
-      "source_line": 16
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "MT_ETH_TRANSFER",
-      "signature": "MT_ETH_TRANSFER()",
-      "visibility": "external",
-      "mutability": "view",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 14
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "MT_ETH_TRANSFER_WITH_PAYLOAD",
-      "signature": "MT_ETH_TRANSFER_WITH_PAYLOAD()",
-      "visibility": "external",
-      "mutability": "view",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 16
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "registerDcntEth",
-      "signature": "registerDcntEth(address)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 22
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "addDestinationBridge",
-      "signature": "addDestinationBridge(uint16,address)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 29
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "estimateSendAndCallFee",
-      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
-      "visibility": "external",
-      "mutability": "view",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 34
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "bridgeWithPayload",
-      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 52
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "bridge",
-      "signature": "bridge(uint16,address,uint256,uint64,bool)",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 68
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "redeemEth",
-      "signature": "redeemEth(uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 80
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "redeemWeth",
-      "signature": "redeemWeth(uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 86
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "addLiquidityEth",
-      "signature": "addLiquidityEth()",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 91
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "removeLiquidityEth",
-      "signature": "removeLiquidityEth(uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 97
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "addLiquidityWeth",
-      "signature": "addLiquidityWeth(uint256)",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 103
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "removeLiquidityWeth",
-      "signature": "removeLiquidityWeth(uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 109
-    },
-    {
-      "contract": "IWETH",
-      "name": "deposit",
-      "signature": "deposit()",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deposit"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IWETH.sol",
-      "source_line": 7
-    },
-    {
-      "contract": "IWETH",
-      "name": "withdraw",
-      "signature": "withdraw(uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [],
-      "surface_evidence": {},
-      "structural_priority": false,
-      "confidence": "none",
-      "source_file": "src/interfaces/IWETH.sol",
-      "source_line": 9
     }
   ],
   "call_graph": [
@@ -1044,17 +687,17 @@
     },
     {
       "caller": "DecentBridgeExecutor.execute",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeExecutor.execute",
       "callee": "_executeWeth",
       "external": false
     },
     {
       "caller": "DecentBridgeExecutor.execute",
       "callee": "_executeEth",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeExecutor.execute",
-      "callee": "onlyOwner",
       "external": false
     },
     {
@@ -1094,6 +737,11 @@
     },
     {
       "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
       "callee": "onlyLzApp",
       "external": false
     },
@@ -1104,27 +752,7 @@
     },
     {
       "caller": "DecentEthRouter.onOFTReceived",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "DecentEthRouter.onOFTReceived",
-      "callee": "IDecentBridgeExecutor.HIGH_LEVEL_CALL, dest:executor(IDecentBridgeExecutor), function:execute, arguments:['_from', '_to', 'deliverEth', '_amount', 'callPayload']  ",
-      "external": true
-    },
-    {
-      "caller": "DecentEthRouter.onOFTReceived",
-      "callee": "IWETH.TMP_1583(uint256) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:balanceOf, arguments:['TMP_1582']  ",
-      "external": true
-    },
-    {
-      "caller": "DecentEthRouter.onOFTReceived",
       "callee": "IWETH.TMP_1590(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['_to', '_amount']  ",
-      "external": true
-    },
-    {
-      "caller": "DecentEthRouter.onOFTReceived",
-      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['_amount']  ",
       "external": true
     },
     {
@@ -1134,18 +762,28 @@
     },
     {
       "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
       "callee": "IWETH.TMP_1595(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:approve, arguments:['TMP_1594', '_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.TMP_1583(uint256) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:balanceOf, arguments:['TMP_1582']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IDecentBridgeExecutor.HIGH_LEVEL_CALL, dest:executor(IDecentBridgeExecutor), function:execute, arguments:['_from', '_to', 'deliverEth', '_amount', 'callPayload']  ",
       "external": true
     },
     {
       "caller": "DecentEthRouter.redeemEth",
       "callee": "onlyIfWeHaveEnoughReserves",
       "external": false
-    },
-    {
-      "caller": "DecentEthRouter.redeemEth",
-      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['amount']  ",
-      "external": true
     },
     {
       "caller": "DecentEthRouter.redeemEth",
@@ -1153,18 +791,23 @@
       "external": true
     },
     {
+      "caller": "DecentEthRouter.redeemEth",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['amount']  ",
+      "external": true
+    },
+    {
       "caller": "DecentEthRouter.redeemWeth",
       "callee": "onlyIfWeHaveEnoughReserves",
       "external": false
     },
     {
       "caller": "DecentEthRouter.redeemWeth",
-      "callee": "IDcntEth.TMP_1605(bool) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:transferFrom, arguments:['msg.sender', 'TMP_1604', 'amount']  ",
+      "callee": "IWETH.TMP_1606(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['msg.sender', 'amount']  ",
       "external": true
     },
     {
       "caller": "DecentEthRouter.redeemWeth",
-      "callee": "IWETH.TMP_1606(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['msg.sender', 'amount']  ",
+      "callee": "IDcntEth.TMP_1605(bool) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:transferFrom, arguments:['msg.sender', 'TMP_1604', 'amount']  ",
       "external": true
     },
     {
@@ -1510,158 +1153,11 @@
       "confidence": "structural",
       "source_file": "src/DecentEthRouter.sol",
       "source_line": 330
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "mint",
-      "signature": "mint(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "mint"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 10
-    },
-    {
-      "contract": "IDcntEth",
-      "name": "mintByOwner",
-      "signature": "mintByOwner(address,uint256)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "mint"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDcntEth.sol",
-      "source_line": 14
-    },
-    {
-      "contract": "IDecentBridgeExecutor",
-      "name": "execute",
-      "signature": "execute(address,address,bool,uint256,bytes)",
-      "visibility": "external",
-      "mutability": "nonpayable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentBridgeExecutor.sol",
-      "source_line": 16
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "estimateSendAndCallFee",
-      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
-      "visibility": "external",
-      "mutability": "view",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 34
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "bridgeWithPayload",
-      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 52
-    },
-    {
-      "contract": "IDecentEthRouter",
-      "name": "bridge",
-      "signature": "bridge(uint16,address,uint256,uint64,bool)",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deliver(body)"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IDecentEthRouter.sol",
-      "source_line": 68
-    },
-    {
-      "contract": "IWETH",
-      "name": "deposit",
-      "signature": "deposit()",
-      "visibility": "external",
-      "mutability": "payable",
-      "modifiers": [],
-      "is_entry_point": true,
-      "surfaces": [
-        "bridge_inbound_handler"
-      ],
-      "surface_evidence": {
-        "bridge_inbound_handler": [
-          "deposit"
-        ]
-      },
-      "structural_priority": false,
-      "confidence": "keyword",
-      "source_file": "src/interfaces/IWETH.sol",
-      "source_line": 7
     }
   ],
   "notes": [
     "using local path /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo/lib/decent-bridge (no clone)",
     "build: forge build ok",
-    "verification surface: 18 of 45 entry points tagged priority"
+    "verification surface: 11 of 24 entry points tagged priority"
   ]
 }
