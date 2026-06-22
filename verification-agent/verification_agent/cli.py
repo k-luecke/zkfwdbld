@@ -50,14 +50,106 @@ def main(argv: list[str] | None = None) -> int:
     v.add_argument("--json", default=None,
                    help="Write a structured run log (verdict + predicate per case).")
 
+    kq = sub.add_parser(
+        "kb", help="Query the knowledge base for hypothesis priors (M2).")
+    kq.add_argument("--surface", action="append", default=[],
+                    help="Surface tag (repeatable), e.g. bridge_inbound_handler.")
+    kq.add_argument("--text", default="", help="Free-text context (fn name/sig).")
+    kq.add_argument("--root-cause", default="", help="Optional mechanism hint.")
+    kq.add_argument("--invariant", default="", help="Optional invariant hint.")
+    kq.add_argument("--entrypoint", default="", help="Optional entrypoint-shape hint.")
+    kq.add_argument("--source", action="append", default=[],
+                    help="Restrict to sources: oak_taxonomy/contest_finding/public_incident.")
+    kq.add_argument("--k", type=int, default=6, help="Number of priors to return.")
+    kq.add_argument("--demo", action="store_true",
+                    help="Run the M-03 surface demo (mechanism vs vocabulary).")
+    kq.add_argument("--json", default=None, help="Write structured results JSON.")
+
     args = parser.parse_args(argv)
 
     if args.command == "model":
         return _cmd_model(args)
     if args.command == "verify":
         return _cmd_verify(args)
+    if args.command == "kb":
+        return _cmd_kb(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_kb(args) -> int:
+    from .kb import KnowledgeBase, Source
+    from .kb.schema import KBQuery
+
+    kb = KnowledgeBase.from_data()
+    sources = [Source(s) for s in args.source] if args.source else None
+
+    if args.demo:
+        return _kb_demo(kb, args.json)
+
+    query = KBQuery(
+        surfaces=args.surface, text=args.text,
+        root_cause_hint=args.root_cause, invariant_hint=args.invariant,
+        entrypoint_shape=args.entrypoint,
+    )
+    matches = kb.retrieve_priors(query, k=args.k, sources=sources)
+    _print_priors("priors", matches)
+    print(f"\nsource mix: {kb.source_breakdown(matches)}")
+    print("note: priors are leads to investigate — the M1 gate confirms every finding.")
+    if args.json:
+        _write_priors_json(args.json, {"query": vars(query)}, matches)
+    return 0
+
+
+def _kb_demo(kb, json_path) -> int:
+    from .kb import query_for_m03_surface
+    from .kb.schema import KBQuery
+
+    print("Verification-Agent — M2 KB demo: the M-03 surface\n")
+    q1 = query_for_m03_surface()
+    m1 = kb.retrieve_priors(q1, k=6)
+    _print_priors("Query 1 — surfaces + text only (M0-derivable signal)", m1)
+    print(f"   source mix: {kb.source_breakdown(m1)}")
+
+    q2 = KBQuery(surfaces=q1.surfaces, text=q1.text,
+                 root_cause_hint="access control bypass alternate entrypoint missing modifier",
+                 invariant_hint="access-control-consistency")
+    m2 = kb.retrieve_priors(q2, k=6)
+    _print_priors("\nQuery 2 — + mechanism hint (keys within the surface)", m2)
+
+    # The headline: a vocabulary decoy ranks far below same-mechanism hits.
+    full = kb.retrieve_priors(q1, k=len(kb.entries))
+    decoy_rank = next((i for i, m in enumerate(full, 1)
+                       if m.entry.id.startswith("decoy")), None)
+    print("\nmechanism-vs-vocabulary check:")
+    print(f"   the bridge/fee 'rounding' decoy ranks #{decoy_rank} of {len(full)} "
+          f"on Query 1 — vocabulary overlap did NOT pull it up.")
+    print("\npriors are leads to investigate — the M1 gate confirms every finding.")
+    if json_path:
+        _write_priors_json(json_path,
+                           {"query1": vars(q1), "query2": vars(q2),
+                            "decoy_rank": decoy_rank, "corpus_size": len(kb.entries)},
+                           m1, label_extra={"query2_top": m2})
+    return 0
+
+
+def _print_priors(header, matches) -> None:
+    print(f"{header}:")
+    for i, m in enumerate(matches, 1):
+        print(f" {i:2d}. {m.score:.3f} [{m.entry.source.value:15s}] "
+              f"{m.entry.bug_class:34s} {m.entry.id}")
+        print(f"        {m.entry.title}")
+
+
+def _write_priors_json(path, meta, matches, label_extra=None) -> None:
+    import json as _json
+    payload = dict(meta)
+    payload["results"] = [m.to_record() for m in matches]
+    if label_extra:
+        for k, v in label_extra.items():
+            payload[k] = [m.to_record() for m in v]
+    Path(path).write_text(_json.dumps(payload, indent=2))
+    print(f"\nstructured results -> {path}")
 
 
 def _cmd_verify(args) -> int:

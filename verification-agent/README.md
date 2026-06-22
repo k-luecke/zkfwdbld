@@ -57,6 +57,24 @@ Control/Baseline guards *fire* — so the soundness of every `CONFIRMED` rests o
 tested guards, not faith. Full design and soundness argument:
 [docs/M1_verify_gate.md](docs/M1_verify_gate.md).
 
+## And: **M2 — the knowledge base (hypothesis priors)**
+
+The discovery layer's grounding. Lane-curated (verification / cross-chain / ZK),
+**mechanism-structured** so retrieval keys on bug-*class* not vocabulary, and
+**dual-source**: OAK taxonomy (what kinds of attacks exist) kept distinct from
+contest/incident worked examples (how they manifested), blended at query time
+with provenance tagged.
+
+Querying the **M-03 surface** returns the real M-03 finding and the *same
+bug-class* across OAK + other protocols (Poly Network, DcntEth) at the top; a
+deliberate "bridge fee rounding" **vocabulary decoy** ranks **#18 of 20**.
+Recorded demo: [`examples/m2_kb_m03_query.txt`](examples/m2_kb_m03_query.txt).
+
+Bright boundary, consistent with the gate: **a prior is never a verdict.**
+`PriorMatch.is_verdict` is `False` by construction; a retrieved finding is a
+reason to *run the gate*, never to surface a finding. The retrieval makes the
+agent fast; the gate keeps it honest. Design: [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md).
+
 Hypothesis generation and path-finding (which will *produce* the PoCs the gate
 rules on) do not exist yet — by design. The build order is load-bearing: the
 gate is trusted before anything upstream of it is built.
@@ -78,6 +96,10 @@ python -m verification_agent model --local ./path/to/checkout --out model.json
 
 # M1: run the verify-gate self-proof against a cloned target:
 python -m verification_agent verify --repo ./path/to/2024-01-decent
+
+# M2: query the knowledge base for hypothesis priors:
+python -m verification_agent kb --demo
+python -m verification_agent kb --surface bridge_inbound_handler --text "receiveFromBridge"
 ```
 
 The output is self-describing: a `tool_status` block records which external
@@ -124,14 +146,18 @@ verification_agent/
             surface.py                — the specialization filter
             model_builder.py          — stitches the TargetModel together
   verify/   VerifyGate.sol            — on-chain 4-phase truth gate (M1)
-            DecentFeeBypass.t.sol     — scenario + 3 cases (known-true/false/wrong-reason)
+            DecentFeeBypass.t.sol     — scenario + 5 cases (known-true/false/wrong-reason/2x malformed)
             harness.py                — install templates, run forge, parse verdict
             gate.py, case.py, cases.py — verdict taxonomy + M1 case registry
+  kb/       store.py, schema.py       — mechanism-feature retriever; prior-only (M2)
+            embedder.py               — lexical tiebreaker behind a pluggable Embedder
+            query.py, data/*.jsonl    — query builders + curated dual-source corpus
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — `model` (M0) and `verify` (M1) commands
+  cli.py                              — `model` (M0), `verify` (M1), `kb` (M2) commands
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
-docs/       M1_verify_gate.md         — the truth-gate design + soundness argument
-tests/      test_surface.py, test_verify_gate.py — offline tests (no network/forge)
+tools/      build_corpus.py           — regenerates the curated KB corpus
+docs/       M1_verify_gate.md, M2_knowledge_base.md — design + soundness docs
+tests/      test_surface.py, test_verify_gate.py, test_kb.py — offline tests (no network/forge)
 ```
 
 ## Hard constraints

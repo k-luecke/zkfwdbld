@@ -1,0 +1,271 @@
+{
+  "query1": {
+    "surfaces": [
+      "bridge_inbound_handler",
+      "cross_domain_auth",
+      "signature_proof_verification"
+    ],
+    "text": "receiveFromBridge swapAndExecute fee collector signature privileged execute reachable without modifier",
+    "entrypoint_shape": "",
+    "root_cause_hint": "",
+    "invariant_hint": ""
+  },
+  "query2": {
+    "surfaces": [
+      "bridge_inbound_handler",
+      "cross_domain_auth",
+      "signature_proof_verification"
+    ],
+    "text": "receiveFromBridge swapAndExecute fee collector signature privileged execute reachable without modifier",
+    "entrypoint_shape": "",
+    "root_cause_hint": "access control bypass alternate entrypoint missing modifier",
+    "invariant_hint": "access-control-consistency"
+  },
+  "decoy_rank": 18,
+  "corpus_size": 20,
+  "results": [
+    {
+      "id": "c4.2024-01-decent.M-03",
+      "source": "contest_finding",
+      "title": "UTB.receiveFromBridge bypasses fee/signature verification",
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "bridge_inbound_handler",
+        "cross_domain_auth",
+        "signature_proof_verification"
+      ],
+      "score": 0.8742,
+      "components": {
+        "surface": 1.0,
+        "lexical": 0.5688
+      },
+      "provenance": "Code4rena 2024-01-decent M-03 (issue #590)",
+      "is_verdict": false
+    },
+    {
+      "id": "oak.access.alt-entrypoint-bypass",
+      "source": "oak_taxonomy",
+      "title": "Privileged action reachable through an unguarded alternate entrypoint",
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "bridge_inbound_handler",
+        "cross_domain_auth"
+      ],
+      "score": 0.5492,
+      "components": {
+        "surface": 0.6667,
+        "lexical": 0.264
+      },
+      "provenance": "OAK attack matrix (taxonomy) \u2014 onchainattack.org/matrix",
+      "is_verdict": false
+    },
+    {
+      "id": "incident.wormhole.2022",
+      "source": "public_incident",
+      "title": "Wormhole: guardian signature verification bypass",
+      "bug_class": "signature-verification-bypass",
+      "root_cause": "signature-verification",
+      "invariant": "signature-authenticity",
+      "surfaces": [
+        "signature_proof_verification",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.5129,
+      "components": {
+        "surface": 0.6667,
+        "lexical": 0.1393
+      },
+      "provenance": "Wormhole exploit, Feb 2022 (~$326M)",
+      "is_verdict": false
+    },
+    {
+      "id": "oak.access.missing-modifier",
+      "source": "oak_taxonomy",
+      "title": "Privileged setter/handler missing access control",
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.5022,
+      "components": {
+        "surface": 0.6667,
+        "lexical": 0.1027
+      },
+      "provenance": "OAK attack matrix (taxonomy) \u2014 onchainattack.org/matrix",
+      "is_verdict": false
+    },
+    {
+      "id": "incident.polynetwork.2021",
+      "source": "public_incident",
+      "title": "Poly Network: cross-chain manager used to rotate the trusted keeper",
+      "bug_class": "cross-domain-privileged-call",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.4938,
+      "components": {
+        "surface": 0.6667,
+        "lexical": 0.0738
+      },
+      "provenance": "Poly Network exploit, Aug 2021 (~$611M)",
+      "is_verdict": false
+    },
+    {
+      "id": "c4.2024-01-decent.H-01",
+      "source": "contest_finding",
+      "title": "DcntEth router address settable by anyone",
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.4914,
+      "components": {
+        "surface": 0.6667,
+        "lexical": 0.0658
+      },
+      "provenance": "Code4rena 2024-01-decent H-01 (issue #721)",
+      "is_verdict": false
+    }
+  ],
+  "query2_top": [
+    {
+      "id": "c4.2024-01-decent.M-03",
+      "source": "contest_finding",
+      "title": "UTB.receiveFromBridge bypasses fee/signature verification",
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "bridge_inbound_handler",
+        "cross_domain_auth",
+        "signature_proof_verification"
+      ],
+      "score": 0.7848,
+      "components": {
+        "surface": 1.0,
+        "root_cause": 0.4444,
+        "invariant": 1.0,
+        "lexical": 0.5688
+      },
+      "provenance": "Code4rena 2024-01-decent M-03 (issue #590)",
+      "is_verdict": false
+    },
+    {
+      "id": "oak.access.alt-entrypoint-bypass",
+      "source": "oak_taxonomy",
+      "title": "Privileged action reachable through an unguarded alternate entrypoint",
+      "bug_class": "alt-entrypoint-auth-bypass",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "bridge_inbound_handler",
+        "cross_domain_auth"
+      ],
+      "score": 0.6114,
+      "components": {
+        "surface": 0.6667,
+        "root_cause": 0.4444,
+        "invariant": 1.0,
+        "lexical": 0.264
+      },
+      "provenance": "OAK attack matrix (taxonomy) \u2014 onchainattack.org/matrix",
+      "is_verdict": false
+    },
+    {
+      "id": "oak.access.missing-modifier",
+      "source": "oak_taxonomy",
+      "title": "Privileged setter/handler missing access control",
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.5863,
+      "components": {
+        "surface": 0.6667,
+        "root_cause": 0.4444,
+        "invariant": 1.0,
+        "lexical": 0.1027
+      },
+      "provenance": "OAK attack matrix (taxonomy) \u2014 onchainattack.org/matrix",
+      "is_verdict": false
+    },
+    {
+      "id": "c4.2024-01-decent.H-01",
+      "source": "contest_finding",
+      "title": "DcntEth router address settable by anyone",
+      "bug_class": "missing-auth-on-privileged-entrypoint",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.5806,
+      "components": {
+        "surface": 0.6667,
+        "root_cause": 0.4444,
+        "invariant": 1.0,
+        "lexical": 0.0658
+      },
+      "provenance": "Code4rena 2024-01-decent H-01 (issue #721)",
+      "is_verdict": false
+    },
+    {
+      "id": "incident.polynetwork.2021",
+      "source": "public_incident",
+      "title": "Poly Network: cross-chain manager used to rotate the trusted keeper",
+      "bug_class": "cross-domain-privileged-call",
+      "root_cause": "access-control",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth",
+        "bridge_inbound_handler"
+      ],
+      "score": 0.5118,
+      "components": {
+        "surface": 0.6667,
+        "root_cause": 0.1818,
+        "invariant": 1.0,
+        "lexical": 0.0738
+      },
+      "provenance": "Poly Network exploit, Aug 2021 (~$611M)",
+      "is_verdict": false
+    },
+    {
+      "id": "oak.xdomain.sender-spoof",
+      "source": "oak_taxonomy",
+      "title": "Cross-domain sender spoofing",
+      "bug_class": "cross-domain-sender-spoof",
+      "root_cause": "cross-domain-auth",
+      "invariant": "access-control-consistency",
+      "surfaces": [
+        "cross_domain_auth"
+      ],
+      "score": 0.3337,
+      "components": {
+        "surface": 0.3333,
+        "root_cause": 0.0,
+        "invariant": 1.0,
+        "lexical": 0.0503
+      },
+      "provenance": "OAK attack matrix (taxonomy) \u2014 onchainattack.org/matrix",
+      "is_verdict": false
+    }
+  ]
+}

@@ -11,7 +11,7 @@ report imply more certainty than the verify gate (M1) has established.
 |---|---|---|
 | **M0 — Harness** | **IMPLEMENTED** | Clone @ commit, Foundry build, Slither extract, JSON model + tagged verification surface. Proven on `code-423n4/2024-01-decent`. |
 | **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 5 cases (5/5) covering every verdict corner — confirms the real M-03 finding; rejects a false hypothesis, a wrong-reason PoC (state changes, invariant intact), and two malformed *predicates* (false-at-baseline, broken-by-honest-use) that prove the Baseline/Control guards fire. Structured `--json` run log carries the predicate per verdict. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
-| M2 — Knowledge base | PROPOSED | OAK matrix + settled-contest corpus into a local vector store for RAG. |
+| **M2 — Knowledge base** | **IMPLEMENTED** | Lane-curated, mechanism-structured, dual-source (OAK taxonomy + contest/incident worked examples). Mechanism-feature retrieval (fields ~0.86, lexical ~0.14); a prior is never a verdict. On the M-03 surface the real M-03 + same-class priors top the list while a bridge/fee vocabulary decoy ranks #18/20. See [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md). |
 | M3 — Hypothesis engine | PROPOSED | Claude + KB + invariants → ranked candidate hypotheses (EV = severity × novelty ÷ verify-cost). |
 | M4 — Path backends | PROPOSED | Seer (structural reachability) + Halmos (symbolic) + Medusa/Echidna (fuzz) behind one interface. Highest risk: must reproduce a *known* finding end-to-end. |
 | M5 — Triage + report | PROPOSED | Severity (C4/Sherlock/Cantina), uniqueness fingerprint, PoC minimize, draft. |
@@ -30,7 +30,10 @@ report imply more certainty than the verify gate (M1) has established.
 | `cli.py` | IMPLEMENTED | `model` (M0) and `verify` (M1) commands. No hypothesis/exploit-generation commands until M3/M4. |
 | `verify/VerifyGate.sol` | IMPLEMENTED | On-chain 4-phase truth gate; verdict keyed on an independent invariant predicate. |
 | `verify/harness.py` | IMPLEMENTED | Installs gate templates into a target, runs `forge test`, parses the on-chain verdict. |
-| `verify/gate.py`, `cases.py` | IMPLEMENTED | Verdict taxonomy + the 3-case M1 self-proof registry. PoCs are hand-written (M1); generation lands in M3/M4. |
+| `verify/gate.py`, `cases.py` | IMPLEMENTED | Verdict taxonomy + the 5-case M1 self-proof registry. PoCs are hand-written (M1); generation lands in M3/M4. |
+| `kb/store.py`, `schema.py` | IMPLEMENTED | Mechanism-feature retriever; `PriorMatch` is prior-only (`is_verdict=False`). |
+| `kb/embedder.py` | IMPLEMENTED (lexical) / PROPOSED (neural) | Lexical tiebreaker behind an `Embedder` protocol; neural/Chroma backend pluggable but unused (offline). |
+| `kb/data/*.jsonl`, `tools/build_corpus.py` | IMPLEMENTED | Curated dual-source corpus; editable JSONL is the source of truth. |
 
 ## Known limitations (M0)
 
