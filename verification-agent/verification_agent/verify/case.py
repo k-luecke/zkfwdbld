@@ -18,6 +18,9 @@ class CaseKind(str):
     KNOWN_TRUE = "known_true"        # a real, judged finding -> must CONFIRM
     FALSE = "false_hypothesis"       # plausible but wrong -> must reject (no repro)
     WRONG_REASON = "wrong_reason"    # changes state but not the invariant -> must reject
+    # The gate auditing its own measuring stick: bad PREDICATES, not bad exploits.
+    BAD_BASELINE = "malformed_baseline"   # predicate false at rest -> must reject
+    BAD_CONTROL = "malformed_control"     # predicate broken by honest use -> must reject
 
 
 @dataclass(frozen=True)

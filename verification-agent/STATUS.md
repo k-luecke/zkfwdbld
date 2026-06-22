@@ -10,7 +10,7 @@ report imply more certainty than the verify gate (M1) has established.
 | Milestone | State | Notes |
 |---|---|---|
 | **M0 — Harness** | **IMPLEMENTED** | Clone @ commit, Foundry build, Slither extract, JSON model + tagged verification surface. Proven on `code-423n4/2024-01-decent`. |
-| **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 3 cases — confirms the real M-03 finding, rejects a false hypothesis, and rejects a "passes-for-the-wrong-reason" PoC that changes state but doesn't break the invariant. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
+| **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 5 cases (5/5) covering every verdict corner — confirms the real M-03 finding; rejects a false hypothesis, a wrong-reason PoC (state changes, invariant intact), and two malformed *predicates* (false-at-baseline, broken-by-honest-use) that prove the Baseline/Control guards fire. Structured `--json` run log carries the predicate per verdict. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
 | M2 — Knowledge base | PROPOSED | OAK matrix + settled-contest corpus into a local vector store for RAG. |
 | M3 — Hypothesis engine | PROPOSED | Claude + KB + invariants → ranked candidate hypotheses (EV = severity × novelty ÷ verify-cost). |
 | M4 — Path backends | PROPOSED | Seer (structural reachability) + Halmos (symbolic) + Medusa/Echidna (fuzz) behind one interface. Highest risk: must reproduce a *known* finding end-to-end. |

@@ -80,7 +80,7 @@ abstract contract DecentFeeBypassScenario is VerifyGate {
     address internal user;     // honest user (control)
     address internal attacker;
 
-    function describeInvariant() public pure override returns (string memory) {
+    function describeInvariant() public pure virtual override returns (string memory) {
         // Independent of any attack: in honest operation every privileged
         // execution is paid for, so executions == fee-payments.
         return "UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE";
@@ -112,7 +112,7 @@ abstract contract DecentFeeBypassScenario is VerifyGate {
         feeToken.mint(attacker, 100 * FEE);
     }
 
-    function _invariantHolds() public view override returns (bool) {
+    function _invariantHolds() public view virtual override returns (bool) {
         uint256 executions = target.pwnedCount();
         uint256 feesPaid = feeToken.balanceOf(address(feeCollector)) / FEE;
         return executions == feesPaid;
@@ -248,5 +248,57 @@ contract DecentPaidSwapWrongReason is DecentFeeBypassScenario {
         // Real, signed, fee-paying swap by the attacker: state changes, no revert,
         // but the invariant is NOT violated.
         _signedSwapAndExecute(attacker, _validSignature);
+    }
+}
+
+// ===========================================================================
+// CASE D — malformed BASELINE (the gate auditing its own measuring stick).
+// A perfectly real exploit may sit behind this, but the PREDICATE is false on
+// honest seeded state (feeCollector holds nothing at rest). A predicate that is
+// false at baseline cannot witness a "break", so the gate refuses to proceed.
+// Expected verdict: REJECTED_MALFORMED_BASELINE (attack is never reached).
+// ===========================================================================
+contract DecentMalformedBaseline is DecentFeeBypassScenario {
+    function caseId() public pure override returns (string memory) {
+        return "malformed_baseline__predicate_false_at_rest";
+    }
+
+    function describeInvariant() public pure override returns (string memory) {
+        return "BROKEN PREDICATE (demo): feeCollector.balance > 0 at baseline (false on honest seeded state)";
+    }
+
+    function _invariantHolds() public view override returns (bool) {
+        // False at rest: no fees have been collected yet.
+        return feeToken.balanceOf(address(feeCollector)) > 0;
+    }
+
+    function runAttack() external override {
+        revert("unreached: gate must stop at baseline");
+    }
+}
+
+// ===========================================================================
+// CASE E — malformed CONTROL (the demonstrator that proves the Control guard).
+// The predicate holds at baseline but is TOO BRITTLE: a legitimate, fully-paid
+// swap "breaks" it by design. If the gate trusted this predicate it would hand
+// back a false CONFIRMED. Control catches it before the attack is ever judged.
+// Expected verdict: REJECTED_MALFORMED_CONTROL (attack is never reached).
+// ===========================================================================
+contract DecentMalformedControl is DecentFeeBypassScenario {
+    function caseId() public pure override returns (string memory) {
+        return "malformed_control__predicate_broken_by_honest_use";
+    }
+
+    function describeInvariant() public pure override returns (string memory) {
+        return "BROKEN PREDICATE (demo): target.pwnedCount == 0 (any legitimate paid swap violates it)";
+    }
+
+    function _invariantHolds() public view override returns (bool) {
+        // True at baseline (0 == 0), but any honest swap-execute makes it false.
+        return target.pwnedCount() == 0;
+    }
+
+    function runAttack() external override {
+        revert("unreached: gate must stop at control");
     }
 }

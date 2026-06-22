@@ -46,9 +46,13 @@ def test_confirmed_and_rejection_flags():
 
 
 def test_m1_case_registry_shape():
-    # Exactly the three flavours the gate must distinguish, each distinct.
+    # All five flavours: bad exploits AND bad predicates (the gate auditing its
+    # own measuring stick), each distinct.
     kinds = {c.kind for c in DECENT_M1_CASES}
-    assert kinds == {CaseKind.KNOWN_TRUE, CaseKind.FALSE, CaseKind.WRONG_REASON}
+    assert kinds == {
+        CaseKind.KNOWN_TRUE, CaseKind.FALSE, CaseKind.WRONG_REASON,
+        CaseKind.BAD_BASELINE, CaseKind.BAD_CONTROL,
+    }
 
     by_kind = {c.kind: c for c in DECENT_M1_CASES}
     # The known-true case must be the only one expected to CONFIRM.
@@ -57,13 +61,42 @@ def test_m1_case_registry_shape():
                 if c.expected_verdict is Verdict.CONFIRMED]
     assert len(confirms) == 1
 
-    # The wrong-reason case is the one that must be rejected despite changing
-    # state — the assertion that separates a truth gate from a compile check.
+    # The wrong-reason case is rejected despite changing state — the assertion
+    # that separates a truth gate from a compile check.
     assert (by_kind[CaseKind.WRONG_REASON].expected_verdict
             is Verdict.REJECTED_INVARIANT_INTACT)
-    # The false hypothesis must be rejected because nothing reproduced.
+    # The false hypothesis is rejected because nothing reproduced.
     assert (by_kind[CaseKind.FALSE].expected_verdict
             is Verdict.REJECTED_ATTACK_REVERTED)
+    # The two bad-predicate demonstrators prove the gate rejects bad measuring
+    # sticks, not just bad exploits.
+    assert (by_kind[CaseKind.BAD_BASELINE].expected_verdict
+            is Verdict.REJECTED_MALFORMED_BASELINE)
+    assert (by_kind[CaseKind.BAD_CONTROL].expected_verdict
+            is Verdict.REJECTED_MALFORMED_CONTROL)
+
+    # Every non-trivial corner of the verdict taxonomy is exercised by the suite.
+    expected = {c.expected_verdict for c in DECENT_M1_CASES}
+    assert expected == {
+        Verdict.CONFIRMED,
+        Verdict.REJECTED_ATTACK_REVERTED,
+        Verdict.REJECTED_INVARIANT_INTACT,
+        Verdict.REJECTED_MALFORMED_BASELINE,
+        Verdict.REJECTED_MALFORMED_CONTROL,
+    }
 
     # Contract names are unique (forge --match-contract targets).
     assert len({c.contract_name for c in DECENT_M1_CASES}) == len(DECENT_M1_CASES)
+
+
+def test_parse_markers_extracts_predicate():
+    from verification_agent.verify.gate import parse_markers
+    sample = (
+        "  VAGATE_CASE malformed_control__predicate_broken_by_honest_use\n"
+        "  VAGATE_INVARIANT BROKEN PREDICATE (demo): target.pwnedCount == 0\n"
+        "  VAGATE_VERDICT REJECTED_MALFORMED_CONTROL\n"
+    )
+    verdict, predicate, case_marker = parse_markers(sample)
+    assert verdict is Verdict.REJECTED_MALFORMED_CONTROL
+    assert "pwnedCount == 0" in predicate
+    assert case_marker.startswith("malformed_control")

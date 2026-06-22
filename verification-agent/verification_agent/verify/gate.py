@@ -61,13 +61,30 @@ class Verdict(str, Enum):
 
 def parse_verdict(text: str) -> Verdict:
     """Extract the VAGATE_VERDICT marker from forge's -vv output."""
-    marker = "VAGATE_VERDICT"
+    return parse_markers(text)[0]
+
+
+def parse_markers(text: str) -> tuple[Verdict, str, str]:
+    """Return (verdict, invariant_predicate_text, case_marker) from forge output.
+
+    The gate emits three markers per run (VAGATE_VERDICT / VAGATE_INVARIANT /
+    VAGATE_CASE). Carrying the predicate text alongside the verdict is what makes
+    the run log auditable: "here is every verdict and the measuring stick it
+    judged" is the artifact that proves the gate at backtest scale.
+    """
+    verdict = Verdict.NO_VERDICT
+    invariant = ""
+    case_marker = ""
     for line in text.splitlines():
-        if marker in line:
-            tail = line.split(marker, 1)[1].strip()
-            token = tail.split()[0] if tail.split() else ""
-            try:
-                return Verdict(token)
-            except ValueError:
-                continue
-    return Verdict.NO_VERDICT
+        if "VAGATE_VERDICT" in line:
+            tail = line.split("VAGATE_VERDICT", 1)[1].strip().split()
+            if tail:
+                try:
+                    verdict = Verdict(tail[0])
+                except ValueError:
+                    pass
+        elif "VAGATE_INVARIANT" in line:
+            invariant = line.split("VAGATE_INVARIANT", 1)[1].strip()
+        elif "VAGATE_CASE" in line:
+            case_marker = line.split("VAGATE_CASE", 1)[1].strip()
+    return verdict, invariant, case_marker

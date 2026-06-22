@@ -39,16 +39,23 @@ self-certify.
 Proven on `2024-01-decent` with three cases — the recorded run is
 [`examples/m1_decent_gate_run.txt`](examples/m1_decent_gate_run.txt):
 
+Five cases exercise every corner of the verdict taxonomy — bad *exploits*
+(A–C) and bad *predicates* (D–E, the gate auditing its own measuring stick):
+
 | Case | What it is | Verdict |
 |---|---|---|
 | known-true | the real **C4 M-03** `receiveFromBridge` fee/signature bypass | **CONFIRMED** |
 | false hypothesis | a forged signature "passes" `collectFees` (it reverts) | rejected — not reproduced |
 | **wrong-reason** | a fully-**paid** swap claimed as a bypass: state changes, but the fee *is* paid | rejected — invariant intact |
+| malformed baseline | a predicate that is false at rest | rejected — bad measuring stick |
+| malformed control | a predicate any honest action breaks | rejected — bad measuring stick |
 
-The wrong-reason case is the one that separates this gate from a hallucinating
-auditor: the transaction succeeds and changes on-chain state, yet the gate
-refuses to confirm because the stated invariant was not violated. Full design
-and soundness argument: [docs/M1_verify_gate.md](docs/M1_verify_gate.md).
+The wrong-reason case separates this gate from a hallucinating auditor: the
+transaction succeeds and changes on-chain state, yet the gate refuses to confirm
+because the stated invariant was not violated. The two malformed cases prove the
+Control/Baseline guards *fire* — so the soundness of every `CONFIRMED` rests on
+tested guards, not faith. Full design and soundness argument:
+[docs/M1_verify_gate.md](docs/M1_verify_gate.md).
 
 Hypothesis generation and path-finding (which will *produce* the PoCs the gate
 rules on) do not exist yet — by design. The build order is load-bearing: the

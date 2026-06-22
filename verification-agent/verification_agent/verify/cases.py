@@ -57,4 +57,31 @@ DECENT_M1_CASES: list[VerificationCase] = [
         expected_verdict=Verdict.REJECTED_INVARIANT_INTACT,
         source_finding="(constructed wrong-reason control)",
     ),
+    VerificationCase(
+        case_id="malformed_baseline__predicate_false_at_rest",
+        contract_name="DecentMalformedBaseline",
+        kind=CaseKind.BAD_BASELINE,
+        hypothesis=(
+            "The invariant predicate is false on honest seeded state "
+            "(feeCollector.balance > 0 at baseline). A predicate false at rest "
+            "cannot witness a break, so the gate must refuse to proceed."
+        ),
+        # The gate audits the measuring stick: stops before the attack.
+        expected_verdict=Verdict.REJECTED_MALFORMED_BASELINE,
+        source_finding="(constructed bad-predicate control)",
+    ),
+    VerificationCase(
+        case_id="malformed_control__predicate_broken_by_honest_use",
+        contract_name="DecentMalformedControl",
+        kind=CaseKind.BAD_CONTROL,
+        hypothesis=(
+            "The predicate (target.pwnedCount == 0) holds at baseline but is too "
+            "brittle: a legitimate, fully-paid swap breaks it by design. If "
+            "trusted, it would yield a false CONFIRMED; Control must catch it "
+            "before the attack is judged."
+        ),
+        # The last load-bearing guard, proven firing on camera.
+        expected_verdict=Verdict.REJECTED_MALFORMED_CONTROL,
+        source_finding="(constructed bad-predicate control)",
+    ),
 ]

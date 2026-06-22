@@ -17,7 +17,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .case import VerificationCase
-from .gate import Verdict, parse_verdict
+from .gate import Verdict, parse_markers
 
 _SOLIDITY_DIR = Path(__file__).resolve().parent / "solidity"
 _INSTALL_SUBDIR = Path("test") / "_vagent"
@@ -30,10 +30,27 @@ class CaseResult:
     expected: Verdict
     gate_correct: bool          # did the gate return the expected verdict?
     raw_output: str
+    predicate_text: str = ""    # the invariant the gate judged (from VAGATE_INVARIANT)
 
     @property
     def confirmed(self) -> bool:
         return self.verdict.is_confirmed
+
+    def to_record(self) -> dict:
+        """Structured row for the run log / backtest artifact."""
+        return {
+            "case_id": self.case.case_id,
+            "kind": self.case.kind,
+            "contract": self.case.contract_name,
+            "hypothesis": self.case.hypothesis,
+            "predicate": self.predicate_text,
+            "expected_verdict": self.expected.value,
+            "verdict": self.verdict.value,
+            "gate_correct": self.gate_correct,
+            "confirmed": self.confirmed,
+            "source_finding": self.case.source_finding,
+            "severity": self.case.severity,
+        }
 
 
 def _foundry_env() -> dict[str, str]:
@@ -90,13 +107,14 @@ class VerifyHarness:
             capture_output=True, text=True, timeout=timeout,
         )
         output = proc.stdout + "\n" + proc.stderr
-        verdict = parse_verdict(output)
+        verdict, predicate, _case_marker = parse_markers(output)
         return CaseResult(
             case=case,
             verdict=verdict,
             expected=case.expected_verdict,
             gate_correct=(verdict == case.expected_verdict),
             raw_output=output,
+            predicate_text=predicate,
         )
 
     def run_suite(

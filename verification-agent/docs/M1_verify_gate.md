@@ -49,13 +49,25 @@ The three guards make the predicate itself hard to game:
 What survives all three and still breaks under the attack is a genuine,
 execution-proven invariant violation. That, and only that, is `CONFIRMED`.
 
-## The three cases (M1 self-proof)
+These are not just arguments — the baseline and control guards are **proven
+firing** by two demonstrator cases (D and E below) that deliberately feed the
+gate bad *measuring sticks* and watch it refuse. An untested guard is a guard
+trusted on faith; the demonstrators are the regression tests that catch a
+too-tight predicate written in a hurry mid-contest, before it can yield a false
+`CONFIRMED`.
+
+## The five cases (M1 self-proof)
 
 Anchored on `2024-01-decent` — the same contest M0 modeled — so the gate is
-validated against the exact codebase. All three share one scenario and one
-invariant (`target.pwnedCount == feesCollected / FEE`, i.e. *every privileged
-swap-execute is fee/signature gated*); they differ only in `runAttack()`.
+validated against the exact codebase. Cases A–C share one scenario and one
+sound invariant (`target.pwnedCount == feesCollected / FEE`, i.e. *every
+privileged swap-execute is fee/signature gated*), differing only in
+`runAttack()`. Cases D–E reuse the scenario but install a deliberately **broken
+predicate** to prove the gate audits its own measuring stick.
 Source: [`solidity/DecentFeeBypass.t.sol`](../verification_agent/verify/solidity/DecentFeeBypass.t.sol).
+
+Cases A–C test bad *exploits*; D–E test bad *predicates*. Together they exercise
+every non-trivial corner of the verdict taxonomy.
 
 ### Case A — known-true (must CONFIRM)
 **C4 2024-01-decent M-03** (issue #590). `UTB.receiveFromBridge` is `public`
@@ -83,21 +95,46 @@ mark this confirmed.
 **Asserts:** attack succeeds (no revert), executions `2` and fees-paid `2` →
 invariant **intact** → **REJECTED_INVARIANT_INTACT**.
 
+### Case D — malformed baseline (must reject the predicate, not the exploit)
+The predicate is false on honest seeded state (`feeCollector.balance > 0` at
+rest). A predicate false at baseline cannot witness a break.
+**Verdict:** `REJECTED_MALFORMED_BASELINE` — the attack is never reached.
+
+### Case E — malformed control (the guard that audits the measuring stick)
+The predicate `target.pwnedCount == 0` holds at baseline but is too brittle: any
+legitimate, fully-paid swap breaks it by design. If the gate trusted it, the
+attack phase would yield a false `CONFIRMED`. Control catches it first.
+**Verdict:** `REJECTED_MALFORMED_CONTROL` — the attack is never reached. This is
+the last load-bearing guard, now proven firing rather than asserted.
+
 ## Recorded result
 
-```
-[OK ] known_true       DecentReceiveFromBridgeBypass   expected CONFIRMED                  -> CONFIRMED
-[OK ] false_hypothesis DecentForgedSignatureFalse      expected REJECTED_ATTACK_REVERTED   -> REJECTED_ATTACK_REVERTED
-[OK ] wrong_reason     DecentPaidSwapWrongReason        expected REJECTED_INVARIANT_INTACT  -> REJECTED_INVARIANT_INTACT
+All five corners of the verdict taxonomy, proven on camera
+([`examples/m1_decent_gate_run.txt`](../examples/m1_decent_gate_run.txt) + the
+structured [`examples/m1_decent_gate_run.json`](../examples/m1_decent_gate_run.json)
+which carries the predicate text judged for each verdict):
 
-summary: 3/3 gate verdicts correct; 1 CONFIRMED finding(s).
 ```
+[OK] known_true         DecentReceiveFromBridgeBypass  expected CONFIRMED                   -> CONFIRMED
+[OK] false_hypothesis   DecentForgedSignatureFalse     expected REJECTED_ATTACK_REVERTED    -> REJECTED_ATTACK_REVERTED
+[OK] wrong_reason       DecentPaidSwapWrongReason       expected REJECTED_INVARIANT_INTACT   -> REJECTED_INVARIANT_INTACT
+[OK] malformed_baseline DecentMalformedBaseline        expected REJECTED_MALFORMED_BASELINE -> REJECTED_MALFORMED_BASELINE
+[OK] malformed_control  DecentMalformedControl         expected REJECTED_MALFORMED_CONTROL  -> REJECTED_MALFORMED_CONTROL
+
+summary: 5/5 gate verdicts correct; 1 CONFIRMED finding(s).
+```
+
+At backtest scale, a run where `MALFORMED_*` verdicts occasionally appear is
+*healthier* than one where they never do: it means the gate is still policing
+predicates under real conditions, not rubber-stamping. The structured run log
+(`--json`) records every verdict with the predicate it judged, which is the
+artifact that demonstrates this.
 
 ## Run it
 
 ```bash
 # clone the target once (pinned), then:
-python -m verification_agent verify --repo /path/to/2024-01-decent
+python -m verification_agent verify --repo /path/to/2024-01-decent --json run.json
 ```
 
 Requires `forge` on PATH and a reachable/staged `solc` (see STATUS.md → environment notes).
