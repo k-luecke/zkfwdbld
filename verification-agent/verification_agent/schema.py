@@ -29,6 +29,12 @@ class SurfaceCategory(str, Enum):
     BRIDGE_INBOUND = "bridge_inbound_handler"
     CROSS_DOMAIN_AUTH = "cross_domain_auth"
     SLASHING_AVS = "slashing_avs_state"
+    # Structural (name-independent): an externally reachable function that drives
+    # a privileged effect (writes state or makes external/low-level calls) yet
+    # carries no auth modifier. This IS the M-03 mechanism and is caught on
+    # behavior, not vocabulary — closing the entry-point recall gap that pure
+    # name-matching leaves open.
+    UNGUARDED_ENTRYPOINT = "unguarded_privileged_entrypoint"
 
 
 @dataclass
@@ -46,6 +52,13 @@ class FunctionInfo:
     # each tag, so a human reviewer can audit the heuristic's decision.
     surfaces: list[str] = field(default_factory=list)
     surface_evidence: dict[str, list[str]] = field(default_factory=dict)
+    # True when the structural (name-independent) rule fired. Recall does not
+    # depend on the function being named like a known bug class.
+    structural_priority: bool = False
+    # Coarse confidence for downstream ranking: "high" when structural behavior
+    # AND a name/keyword surface agree; "structural" or "keyword" when only one
+    # signal fired.
+    confidence: str = "none"
     source_file: str | None = None
     source_line: int | None = None
 

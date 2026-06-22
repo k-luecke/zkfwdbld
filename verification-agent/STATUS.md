@@ -9,7 +9,7 @@ report imply more certainty than the verify gate (M1) has established.
 
 | Milestone | State | Notes |
 |---|---|---|
-| **M0 — Harness** | **IMPLEMENTED** | Clone @ commit, Foundry build, Slither extract, JSON model + tagged verification surface. Proven on `code-423n4/2024-01-decent`. |
+| **M0 — Harness** | **IMPLEMENTED** | Clone @ commit, Foundry build, Slither extract, JSON model + tagged verification surface. Name-independent **structural** recall rule (unguarded privileged entrypoint) closes the entry-point recall gap: **9/9** judged 2024-01-decent High/Mediums have their host on the surface (6/9 by keywords alone). See [docs/M0_recall.md](docs/M0_recall.md). |
 | **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 5 cases (5/5) covering every verdict corner — confirms the real M-03 finding; rejects a false hypothesis, a wrong-reason PoC (state changes, invariant intact), and two malformed *predicates* (false-at-baseline, broken-by-honest-use) that prove the Baseline/Control guards fire. Structured `--json` run log carries the predicate per verdict. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
 | **M2 — Knowledge base** | **IMPLEMENTED** | Lane-curated, mechanism-structured, dual-source (OAK taxonomy + contest/incident worked examples). Mechanism-feature retrieval (fields ~0.86, lexical ~0.14); a prior is never a verdict. On the M-03 surface the real M-03 + same-class priors top the list while a bridge/fee vocabulary decoy ranks #18/20. See [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md). |
 | M3 — Hypothesis engine | PROPOSED | Claude + KB + invariants → ranked candidate hypotheses (EV = severity × novelty ÷ verify-cost). |
@@ -24,7 +24,7 @@ report imply more certainty than the verify gate (M1) has established.
 | `ingest/clone.py` | IMPLEMENTED | Clone + pin commit + recursive submodules. |
 | `ingest/build.py` | IMPLEMENTED (Foundry) / PARTIAL (Hardhat) | Foundry first-class; Hardhat detected + compiled, modeling tuned for Foundry. |
 | `model/slither_runner.py` | IMPLEMENTED | Contracts, inheritance, entry points, storage vars, call graph. Storage *slots* left null (exact packing needs `forge inspect`) — labeled, not guessed. |
-| `model/surface.py` | IMPLEMENTED | The specialization filter. Heuristic + evidence; precision improves via the LEARN loop. |
+| `model/surface.py` | IMPLEMENTED | The specialization filter: keyword tags (vocabulary) **plus** a name-independent structural rule (`tag_structural`) for unguarded privileged entrypoints. Evidence + confidence on every tag. |
 | `model/lite.py` | PARTIAL | Regex fallback when Slither can't compile. Approximate by design; output flagged DEGRADED. |
 | `model/model_builder.py` | IMPLEMENTED | Orchestrates the stages; records tool provenance in `tool_status`. |
 | `cli.py` | IMPLEMENTED | `model` (M0) and `verify` (M1) commands. No hypothesis/exploit-generation commands until M3/M4. |

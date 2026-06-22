@@ -75,6 +75,64 @@ def _matches(fragment: str, haystack: str) -> bool:
     return fragment in haystack
 
 
+# Modifier-name fragments that indicate the function restricts its callers to a
+# trusted set (access control / verification gate). A function carrying one of
+# these is treated as guarded and is NOT flagged by the structural rule.
+_AUTH_MODIFIER_HINTS = (
+    "auth", "owner", "admin", "gov", "role", "restrict", "permission",
+    "guard", "keeper", "whitelist", "operator", "manager", "controller",
+)
+
+
+def is_auth_modifier(name: str) -> bool:
+    """Heuristic: does this modifier name gate the caller?
+
+    ``only*`` is the dominant Solidity convention (onlyOwner, onlyRouter,
+    onlyMessenger, onlyCrossDomain, onlyUtb), plus a set of access-control word
+    stems. Deliberately broad: a missed auth modifier over-flags (cheap), a
+    falsely-claimed one under-flags a real bug (expensive).
+    """
+    n = (name or "").lower()
+    if n.startswith("only"):
+        return True
+    return any(h in n for h in _AUTH_MODIFIER_HINTS)
+
+
+def tag_structural(
+    *,
+    is_entry_point: bool,
+    writes_state: bool,
+    makes_external_calls: bool,
+    modifiers: list[str] | None = None,
+    is_state_mutating: bool = True,
+) -> dict[str, list[str]]:
+    """Name-independent priority rule (the recall fix).
+
+    Flags an externally reachable function that drives a privileged effect
+    (writes state OR makes external/low-level calls) yet carries no auth
+    modifier. This is the M-03 mechanism — "privileged entrypoint reachable
+    without the auth modifier" — and it fires on behavior, so an oddly-named
+    function like ``receiveFromBridge`` is caught even though its name dodges
+    every keyword. Note the same structural features are what M2 retrieves on,
+    so the entry filter and the knowledge base align on mechanism.
+    """
+    if not is_entry_point:
+        return {}
+    if not is_state_mutating:
+        return {}  # view/pure: a staticcall is not a privileged effect
+    if any(is_auth_modifier(m) for m in (modifiers or [])):
+        return {}  # guarded: deliberately excluded to keep precision
+    if not (writes_state or makes_external_calls):
+        return {}  # inert: nothing privileged to reach
+    evidence = ["external-entrypoint"]
+    if writes_state:
+        evidence.append("writes-state")
+    if makes_external_calls:
+        evidence.append("external-call")
+    evidence.append("no-auth-modifier")
+    return {SurfaceCategory.UNGUARDED_ENTRYPOINT.value: evidence}
+
+
 def tag_surfaces(
     function_name: str,
     callees: list[str] | None = None,

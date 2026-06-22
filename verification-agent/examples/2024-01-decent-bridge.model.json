@@ -1,0 +1,1667 @@
+{
+  "schema_version": "0.1.0",
+  "repo_url": "(decent-bridge)",
+  "commit": "7f90fd4489551b69c20d11eeecb17a3f564afb18",
+  "build_system": "foundry",
+  "compiled": true,
+  "tool_status": [
+    {
+      "name": "foundry",
+      "available": true,
+      "ran": true,
+      "version": null,
+      "detail": "forge build ok"
+    },
+    {
+      "name": "slither",
+      "available": true,
+      "ran": true,
+      "version": "0.11.5",
+      "detail": "extracted structural model"
+    }
+  ],
+  "contracts": [
+    {
+      "name": "DcntEth",
+      "kind": "contract",
+      "inheritance": [
+        "OFTV2",
+        "ERC20",
+        "IERC20Metadata",
+        "IERC20",
+        "BaseOFTV2",
+        "IOFTV2",
+        "ICommonOFT",
+        "ERC165",
+        "IERC165",
+        "OFTCoreV2",
+        "NonblockingLzApp",
+        "LzApp",
+        "ILayerZeroUserApplicationConfig",
+        "ILayerZeroReceiver",
+        "Ownable",
+        "Context"
+      ],
+      "source_file": "src/DcntEth.sol"
+    },
+    {
+      "name": "DecentBridgeExecutor",
+      "kind": "contract",
+      "inheritance": [
+        "Owned",
+        "IDecentBridgeExecutor"
+      ],
+      "source_file": "src/DecentBridgeExecutor.sol"
+    },
+    {
+      "name": "DecentEthRouter",
+      "kind": "contract",
+      "inheritance": [
+        "Owned",
+        "IOFTReceiverV2",
+        "IDecentEthRouter"
+      ],
+      "source_file": "src/DecentEthRouter.sol"
+    },
+    {
+      "name": "IDcntEth",
+      "kind": "interface",
+      "inheritance": [
+        "IERC20",
+        "IOFTV2",
+        "ICommonOFT",
+        "IERC165"
+      ],
+      "source_file": "src/interfaces/IDcntEth.sol"
+    },
+    {
+      "name": "IDecentBridgeExecutor",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/IDecentBridgeExecutor.sol"
+    },
+    {
+      "name": "IDecentEthRouter",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/IDecentEthRouter.sol"
+    },
+    {
+      "name": "IWETH",
+      "kind": "interface",
+      "inheritance": [
+        "IERC20"
+      ],
+      "source_file": "src/interfaces/IWETH.sol"
+    }
+  ],
+  "storage_layout": [
+    {
+      "contract": "DcntEth",
+      "name": "router",
+      "type": "address",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "weth",
+      "type": "IWETH",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "gasCurrencyIsEth",
+      "type": "bool",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "weth",
+      "type": "IWETH",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "dcntEth",
+      "type": "IDcntEth",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "executor",
+      "type": "IDecentBridgeExecutor",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "gasCurrencyIsEth",
+      "type": "bool",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "destinationBridges",
+      "type": "mapping(uint16 => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "balanceOf",
+      "type": "mapping(address => uint256)",
+      "slot": null,
+      "offset": null
+    }
+  ],
+  "entry_points": [
+    {
+      "contract": "DcntEth",
+      "name": "setRouter",
+      "signature": "setRouter(address)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 20
+    },
+    {
+      "contract": "DcntEth",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRouter"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 24
+    },
+    {
+      "contract": "DcntEth",
+      "name": "burn",
+      "signature": "burn(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRouter"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 28
+    },
+    {
+      "contract": "DcntEth",
+      "name": "mintByOwner",
+      "signature": "mintByOwner(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 32
+    },
+    {
+      "contract": "DcntEth",
+      "name": "burnByOwner",
+      "signature": "burnByOwner(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 36
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "execute",
+      "signature": "execute(address,address,bool,uint256,bytes)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentBridgeExecutor.sol",
+      "source_line": 68
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "receive",
+      "signature": "receive()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentBridgeExecutor.sol",
+      "source_line": 85
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "fallback",
+      "signature": "fallback()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentBridgeExecutor.sol",
+      "source_line": 88
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "MT_ETH_TRANSFER",
+      "signature": "MT_ETH_TRANSFER()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 14
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "MT_ETH_TRANSFER_WITH_PAYLOAD",
+      "signature": "MT_ETH_TRANSFER_WITH_PAYLOAD()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "registerDcntEth",
+      "signature": "registerDcntEth(address)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 68
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "addDestinationBridge",
+      "signature": "addDestinationBridge(uint16,address)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 73
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "estimateSendAndCallFee",
+      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 113
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "bridgeWithPayload",
+      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 197
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "bridge",
+      "signature": "bridge(uint16,address,uint256,uint64,bool)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 218
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "onOFTReceived",
+      "signature": "onOFTReceived(uint16,bytes,uint64,bytes32,uint256,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLzApp"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 237
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "redeemEth",
+      "signature": "redeemEth(uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyIfWeHaveEnoughReserves"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 285
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "redeemWeth",
+      "signature": "redeemWeth(uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyIfWeHaveEnoughReserves"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 294
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "addLiquidityEth",
+      "signature": "addLiquidityEth()",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [
+        "onlyEthChain",
+        "userDepositing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint(body)",
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 302
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "removeLiquidityEth",
+      "signature": "removeLiquidityEth(uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyEthChain",
+        "userIsWithdrawing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 313
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "addLiquidityWeth",
+      "signature": "addLiquidityWeth(uint256)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [
+        "userDepositing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint",
+          "deposit"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 322
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "removeLiquidityWeth",
+      "signature": "removeLiquidityWeth(uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "userIsWithdrawing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 330
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "receive",
+      "signature": "receive()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 337
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "fallback",
+      "signature": "fallback()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 339
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "setRouter",
+      "signature": "setRouter(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 8
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 10
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "burn",
+      "signature": "burn(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 12
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "mintByOwner",
+      "signature": "mintByOwner(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 14
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "burnByOwner",
+      "signature": "burnByOwner(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "IDecentBridgeExecutor",
+      "name": "execute",
+      "signature": "execute(address,address,bool,uint256,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentBridgeExecutor.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "MT_ETH_TRANSFER",
+      "signature": "MT_ETH_TRANSFER()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 14
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "MT_ETH_TRANSFER_WITH_PAYLOAD",
+      "signature": "MT_ETH_TRANSFER_WITH_PAYLOAD()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "registerDcntEth",
+      "signature": "registerDcntEth(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 22
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "addDestinationBridge",
+      "signature": "addDestinationBridge(uint16,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 29
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "estimateSendAndCallFee",
+      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 34
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "bridgeWithPayload",
+      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 52
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "bridge",
+      "signature": "bridge(uint16,address,uint256,uint64,bool)",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 68
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "redeemEth",
+      "signature": "redeemEth(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 80
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "redeemWeth",
+      "signature": "redeemWeth(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 86
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "addLiquidityEth",
+      "signature": "addLiquidityEth()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 91
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "removeLiquidityEth",
+      "signature": "removeLiquidityEth(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 97
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "addLiquidityWeth",
+      "signature": "addLiquidityWeth(uint256)",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 103
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "removeLiquidityWeth",
+      "signature": "removeLiquidityWeth(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 109
+    },
+    {
+      "contract": "IWETH",
+      "name": "deposit",
+      "signature": "deposit()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IWETH.sol",
+      "source_line": 7
+    },
+    {
+      "contract": "IWETH",
+      "name": "withdraw",
+      "signature": "withdraw(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/interfaces/IWETH.sol",
+      "source_line": 9
+    }
+  ],
+  "call_graph": [
+    {
+      "caller": "DcntEth.mint",
+      "callee": "_mint",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.mint",
+      "callee": "onlyRouter",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.burn",
+      "callee": "_burn",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.burn",
+      "callee": "onlyRouter",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.mintByOwner",
+      "callee": "_mint",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.mintByOwner",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.burnByOwner",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DcntEth.burnByOwner",
+      "callee": "_burn",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeExecutor.execute",
+      "callee": "_executeWeth",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeExecutor.execute",
+      "callee": "_executeEth",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeExecutor.execute",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeExecutor.execute",
+      "callee": "IWETH.TMP_1541(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transferFrom, arguments:['msg.sender', 'TMP_1540', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.registerDcntEth",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.addDestinationBridge",
+      "callee": "onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.estimateSendAndCallFee",
+      "callee": "_getCallParams",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.estimateSendAndCallFee",
+      "callee": "IDcntEth.TUPLE_42(uint256,uint256) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:estimateSendAndCallFee, arguments:['_dstChainId', 'destinationBridge', '_amount', '_payload', '_dstGasForCall', 'False', 'adapterParams']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.bridgeWithPayload",
+      "callee": "_bridgeWithPayload",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.bridge",
+      "callee": "_bridgeWithPayload",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "onlyLzApp",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IDecentBridgeExecutor.HIGH_LEVEL_CALL, dest:executor(IDecentBridgeExecutor), function:execute, arguments:['_from', '_to', 'deliverEth', '_amount', 'callPayload']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.TMP_1583(uint256) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:balanceOf, arguments:['TMP_1582']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.TMP_1590(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['_to', '_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IDcntEth.TMP_1585(bool) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:transfer, arguments:['_to', '_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.onOFTReceived",
+      "callee": "IWETH.TMP_1595(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:approve, arguments:['TMP_1594', '_amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.redeemEth",
+      "callee": "onlyIfWeHaveEnoughReserves",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.redeemEth",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.redeemEth",
+      "callee": "IDcntEth.TMP_1599(bool) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:transferFrom, arguments:['msg.sender', 'TMP_1598', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.redeemWeth",
+      "callee": "onlyIfWeHaveEnoughReserves",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.redeemWeth",
+      "callee": "IDcntEth.TMP_1605(bool) = HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:transferFrom, arguments:['msg.sender', 'TMP_1604', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.redeemWeth",
+      "callee": "IWETH.TMP_1606(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['msg.sender', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityEth",
+      "callee": "onlyEthChain",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityEth",
+      "callee": "userDepositing",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityEth",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:deposit, arguments:[] value:msg.value ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityEth",
+      "callee": "IDcntEth.HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:mint, arguments:['TMP_1609', 'msg.value']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityEth",
+      "callee": "onlyEthChain",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityEth",
+      "callee": "userIsWithdrawing",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityEth",
+      "callee": "IWETH.HIGH_LEVEL_CALL, dest:weth(IWETH), function:withdraw, arguments:['amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityEth",
+      "callee": "IDcntEth.HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:burn, arguments:['TMP_1613', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityWeth",
+      "callee": "userDepositing",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityWeth",
+      "callee": "IWETH.TMP_1621(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transferFrom, arguments:['msg.sender', 'TMP_1620', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.addLiquidityWeth",
+      "callee": "IDcntEth.HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:mint, arguments:['TMP_1622', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityWeth",
+      "callee": "userIsWithdrawing",
+      "external": false
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityWeth",
+      "callee": "IDcntEth.HIGH_LEVEL_CALL, dest:dcntEth(IDcntEth), function:burn, arguments:['TMP_1625', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "DecentEthRouter.removeLiquidityWeth",
+      "callee": "IWETH.TMP_1627(bool) = HIGH_LEVEL_CALL, dest:weth(IWETH), function:transfer, arguments:['msg.sender', 'amount']  ",
+      "external": true
+    }
+  ],
+  "verification_surface": [
+    {
+      "contract": "DcntEth",
+      "name": "setRouter",
+      "signature": "setRouter(address)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 20
+    },
+    {
+      "contract": "DcntEth",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRouter"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 24
+    },
+    {
+      "contract": "DcntEth",
+      "name": "mintByOwner",
+      "signature": "mintByOwner(address,uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DcntEth.sol",
+      "source_line": 32
+    },
+    {
+      "contract": "DecentBridgeExecutor",
+      "name": "execute",
+      "signature": "execute(address,address,bool,uint256,bytes)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyOwner"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentBridgeExecutor.sol",
+      "source_line": 68
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "estimateSendAndCallFee",
+      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 113
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "bridgeWithPayload",
+      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 197
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "bridge",
+      "signature": "bridge(uint16,address,uint256,uint64,bool)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 218
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "onOFTReceived",
+      "signature": "onOFTReceived(uint16,bytes,uint64,bytes32,uint256,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLzApp"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 237
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "addLiquidityEth",
+      "signature": "addLiquidityEth()",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [
+        "onlyEthChain",
+        "userDepositing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint(body)",
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 302
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "addLiquidityWeth",
+      "signature": "addLiquidityWeth(uint256)",
+      "visibility": "public",
+      "mutability": "payable",
+      "modifiers": [
+        "userDepositing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint",
+          "deposit"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 322
+    },
+    {
+      "contract": "DecentEthRouter",
+      "name": "removeLiquidityWeth",
+      "signature": "removeLiquidityWeth(uint256)",
+      "visibility": "public",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "userIsWithdrawing"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/DecentEthRouter.sol",
+      "source_line": 330
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 10
+    },
+    {
+      "contract": "IDcntEth",
+      "name": "mintByOwner",
+      "signature": "mintByOwner(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDcntEth.sol",
+      "source_line": 14
+    },
+    {
+      "contract": "IDecentBridgeExecutor",
+      "name": "execute",
+      "signature": "execute(address,address,bool,uint256,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentBridgeExecutor.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "estimateSendAndCallFee",
+      "signature": "estimateSendAndCallFee(uint8,uint16,address,uint256,uint64,bool,bytes)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 34
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "bridgeWithPayload",
+      "signature": "bridgeWithPayload(uint16,address,uint256,bool,uint64,bytes)",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 52
+    },
+    {
+      "contract": "IDecentEthRouter",
+      "name": "bridge",
+      "signature": "bridge(uint16,address,uint256,uint64,bool)",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deliver(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IDecentEthRouter.sol",
+      "source_line": 68
+    },
+    {
+      "contract": "IWETH",
+      "name": "deposit",
+      "signature": "deposit()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/interfaces/IWETH.sol",
+      "source_line": 7
+    }
+  ],
+  "notes": [
+    "using local path /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo/lib/decent-bridge (no clone)",
+    "build: forge build ok",
+    "verification surface: 18 of 45 entry points tagged priority"
+  ]
+}

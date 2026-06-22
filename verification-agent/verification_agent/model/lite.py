@@ -14,7 +14,13 @@ import re
 from pathlib import Path
 
 from ..schema import ContractInfo, FunctionInfo, StorageSlot
-from .surface import tag_surfaces
+from .surface import tag_structural, tag_surfaces
+
+# External/low-level call shapes and state-write shapes for the degraded path.
+_EXT_CALL_RE = re.compile(
+    r"\.(call|delegatecall|staticcall|transfer|send|transferFrom|safeTransfer\w*)\s*[({]"
+    r"|\b\w+\.\w+\s*\(")
+_STATE_WRITE_RE = re.compile(r"(?<![=!<>])=(?!=)")
 
 _CONTRACT_RE = re.compile(
     r"\b(contract|interface|library|abstract\s+contract)\s+(\w+)"
@@ -57,12 +63,23 @@ def extract_lite(sol_files: list[Path]) -> tuple[
             mutability = mut_m.group(1) if mut_m else "nonpayable"
             modifiers = _guess_modifiers(attrs)
             line = text[:fm.start()].count("\n") + 1
-            surfaces = tag_surfaces(
+            body = _balanced_body(text, fm.end() - 1)
+            keyword_surfaces = tag_surfaces(
                 function_name=name,
                 callees=None,
-                source_body=_balanced_body(text, fm.end() - 1),
+                source_body=body,
                 modifiers=modifiers,
             )
+            # Approximate structural facts (degraded: no call graph). Recall-
+            # biased on purpose; the Slither path is the real one.
+            structural = tag_structural(
+                is_entry_point=True,
+                writes_state=bool(_STATE_WRITE_RE.search(body)),
+                makes_external_calls=bool(_EXT_CALL_RE.search(body)),
+                modifiers=modifiers,
+                is_state_mutating=mutability not in ("view", "pure"),
+            )
+            surfaces = {**keyword_surfaces, **structural}
             entry_points.append(FunctionInfo(
                 contract=_enclosing_contract(text, fm.start(), contracts),
                 name=name,
@@ -73,6 +90,11 @@ def extract_lite(sol_files: list[Path]) -> tuple[
                 is_entry_point=True,
                 surfaces=list(surfaces.keys()),
                 surface_evidence=surfaces,
+                structural_priority=bool(structural),
+                confidence=(
+                    "high" if structural and keyword_surfaces
+                    else "structural" if structural
+                    else "keyword" if keyword_surfaces else "none"),
                 source_file=rel,
                 source_line=line,
             ))

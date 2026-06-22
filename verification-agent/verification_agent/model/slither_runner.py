@@ -21,7 +21,7 @@ from ..schema import (
     FunctionInfo,
     StorageSlot,
 )
-from .surface import tag_surfaces
+from .surface import tag_structural, tag_surfaces
 
 
 @dataclass
@@ -86,6 +86,13 @@ def run_slither(target: Path) -> SlitherExtract:
             ))
 
         for func in contract.functions_entry_points:
+            if getattr(func, "is_constructor", False):
+                continue  # runs once at deploy; not an attacker-reachable entry
+            # Skip functions an in-scope contract merely INHERITS from a
+            # dependency (ERC20/OFT/LzApp boilerplate). We model the protocol's
+            # own code, identified by where the function is actually defined.
+            if _is_dependency_path(_func_def_file(func)):
+                continue
             full = func.full_name  # name(arg types)
             callees, ext_edges = _calls(func)
             for callee, is_ext in ext_edges:
@@ -94,22 +101,39 @@ def run_slither(target: Path) -> SlitherExtract:
                     callee=callee,
                     external=is_ext,
                 ))
-            surfaces = tag_surfaces(
+            mod_names = [m.name for m in func.modifiers]
+            keyword_surfaces = tag_surfaces(
                 function_name=func.name,
                 callees=callees,
                 source_body=_func_source(func),
-                modifiers=[m.name for m in func.modifiers],
+                modifiers=mod_names,
             )
+            # Structural (name-independent) signal — the recall fix. Uses
+            # transitive facts so a delegating entrypoint (e.g. receiveFromBridge
+            # -> _swapAndExecute -> executor.execute) is caught.
+            writes_state, makes_ext = _behavioral_facts(func)
+            structural = tag_structural(
+                is_entry_point=True,
+                writes_state=writes_state,
+                makes_external_calls=makes_ext,
+                modifiers=mod_names,
+                is_state_mutating=_mutability(func) not in ("view", "pure"),
+            )
+            surfaces = {**keyword_surfaces, **structural}
+            has_structural = bool(structural)
+            has_keyword = bool(keyword_surfaces)
             fi = FunctionInfo(
                 contract=contract.name,
                 name=func.name,
                 signature=full,
                 visibility=func.visibility,
                 mutability=_mutability(func),
-                modifiers=[m.name for m in func.modifiers],
+                modifiers=mod_names,
                 is_entry_point=True,
                 surfaces=list(surfaces.keys()),
                 surface_evidence=surfaces,
+                structural_priority=has_structural,
+                confidence=_confidence(has_structural, has_keyword),
                 source_file=_src_file(contract),
                 source_line=_func_line(func),
             )
@@ -134,18 +158,37 @@ def _is_noise(contract) -> bool:
     scope. We only drop named third-party dependencies.
     """
     name = contract.name.lower()
-    path = ("/" + (_src_file(contract) or "").lower()).replace("//", "/")
-    noisy_paths = ("/test/", "/tests/", "/script/", "/mock", "/node_modules/")
-    dependency_libs = (
-        "/forge-std/", "/openzeppelin-contracts", "/openzeppelin/", "/solmate/",
-        "/solady/", "/ds-test/", "/permit2/", "/prb-math/", "/erc4626-tests/",
-        "/createx/", "/layerzero", "/lz-evm",
-    )
-    if any(p in path for p in noisy_paths + dependency_libs):
+    if _is_dependency_path(_src_file(contract)):
         return True
     if name.endswith("test") or name.endswith("mock") or name.startswith("mock"):
         return True
     return False
+
+
+_NOISY_PATHS = ("/test/", "/tests/", "/script/", "/mock", "/node_modules/")
+_DEPENDENCY_LIBS = (
+    "/forge-std/", "/openzeppelin-contracts", "/openzeppelin/", "/solmate/",
+    "/solady/", "/ds-test/", "/permit2/", "/prb-math/", "/erc4626-tests/",
+    "/createx/", "/layerzero", "/lz-evm", "/solidity-examples/",
+    "/lzapp/", "/oft/", "/uniswap/", "/v3-core/", "/v3-periphery/",
+)
+
+
+def _is_dependency_path(src_file: str | None) -> bool:
+    if not src_file:
+        return False
+    path = ("/" + src_file.lower()).replace("//", "/")
+    return any(p in path for p in _NOISY_PATHS + _DEPENDENCY_LIBS)
+
+
+def _func_def_file(func) -> str | None:
+    """The file where the function is actually defined (not the inheriting contract)."""
+    try:
+        sm = func.source_mapping
+        return getattr(sm, "filename_short", None) or getattr(
+            getattr(sm, "filename", None), "short", None)
+    except Exception:
+        return None
 
 
 def _calls(func) -> tuple[list[str], list[tuple[str, bool]]]:
@@ -183,6 +226,43 @@ def _hlc_name(hc) -> str | None:
         return fn
     except Exception:
         return None
+
+
+def _behavioral_facts(func) -> tuple[bool, bool]:
+    """(writes_state, makes_external_calls) following internal calls transitively.
+
+    Slither's ``all_*`` accessors fold in callees, so a thin entrypoint that
+    delegates to an internal routine is judged on what that routine actually
+    does — which is exactly how receiveFromBridge slipped past name-matching.
+    """
+    writes_state = False
+    makes_ext = False
+    try:
+        writes_state = len(func.all_state_variables_written()) > 0
+    except Exception:
+        try:
+            writes_state = len(func.state_variables_written) > 0
+        except Exception:
+            pass
+    try:
+        ext = list(func.all_high_level_calls()) + list(func.all_low_level_calls())
+        makes_ext = len(ext) > 0
+    except Exception:
+        try:
+            makes_ext = bool(func.high_level_calls) or bool(func.low_level_calls)
+        except Exception:
+            pass
+    return writes_state, makes_ext
+
+
+def _confidence(has_structural: bool, has_keyword: bool) -> str:
+    if has_structural and has_keyword:
+        return "high"
+    if has_structural:
+        return "structural"
+    if has_keyword:
+        return "keyword"
+    return "none"
 
 
 def _mutability(func) -> str:

@@ -25,7 +25,12 @@ downstream stage consumes:
   storage variables, and the call graph (internal + external-call edges);
 - apply the **specialization filter**: tag every entry point that touches the
   verification / reachability / cross-chain / ZK surface as PRIORITY, with the
-  exact evidence that triggered each tag so a human can audit the heuristic.
+  exact evidence that triggered each tag so a human can audit the heuristic;
+- flag on **mechanism, not name**: a structural rule catches any unguarded
+  privileged entrypoint (state-mutating + external calls + no auth modifier)
+  even when its name dodges every keyword — closing the entry-point recall gap.
+  On the judged 2024-01-decent set this surfaces **9/9** finding hosts (6/9 by
+  keywords alone); see [docs/M0_recall.md](docs/M0_recall.md).
 
 ## And: **M1 — the verify gate (the truth gate)**
 
@@ -156,7 +161,8 @@ verification_agent/
   cli.py                              — `model` (M0), `verify` (M1), `kb` (M2) commands
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
-docs/       M1_verify_gate.md, M2_knowledge_base.md — design + soundness docs
+            validate_recall.py        — M0 recall vs the judged Decent finding set
+docs/       M0_recall.md, M1_verify_gate.md, M2_knowledge_base.md — design docs
 tests/      test_surface.py, test_verify_gate.py, test_kb.py — offline tests (no network/forge)
 ```
 
