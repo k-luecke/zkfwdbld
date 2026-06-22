@@ -102,9 +102,32 @@ into EV-ranked **candidate** hypotheses whose primary output is a
   function. EV gets you to the right neighborhood; the gate adjudicates within
   it. Design: [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md).
 
-Path-finding (M4 — Seer/Halmos/Medusa, which will *generate* the PoCs the gate
-rules on) does not exist yet — by design. The build order is load-bearing: the
-gate is trusted before anything upstream of it is built.
+## And: **M4 — path backends (find the path, not just verify it)**
+
+Where the system has to *discover* paths. The **Seer** structural-reachability
+engine searches the M0 call graph toward the break predicate — a privileged sink
+reached by both a guarded and an unguarded entrypoint — and **independently
+rediscovers the M-03 path** (`receiveFromBridge` bypassing
+`retrieveAndCollectFees`) from the model alone. Handed to the M1 gate it
+**CONFIRMS**: machine-found path, machine verdict.
+
+```
+[seer] attack entrypoint: receiveFromBridge  reaches [_swapAndExecute]  bypasses [retrieveAndCollectFees]
+[connect-gate] -> gate verdict: CONFIRMED  (machine-found, machine-verified)
+```
+
+**Medusa** (1.5.1) and **Halmos** (0.3.3) are installed and wired behind the same
+interface; their coverage is environment-bounded and **logged honestly** in a
+per-backend, per-mechanism map (`findpath --run-external`). The orchestrator
+reports which engine reaches which bug class today — Seer reaches access-control/
+reachability cleanly and correctly declines signature-verification. Same wall as
+the rest: **nothing in `pathfind/` imports the gate** (enforced by a test).
+Honest scope: the *path discovery* is autonomous; auto-synthesizing the full PoC
+scenario (deploy + args) is the remaining frontier. Design:
+[docs/M4_path_backends.md](docs/M4_path_backends.md).
+
+Triage + report (M5) and the backtest harness (M6) are next. The build order is
+load-bearing: the gate was trusted before anything upstream of it was built.
 
 ## Usage
 
@@ -131,6 +154,9 @@ python -m verification_agent kb --surface bridge_inbound_handler --text "receive
 # M3: rank candidate hypotheses for a target model (and hand the top to the gate):
 python -m verification_agent hypothesize --model model.json --top 10
 python -m verification_agent hypothesize --model 2024-01-decent.model.json --connect-gate ./2024-01-decent
+
+# M4: find a concrete path (Seer) and confirm it through the gate:
+python -m verification_agent findpath --model 2024-01-decent.model.json --repo ./2024-01-decent --connect-gate
 ```
 
 The output is self-describing: a `tool_status` block records which external
@@ -186,13 +212,16 @@ verification_agent/
   hypothesize/ engine.py, ev.py       — M0 surface + M2 priors → EV-ranked candidates (M3)
             invariants.py             — invariant pattern library (the predicate)
             provider.py               — offline + Claude generators; no gate import
+  pathfind/ seer.py                   — structural reachability engine (M4)
+            medusa.py, halmos.py      — fuzz + symbolic adapters; solidity/ harness
+            orchestrator.py           — backend dispatch + coverage map; no gate import
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — `model` (M0), `verify` (M1), `kb` (M2), `hypothesize` (M3)
+  cli.py                              — model (M0) / verify (M1) / kb (M2) / hypothesize (M3) / findpath (M4)
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
-docs/       M0_recall.md, M1_verify_gate.md, M2_knowledge_base.md, M3_hypothesis_engine.md
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize — offline tests
+docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind — offline
 ```
 
 ## Hard constraints

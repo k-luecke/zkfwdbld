@@ -1,0 +1,20 @@
+# M4 path backends — Seer rediscovers the M-03 path; gate confirms it
+# date: 2026-06-22T23:47:20Z
+# backends installed: seer-structural (offline), medusa 1.5.1, halmos 0.3.3
+
+Verification-Agent — M4 path backends (search toward the break predicate)
+backends: seer-structural(available), medusa(available), halmos(available)
+
+found 6 concrete path(s):
+  [seer-structural] attack entrypoint: receiveFromBridge  reaches ['_swapAndExecute']  bypasses [retrieveAndCollectFees]  [gate-bound]
+      named target bridgeAndExecute is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect
+  [seer-structural] attack entrypoint: swapNoPath  reaches ['_sendToRecipient']  bypasses [routerIsSet]
+      named target swapExactIn is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect
+
+coverage map (per-backend status counts):
+  seer-structural  {'found': 6, 'out_of_scope': 1}
+by mechanism: {'access-control': {'found_by': ['seer-structural']}, 'signature-verification': {}}
+
+[connect-gate] seer-structural found the path 'receiveFromBridge' (bypassing retrieveAndCollectFees); handing it to the M1 gate (DecentReceiveFromBridgeBypass) ...
+  gate verdict: CONFIRMED
+  -> path was MACHINE-FOUND (Seer, from the model) and MACHINE-VERIFIED (gate, by execution). No hand-written attack in the discovery step.

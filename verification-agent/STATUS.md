@@ -13,7 +13,7 @@ report imply more certainty than the verify gate (M1) has established.
 | **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 5 cases (5/5) covering every verdict corner — confirms the real M-03 finding; rejects a false hypothesis, a wrong-reason PoC (state changes, invariant intact), and two malformed *predicates* (false-at-baseline, broken-by-honest-use) that prove the Baseline/Control guards fire. Structured `--json` run log carries the predicate per verdict. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
 | **M2 — Knowledge base** | **IMPLEMENTED** | Lane-curated, mechanism-structured, dual-source (OAK taxonomy + contest/incident worked examples). Mechanism-feature retrieval (fields ~0.86, lexical ~0.14); a prior is never a verdict. On the M-03 surface the real M-03 + same-class priors top the list while a bridge/fee vocabulary decoy ranks #18/20. See [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md). |
 | **M3 — Hypothesis engine** | **IMPLEMENTED** (offline) / **PARTIAL** (Claude) | M0 surface + M2 priors → EV-ranked candidate hypotheses whose primary output is a gate-survivable invariant predicate. Proposes-never-confirms enforced structurally (no `verify` import; `is_candidate` only; LLM confidence zero-weight). On Decent the M-03 predicate clears the gate's baseline+control and CONFIRMS; benign `contribute()` is demoted to the EV floor. See [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md). |
-| M4 — Path backends | PROPOSED | Seer (structural reachability) + Halmos (symbolic) + Medusa/Echidna (fuzz) behind one interface. Highest risk: must reproduce a *known* finding end-to-end. |
+| **M4 — Path backends** | **IMPLEMENTED** (Seer) / **PARTIAL** (Medusa/Halmos) | Seer structural-reachability engine independently rediscovers the M-03 path (`receiveFromBridge` bypassing `retrieveAndCollectFees`) from the M0 model alone; handed to the M1 gate it CONFIRMS — machine-found path, machine verdict. Medusa (1.5.1) + Halmos (0.3.3) wired behind the same interface; coverage is environment-bounded and logged honestly. No `verify` import (wall). See [docs/M4_path_backends.md](docs/M4_path_backends.md). |
 | M5 — Triage + report | PROPOSED | Severity (C4/Sherlock/Cantina), uniqueness fingerprint, PoC minimize, draft. |
 | M6 — Backtest harness | PROPOSED | Full loop over 10–15 settled contests → recall/precision/uniqueness. The deliverable number. |
 
@@ -35,6 +35,9 @@ report imply more certainty than the verify gate (M1) has established.
 | `kb/embedder.py` | IMPLEMENTED (lexical) / PROPOSED (neural) | Lexical tiebreaker behind an `Embedder` protocol; neural/Chroma backend pluggable but unused (offline). |
 | `kb/data/*.jsonl`, `tools/build_corpus.py` | IMPLEMENTED | Curated dual-source corpus; editable JSONL is the source of truth. Access-control entries carry the structural surface tag (M0↔M2 alignment). |
 | `hypothesize/{engine,provider,invariants,ev}.py` | IMPLEMENTED | M3 engine; offline + Claude providers; invariant pattern library; EV ranking. No `verify` import (structural wall). |
+| `pathfind/seer.py` | IMPLEMENTED | Structural-reachability engine; rediscovers the M-03 path from the M0 model. |
+| `pathfind/{medusa,halmos}.py` | PARTIAL | Stateful-fuzz + symbolic adapters; tools installed; coverage environment-bounded, logged honestly. |
+| `pathfind/orchestrator.py` | IMPLEMENTED | Dispatches backends; builds the per-backend/per-mechanism coverage map. No `verify` import. |
 
 ## Known limitations (M0)
 

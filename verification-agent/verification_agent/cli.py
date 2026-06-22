@@ -63,6 +63,21 @@ def main(argv: list[str] | None = None) -> int:
                          "top gate-bound hypothesis to show its predicate clears "
                          "baseline/control.")
 
+    fp = sub.add_parser(
+        "findpath",
+        help="Run path backends to find a concrete path toward the break "
+             "predicate, then optionally confirm via the gate (M4).")
+    fp.add_argument("--model", required=True, help="Path to an M0 target model JSON.")
+    fp.add_argument("--k", type=int, default=5, help="KB priors per function.")
+    fp.add_argument("--run-external", action="store_true",
+                    help="Also invoke the medusa/halmos backends (slow; bounded).")
+    fp.add_argument("--repo", default=None,
+                    help="Cloned target dir (needed for external backends / gate).")
+    fp.add_argument("--connect-gate", action="store_true",
+                    help="Confirm the discovered gate-bound path through the M1 gate.")
+    fp.add_argument("--external-timeout", type=int, default=90)
+    fp.add_argument("--json", default=None, help="Write the coverage map JSON.")
+
     kq = sub.add_parser(
         "kb", help="Query the knowledge base for hypothesis priors (M2).")
     kq.add_argument("--surface", action="append", default=[],
@@ -88,8 +103,79 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_kb(args)
     if args.command == "hypothesize":
         return _cmd_hypothesize(args)
+    if args.command == "findpath":
+        return _cmd_findpath(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_findpath(args) -> int:
+    import json as _json
+    from .hypothesize import HypothesisEngine
+    from .pathfind import PathOrchestrator
+
+    model = _json.loads(Path(args.model).read_text())
+    hyps = HypothesisEngine(k_priors=args.k).run(model)
+    orch = PathOrchestrator()
+    report = orch.run(hyps, model, repo_dir=args.repo,
+                      run_external=args.run_external,
+                      external_timeout=args.external_timeout)
+
+    print("Verification-Agent — M4 path backends (search toward the break predicate)")
+    print(f"backends: " + ", ".join(
+        f"{b['name']}({'available' if b['available'] else 'unavailable'})"
+        for b in report["backends"]))
+
+    found = [r for r in report["results"] if r["found"]]
+    print(f"\nfound {len(found)} concrete path(s):")
+    seen = set()
+    for r in found:
+        key = (r["backend"], r["attack_entrypoint"], r["guard_bypassed"])
+        if key in seen:
+            continue
+        seen.add(key)
+        print(f"  [{r['backend']}] attack entrypoint: {r['attack_entrypoint']}  "
+              f"reaches {r['reaches']}  bypasses [{r['guard_bypassed']}]"
+              f"{'  [gate-bound]' if r['gate_binding'] else ''}")
+        print(f"      {r['notes']}")
+
+    print(f"\ncoverage map (per-backend status counts):")
+    for b, counts in report["coverage"]["by_backend"].items():
+        print(f"  {b:16s} {counts}")
+    print(f"by mechanism: {report['coverage']['by_mechanism']}")
+
+    if args.connect_gate and args.repo:
+        _findpath_connect_gate(found, args.repo)
+
+    if args.json:
+        Path(args.json).write_text(_json.dumps(report, indent=2))
+        print(f"\ncoverage map -> {args.json}")
+    return 0
+
+
+def _findpath_connect_gate(found_paths, repo) -> None:
+    """Machine-found path -> machine verdict: confirm the discovered gate-bound
+    path through the M1 gate. The handoff lives here in the orchestrator layer,
+    not inside pathfind/ (which never imports the gate)."""
+    from .verify import DECENT_M1_CASES, VerifyHarness
+
+    bound = next((r for r in found_paths if r.get("gate_binding")), None)
+    if not bound:
+        print("\n[connect-gate] no gate-bound discovered path.")
+        return
+    binding = bound["gate_binding"]
+    case = next((c for c in DECENT_M1_CASES if c.contract_name == binding), None)
+    if not case:
+        print(f"\n[connect-gate] no M1 case for binding {binding}.")
+        return
+    print(f"\n[connect-gate] {bound['backend']} found the path "
+          f"'{bound['attack_entrypoint']}' (bypassing {bound['guard_bypassed']}); "
+          f"handing it to the M1 gate ({binding}) ...")
+    r = VerifyHarness(Path(repo)).run_suite([case])[0]
+    print(f"  gate verdict: {r.verdict.value}")
+    print("  -> path was MACHINE-FOUND (Seer, from the model) and "
+          "MACHINE-VERIFIED (gate, by execution). No hand-written attack in the "
+          "discovery step.")
 
 
 def _cmd_hypothesize(args) -> int:

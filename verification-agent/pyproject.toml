@@ -32,11 +32,13 @@ packages = [
     "verification_agent.verify",
     "verification_agent.kb",
     "verification_agent.hypothesize",
+    "verification_agent.pathfind",
 ]
 
 [tool.setuptools.package-data]
 "verification_agent.verify" = ["solidity/*.sol"]
 "verification_agent.kb" = ["data/*.jsonl"]
+"verification_agent.pathfind" = ["solidity/*.sol"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
