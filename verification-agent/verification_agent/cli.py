@@ -42,12 +42,49 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("--workdir", default=None,
                    help="Scratch dir for the clone (default: a temp dir).")
 
+    v = sub.add_parser(
+        "verify",
+        help="Run the M1 verify-gate self-proof against a cloned target (M1).")
+    v.add_argument("--repo", required=True,
+                   help="Path to a cloned Foundry target (e.g. 2024-01-decent).")
+
     args = parser.parse_args(argv)
 
     if args.command == "model":
         return _cmd_model(args)
+    if args.command == "verify":
+        return _cmd_verify(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_verify(args) -> int:
+    from .verify import DECENT_M1_CASES, VerifyHarness
+
+    harness = VerifyHarness(Path(args.repo))
+    results = harness.run_suite(DECENT_M1_CASES)
+
+    print("Verification-Agent — M1 verify-gate self-proof")
+    print(f"target: {args.repo}\n")
+    all_correct = True
+    for r in results:
+        ok = "OK " if r.gate_correct else "XX "
+        all_correct = all_correct and r.gate_correct
+        print(f"[{ok}] {r.case.kind:16s} {r.case.contract_name}")
+        print(f"       hypothesis : {r.case.hypothesis[:96]}...")
+        print(f"       expected   : {r.expected.value}")
+        print(f"       gate said  : {r.verdict.value}")
+        if r.case.source_finding:
+            print(f"       provenance : {r.case.source_finding}")
+        print()
+    confirmed = sum(1 for r in results if r.confirmed)
+    print(f"summary: {sum(1 for r in results if r.gate_correct)}/{len(results)} "
+          f"gate verdicts correct; {confirmed} CONFIRMED finding(s).")
+    if not all_correct:
+        print("GATE NOT TRUSTWORTHY: at least one verdict was wrong.")
+        return 1
+    print("Gate behaved correctly on all cases.")
+    return 0
 
 
 def _cmd_model(args) -> int:

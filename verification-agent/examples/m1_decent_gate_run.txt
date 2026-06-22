@@ -1,0 +1,29 @@
+# M1 verify-gate self-proof — recorded run
+# target: code-423n4/2024-01-decent @ commit 5d1962143ee5
+# date: 2026-06-22T21:51:00Z
+# forge: forge Version: 1.7.1
+# solc: 0.8.20 (staged, offline)
+
+Verification-Agent — M1 verify-gate self-proof
+target: /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo
+
+[OK ] known_true       DecentReceiveFromBridgeBypass
+       hypothesis : UTB.receiveFromBridge is public with no access control and calls _swapAndExecute directly, skipp...
+       expected   : CONFIRMED
+       gate said  : CONFIRMED
+       provenance : Code4rena 2024-01-decent M-03 (issue #590)
+
+[OK ] false_hypothesis DecentForgedSignatureFalse
+       hypothesis : A forged ECDSA signature passes UTBFeeCollector.collectFees and bypasses the fee check in swapAn...
+       expected   : REJECTED_ATTACK_REVERTED
+       gate said  : REJECTED_ATTACK_REVERTED
+       provenance : (constructed negative control)
+
+[OK ] wrong_reason     DecentPaidSwapWrongReason
+       hypothesis : A fully-valid, fully-PAID swapAndExecute is claimed to demonstrate a fee bypass. The transaction...
+       expected   : REJECTED_INVARIANT_INTACT
+       gate said  : REJECTED_INVARIANT_INTACT
+       provenance : (constructed wrong-reason control)
+
+summary: 3/3 gate verdicts correct; 1 CONFIRMED finding(s).
+Gate behaved correctly on all cases.

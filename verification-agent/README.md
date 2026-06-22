@@ -27,8 +27,32 @@ downstream stage consumes:
   verification / reachability / cross-chain / ZK surface as PRIORITY, with the
   exact evidence that triggered each tag so a human can audit the heuristic.
 
-Nothing upstream of the harness (hypotheses, path-finding, the verify gate)
-exists yet — by design. The build order is load-bearing.
+## And: **M1 — the verify gate (the truth gate)**
+
+The differentiator. **A finding is surfaced only if it is fork-executed into a
+reproducing PoC** — and the gate proves the *specific claimed invariant break*,
+not merely that "a test passed". Each case defines an invariant predicate,
+defined independently of the attack; the gate decides the verdict across four
+phases (baseline → control → attack → re-check), so the PoC author cannot
+self-certify.
+
+Proven on `2024-01-decent` with three cases — the recorded run is
+[`examples/m1_decent_gate_run.txt`](examples/m1_decent_gate_run.txt):
+
+| Case | What it is | Verdict |
+|---|---|---|
+| known-true | the real **C4 M-03** `receiveFromBridge` fee/signature bypass | **CONFIRMED** |
+| false hypothesis | a forged signature "passes" `collectFees` (it reverts) | rejected — not reproduced |
+| **wrong-reason** | a fully-**paid** swap claimed as a bypass: state changes, but the fee *is* paid | rejected — invariant intact |
+
+The wrong-reason case is the one that separates this gate from a hallucinating
+auditor: the transaction succeeds and changes on-chain state, yet the gate
+refuses to confirm because the stated invariant was not violated. Full design
+and soundness argument: [docs/M1_verify_gate.md](docs/M1_verify_gate.md).
+
+Hypothesis generation and path-finding (which will *produce* the PoCs the gate
+rules on) do not exist yet — by design. The build order is load-bearing: the
+gate is trusted before anything upstream of it is built.
 
 ## Usage
 
@@ -44,6 +68,9 @@ python -m verification_agent model \
 
 # Or model an existing local checkout (skips cloning):
 python -m verification_agent model --local ./path/to/checkout --out model.json
+
+# M1: run the verify-gate self-proof against a cloned target:
+python -m verification_agent verify --repo ./path/to/2024-01-decent
 ```
 
 The output is self-describing: a `tool_status` block records which external
@@ -89,10 +116,15 @@ verification_agent/
             lite.py                   — regex fallback (degraded, clearly labeled)
             surface.py                — the specialization filter
             model_builder.py          — stitches the TargetModel together
+  verify/   VerifyGate.sol            — on-chain 4-phase truth gate (M1)
+            DecentFeeBypass.t.sol     — scenario + 3 cases (known-true/false/wrong-reason)
+            harness.py                — install templates, run forge, parse verdict
+            gate.py, case.py, cases.py — verdict taxonomy + M1 case registry
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — `model` command (M0)
+  cli.py                              — `model` (M0) and `verify` (M1) commands
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
-tests/      test_surface.py           — offline tests (no network/forge/slither)
+docs/       M1_verify_gate.md         — the truth-gate design + soundness argument
+tests/      test_surface.py, test_verify_gate.py — offline tests (no network/forge)
 ```
 
 ## Hard constraints

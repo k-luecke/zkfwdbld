@@ -10,7 +10,7 @@ report imply more certainty than the verify gate (M1) has established.
 | Milestone | State | Notes |
 |---|---|---|
 | **M0 — Harness** | **IMPLEMENTED** | Clone @ commit, Foundry build, Slither extract, JSON model + tagged verification surface. Proven on `code-423n4/2024-01-decent`. |
-| **M1 — Verify gate** | **PROPOSED** | *Build next.* Given a hand-written hypothesis, generate + run a Foundry fork test, report verifiable pass/fail. Must confirm one known PoC and reject one bogus one before anything upstream is trusted. |
+| **M1 — Verify gate** | **IMPLEMENTED** | Truth gate: invariant-keyed, 4-phase (baseline/control/attack/verdict). Proven on `2024-01-decent` with 3 cases — confirms the real M-03 finding, rejects a false hypothesis, and rejects a "passes-for-the-wrong-reason" PoC that changes state but doesn't break the invariant. See [docs/M1_verify_gate.md](docs/M1_verify_gate.md). |
 | M2 — Knowledge base | PROPOSED | OAK matrix + settled-contest corpus into a local vector store for RAG. |
 | M3 — Hypothesis engine | PROPOSED | Claude + KB + invariants → ranked candidate hypotheses (EV = severity × novelty ÷ verify-cost). |
 | M4 — Path backends | PROPOSED | Seer (structural reachability) + Halmos (symbolic) + Medusa/Echidna (fuzz) behind one interface. Highest risk: must reproduce a *known* finding end-to-end. |
@@ -27,7 +27,10 @@ report imply more certainty than the verify gate (M1) has established.
 | `model/surface.py` | IMPLEMENTED | The specialization filter. Heuristic + evidence; precision improves via the LEARN loop. |
 | `model/lite.py` | PARTIAL | Regex fallback when Slither can't compile. Approximate by design; output flagged DEGRADED. |
 | `model/model_builder.py` | IMPLEMENTED | Orchestrates the stages; records tool provenance in `tool_status`. |
-| `cli.py` | IMPLEMENTED | `model` command only. No hypothesis/exploit commands until M1 is trusted. |
+| `cli.py` | IMPLEMENTED | `model` (M0) and `verify` (M1) commands. No hypothesis/exploit-generation commands until M3/M4. |
+| `verify/VerifyGate.sol` | IMPLEMENTED | On-chain 4-phase truth gate; verdict keyed on an independent invariant predicate. |
+| `verify/harness.py` | IMPLEMENTED | Installs gate templates into a target, runs `forge test`, parses the on-chain verdict. |
+| `verify/gate.py`, `cases.py` | IMPLEMENTED | Verdict taxonomy + the 3-case M1 self-proof registry. PoCs are hand-written (M1); generation lands in M3/M4. |
 
 ## Known limitations (M0)
 

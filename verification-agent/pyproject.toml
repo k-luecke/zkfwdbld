@@ -25,7 +25,15 @@ dev = ["pytest>=7"]
 verification-agent = "verification_agent.cli:main"
 
 [tool.setuptools]
-packages = ["verification_agent", "verification_agent.ingest", "verification_agent.model"]
+packages = [
+    "verification_agent",
+    "verification_agent.ingest",
+    "verification_agent.model",
+    "verification_agent.verify",
+]
+
+[tool.setuptools.package-data]
+"verification_agent.verify" = ["solidity/*.sol"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
