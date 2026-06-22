@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+
+# Foundry / build artifacts from cloned targets
+out/
+cache/
+broadcast/
+
+# Local scratch + generated models
+/work/
+/scratch/
+*.local.json
+# Committed worked examples live under examples/*.model.json (kept on purpose).
+
+# Cloned scope repos (never commit a target's source into this repo)
+/targets/
