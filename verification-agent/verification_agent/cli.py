@@ -99,6 +99,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="Foundry workspace dir (created + forge-std provisioned).")
     sy.add_argument("--demo", action="store_true",
                     help="Run the M-03 structural lead + a Centrifuge permit lead.")
+    sy.add_argument("--deploygraph", default=None,
+                    help="Path to an M0 model: derive a target's collaborator "
+                         "deploy+wiring backbone (and print the autonomy ledger).")
+    sy.add_argument("--target", default=None, help="Target contract for --deploygraph.")
     sy.add_argument("--json", default=None, help="Write the synthesis run JSON.")
 
     kq = sub.add_parser(
@@ -136,11 +140,45 @@ def main(argv: list[str] | None = None) -> int:
     return 2
 
 
+def _cmd_deploygraph(args) -> int:
+    import json as _json
+
+    from .synthesize.deploygraph import DeployGraphSynthesizer
+
+    if not args.target:
+        print("--deploygraph requires --target <ContractName>")
+        return 2
+    model = _json.loads(Path(args.deploygraph).read_text())
+    g = DeployGraphSynthesizer().synthesize(model, args.target)
+    print(f"Verification-Agent — M4.5 deploy-graph synthesis (target={args.target})")
+    print("MACHINE-DERIVED from the M0 model alone (target-agnostic). The semantic "
+          "mile below is NOT model-derivable — named, not papered over.\n")
+    print("--- collaborator deploys ---")
+    for d in g.deploys:
+        tag = f"[MOCK SLOT {d.iface}]" if d.is_mock_slot else "(concrete)"
+        print(f"   {d.var:14s} <- {d.contract} {tag}")
+    print("--- owner-gated wiring ---")
+    for w in g.wiring:
+        print(f"   target.{w.setter}(address({w.collaborator_var}))")
+    print("--- rendered deploy+wiring backbone (state-assignment form) ---")
+    print(g.render_seed(as_assignment=True))
+    print("\n--- semantic mile (NOT derivable from the model) ---")
+    for s in g.semantic_gaps:
+        print(f"   - {s}")
+    if args.json:
+        Path(args.json).write_text(_json.dumps(g.to_dict(), indent=2))
+        print(f"\ndeploy-graph -> {args.json}")
+    return 0
+
+
 def _cmd_synthesize(args) -> int:
     import json as _json
     import tempfile
 
     from .synthesize import ScenarioSynthesizer, SynthesisRunner
+
+    if args.deploygraph:
+        return _cmd_deploygraph(args)
 
     syn = ScenarioSynthesizer()
     if args.demo:

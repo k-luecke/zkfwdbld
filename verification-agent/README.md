@@ -143,12 +143,24 @@ a deliberately rigged scenario:
 ```
 
 That second line is the guarantee: a machine that writes a rigged scenario is
-rejected exactly as a human's would be. **Honest boundary** (named, not hidden):
-the self-contained run proves the *pipeline* and the *Control guarantee*, not a
-real finding — and signature/permit-scope leads (the two blind Centrifuge ones)
-are **refused** rather than forced through a template that would misrepresent the
-bug. So **blind Tier-1 stays 0** until real-protocol deploy-graph + EIP-712
-synthesis lands — that is the next work order. Design:
+rejected exactly as a human's would be.
+
+**Deploy-graph synthesis** (the next layer) derives a target's collaborator
+deploy+wiring from the M0 model alone; spliced into a hand-built semantic mile it
+**CONFIRMS Decent M-03 against real code** (calibration). But the honest ledger is
+the result, not the green check: the machine backbone is **5 of 6 lines autonomous**
+(one needs a hand-fix — Slither drops a `payable` qualifier) and a *minority* of a
+confirming scenario. So the frontier is **sharpened, not closed**: "deploy graph"
+was the tractable part; the real distance is the **semantic mile** — mock
+behaviour, call payloads, and the core blocker, **autonomous signature construction
+for the honest Control**.
+
+**An honest negative result** is kept first-class: the surfaced structural
+Centrifuge leads were **refuted against real code** (deploy the real `Root`, run the
+unchanged gate → `REJECTED_ATTACK_REVERTED`) — they are design-permissionless
+functions, not bypasses. So **blind Tier-1 stays 0**, but the reason is a *bug-class
+coverage* gap, not a synthesis gap — and the next blind structural target is a
+different contest, not Centrifuge. Design + ledger:
 [docs/M4.5_scenario_synthesis.md](docs/M4.5_scenario_synthesis.md).
 
 ## And: **M6 — the backtest (the number that says hunter vs verifier)**
@@ -278,6 +290,7 @@ verification_agent/
             orchestrator.py           — backend dispatch + coverage map; no gate import
   synthesize/ templates.py            — target-agnostic scenario template; faithful + rigged (M4.5)
             synthesizer.py            — lead → scenario; enforces the honest boundaries
+            deploygraph.py            — derive collaborator deploy+wiring from the M0 model
             runner.py                 — runs the synthesized scenario through the real gate
   backtest/ tiers.py                  — FROZEN three-tier taxonomy; a lead is not a catch (M6)
             contests.py               — lane-curated registry + answer keys (scorer-only)
@@ -289,7 +302,7 @@ fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
 docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M4.5_scenario_synthesis / M6_backtest
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_backtest — offline
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_deploygraph / test_backtest — offline
 ```
 
 ## Hard constraints

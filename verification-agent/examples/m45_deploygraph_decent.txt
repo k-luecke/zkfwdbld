@@ -1,0 +1,63 @@
+# M4.5 deploy-graph synthesis on a TRUE positive — Decent M-03 (CALIBRATION, not blind)
+# command: python -m verification_agent synthesize --deploygraph examples/2024-01-decent.model.json --target UTB
+# gate run: real Decent code @ 5d196214..., forge 1.7.1, solc 0.8.20 (offline)
+# evidence scenario: examples/synthesized/DecentM03DeployGraph.t.sol
+#
+# PURPOSE: the Centrifuge homework refuted "the missing piece is the deploy graph."
+# This tests that against a real bug: how much of a CONFIRMING _seed() is derivable
+# from the M0 model ALONE? Answer: the collaborator deploy+wiring backbone — and it
+# is a MINORITY of the seed. The dominant remainder is the "semantic mile."
+
+=== MACHINE-GENERATED from the M0 model (DeployGraphSynthesizer, target=UTB) ===
+collaborator discovery (by owner-gated setter -> contract name/type match):
+   setExecutor      -> UTBExecutor        (concrete)        [USED]
+   setFeeCollector  -> UTBFeeCollector     (concrete)        [USED]
+   registerSwapper  -> UniSwapper          (concrete-but-heavy: needs its own
+                                            deploy graph) -> hand-replaced by a mock
+   setWrapped       -> IWrapped            (interface; mock slot) -> not on M-03 path
+   registerBridge   -> StargateBridgeAdapter(concrete-but-heavy) -> not on M-03 path
+
+emitted deploy+wiring backbone (6 lines, embedded verbatim in the scenario):
+   target_      = new UTB();
+   executor     = new UTBExecutor();
+   feeCollector = new UTBFeeCollector();
+   target_.setExecutor(address(executor));
+   target_.setFeeCollector(payable(address(feeCollector)));   // HAND-FIX (see ledger)
+   target_.registerSwapper(address(swapper));
+
+=== GATE VERDICT (real Decent code, four phases) ===
+   baseline holds -> Control clears (signed honest swap) -> attack (receiveFromBridge)
+   VAGATE_VERDICT CONFIRMED        # proves the machine backbone is EXECUTION-correct
+
+=== AUTONOMY LEDGER (the honest measure: what closed with zero hand-editing) ===
+MACHINE (deploy-graph synthesis, from the model):
+   + discovered the collaborator set + owner-gated wiring setters
+   + emitted the deploy+wiring backbone: 6 lines
+   - 5/6 fully autonomous; 1/6 needed a HAND-FIX:
+       setFeeCollector wants `address payable`, but the M0 model (Slither-normalized)
+       records `setFeeCollector(address)` — the `payable` qualifier is LOST, so the
+       synthesizer cannot know to emit the cast. Model-fidelity gap.
+   - candidate set was OVER-inclusive (setWrapped/registerBridge) and MIS-picked
+     heavy concretes (UniSwapper/StargateBridgeAdapter). Selecting the path-relevant,
+     deployable, mock-vs-concrete subset was a HAND judgment.
+
+HAND (the "semantic mile" — NOT derivable from the model):
+   - path-pruning + mock-vs-concrete selection (above)
+   - mock BEHAVIOUR: MockERC20 (mintable), MockSwapper (returns the fee token), Sink (pwn())
+   - ownership/collaborator semantics: executor.transferOwnership(utb),
+     feeCollector.setUtb(utb), feeCollector.setSigner(signer)
+   - funding, the invariant (this comes from M3), the instruction-struct PAYLOADS
+   - a VALID SIGNATURE for the honest control  <-- THE CORE BLOCKER
+
+=== WHAT THIS MEANS (frontier, sharpened) ===
+Deploy-graph DISCOVERY is the tractable, mostly-autonomous part — and it is a small
+fraction of a CONFIRMING scenario. The premise that "deploy graph" was the missing
+capability is itself refined: the dominant frontier is the SEMANTIC MILE, and for
+this bug class its CORE is autonomous SIGNATURE construction for the honest Control.
+Even a perfect deploy graph cannot reach an autonomous CONFIRMED on M-03 without it
+(no valid signature -> Control reverts -> REJECTED_MALFORMED_CONTROL_REVERT).
+
+THIS IS NOT AN AUTONOMOUS CATCH. It is a machine-generated deploy+wiring backbone
+(5/6 autonomous) spliced into a hand-built semantic mile, CONFIRMED on real code,
+CALIBRATION (M-03 was known). It proves the infrastructure on a true positive and
+measures the real remaining distance. It does not change the live-contest decision.

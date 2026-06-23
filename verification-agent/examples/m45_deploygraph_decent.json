@@ -1,0 +1,70 @@
+{
+  "target": "UTB",
+  "deploys": [
+    {
+      "var": "target_",
+      "contract": "UTB",
+      "mock_slot": false,
+      "iface": ""
+    },
+    {
+      "var": "executor",
+      "contract": "UTBExecutor",
+      "mock_slot": false,
+      "iface": ""
+    },
+    {
+      "var": "wrapped",
+      "contract": "IWrapped",
+      "mock_slot": true,
+      "iface": "IWrapped"
+    },
+    {
+      "var": "feeCollector",
+      "contract": "UTBFeeCollector",
+      "mock_slot": false,
+      "iface": ""
+    },
+    {
+      "var": "swapper",
+      "contract": "UniSwapper",
+      "mock_slot": false,
+      "iface": ""
+    },
+    {
+      "var": "bridge",
+      "contract": "StargateBridgeAdapter",
+      "mock_slot": false,
+      "iface": ""
+    }
+  ],
+  "wiring": [
+    {
+      "setter": "setExecutor",
+      "collaborator": "executor"
+    },
+    {
+      "setter": "setWrapped",
+      "collaborator": "wrapped"
+    },
+    {
+      "setter": "setFeeCollector",
+      "collaborator": "feeCollector"
+    },
+    {
+      "setter": "registerSwapper",
+      "collaborator": "swapper"
+    },
+    {
+      "setter": "registerBridge",
+      "collaborator": "bridge"
+    }
+  ],
+  "semantic_gaps": [
+    "constructor ARGS with meaning (model carries no constructor params)",
+    "ownership-transfer semantics (e.g. collaborator owned by the target)",
+    "mock BEHAVIOUR for interface slots (e.g. a swapper that returns a token)",
+    "honest-control CALL PAYLOADS (struct fields, sink selector)",
+    "a VALID SIGNATURE for the honest control (the core blocker)"
+  ]
+}
