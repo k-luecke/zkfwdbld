@@ -33,6 +33,7 @@ packages = [
     "verification_agent.kb",
     "verification_agent.hypothesize",
     "verification_agent.pathfind",
+    "verification_agent.synthesize",
     "verification_agent.backtest",
 ]
 

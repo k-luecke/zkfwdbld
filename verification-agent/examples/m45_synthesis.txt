@@ -1,0 +1,40 @@
+# M4.5 scenario synthesis — machine-written scenario through the UNCHANGED gate
+# command: python -m verification_agent synthesize --demo --workspace <ws> --json examples/m45_synthesis.json
+# forge 1.7.1, solc 0.8.25 (offline), self-contained workspace (forge-std only; no protocol clone)
+#
+# What this proves:
+#   1. The synthesis PIPELINE: a Seer lead (entrypoint + bypassed guard) is turned
+#      into a complete VerifyGate scenario (deploy + invariant + control + attack)
+#      by a TARGET-AGNOSTIC template, with nothing hand-written, and run through the
+#      byte-for-byte real VerifyGate.sol.
+#   2. The ANTI-RIGGING guarantee (the M4.5 wrong-reason): the synthesizer also
+#      generates a deliberately rigged predicate; the gate's Control phase rejects
+#      it. A machine that writes a scenario gets NO free pass.
+#
+# What it does NOT prove (named, not hidden): a real blind catch. See the gaps below.
+
+Verification-Agent — M4.5 scenario synthesis (run through the UNCHANGED gate)
+discipline: synthesized scenarios get no fast path; the Control phase rejects a machine-rigged predicate exactly as it would a human's.
+
+[lead] receiveFromBridge  (bypasses retrieveAndCollectFees)
+   mechanism=access-control/alt-entrypoint  executable=True  self_contained=True
+   [OK ] faithful       -> CONFIRMED                    (expected CONFIRMED)
+   [OK ] rigged-control -> REJECTED_MALFORMED_CONTROL   (expected REJECTED_MALFORMED_CONTROL)
+   autonomy: machine-derived: entrypoint, bypassed-guard, invariant, control, attack, both faithful and rigged variants. Hand-written: nothing (target-agnostic template).
+   real-finding gap: real-finding certification needs execution against the real deployed contract (does the unguarded sibling exist and reach the sink unauthorized?). Self-contained run proves the pipeline + the Control anti-rigging guarantee, not the real finding.
+
+[lead] requestRedeemWithPermit  (bypasses withApproval)
+   mechanism=signature-scope  executable=False  self_contained=False
+   NOT EXECUTABLE — honest gap:
+     signature/permit-scope mechanism. The structural template would misrepresent it: the guard is not absent, it is satisfied by a signature whose SCOPE is the bug (e.g. a permit not bound to the pool, replayable cross-pool). A faithful scenario needs the real protocol deployed + EIP-712 permit construction + a scope invariant — autonomous deploy-graph + signature synthesis is the named M4.5 frontier.
+
+================ M4.5 STATUS (honest) ================
+PIPELINE + CONTROL GUARANTEE : PROVEN (faithful -> CONFIRMED, rigged -> REJECTED_MALFORMED_CONTROL)
+SELF-CONTAINED scenario      : machine-synthesized, zero hand-written Solidity
+REAL blind catch (Tier-1)    : NOT YET. The two blind Centrifuge leads:
+   - requestRedeemWithPermit / requestDepositWithPermit -> signature-scope, out of the
+     structural template's honest scope (would misrepresent the bug).
+   - the onlyGateway/auth structural leads -> need the real protocol's deploy graph
+     synthesized to certify they are more than noisy matches.
+   => Backtest blind Tier-1 stays 0. The named frontier is real-protocol deploy-graph
+      synthesis (+ EIP-712 construction for the permit leads). That is the next work order.

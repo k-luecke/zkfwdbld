@@ -87,6 +87,20 @@ def main(argv: list[str] | None = None) -> int:
                     help="Cloned 2024-01-decent dir (for the M-03 gate confirmation).")
     bt.add_argument("--json", default=None, help="Write the frozen scorecard JSON.")
 
+    sy = sub.add_parser(
+        "synthesize",
+        help="Synthesize a verify scenario from a Seer lead and run it through "
+             "the UNCHANGED gate (M4.5).")
+    sy.add_argument("--entrypoint", default="",
+                    help="The unguarded entrypoint the lead flagged.")
+    sy.add_argument("--guard", default="",
+                    help="The guard/modifier the unguarded path bypasses.")
+    sy.add_argument("--workspace", default=None,
+                    help="Foundry workspace dir (created + forge-std provisioned).")
+    sy.add_argument("--demo", action="store_true",
+                    help="Run the M-03 structural lead + a Centrifuge permit lead.")
+    sy.add_argument("--json", default=None, help="Write the synthesis run JSON.")
+
     kq = sub.add_parser(
         "kb", help="Query the knowledge base for hypothesis priors (M2).")
     kq.add_argument("--surface", action="append", default=[],
@@ -116,8 +130,68 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_findpath(args)
     if args.command == "backtest":
         return _cmd_backtest(args)
+    if args.command == "synthesize":
+        return _cmd_synthesize(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_synthesize(args) -> int:
+    import json as _json
+    import tempfile
+
+    from .synthesize import ScenarioSynthesizer, SynthesisRunner
+
+    syn = ScenarioSynthesizer()
+    if args.demo:
+        leads = [
+            {"attack_entrypoint": "receiveFromBridge",
+             "guard_bypassed": "retrieveAndCollectFees"},
+            {"attack_entrypoint": "requestRedeemWithPermit",
+             "guard_bypassed": "withApproval"},
+        ]
+    elif args.entrypoint:
+        leads = [{"attack_entrypoint": args.entrypoint,
+                  "guard_bypassed": args.guard}]
+    else:
+        print("provide --entrypoint (and --guard) or --demo")
+        return 2
+
+    ws = Path(args.workspace) if args.workspace else Path(tempfile.mkdtemp(prefix="synth_ws_"))
+    runner = SynthesisRunner(ws)
+    runner.ensure_workspace()
+
+    print("Verification-Agent — M4.5 scenario synthesis (run through the UNCHANGED gate)")
+    print("discipline: synthesized scenarios get no fast path; the Control phase "
+          "rejects a machine-rigged predicate exactly as it would a human's.\n")
+
+    out = []
+    for lead in leads:
+        sc = syn.synthesize(lead)
+        rec = sc.to_dict()
+        ep = sc.lead_entrypoint
+        print(f"[lead] {ep}  (bypasses {sc.lead_guard or '-'})")
+        print(f"   mechanism={sc.mechanism}  executable={sc.executable}  "
+              f"self_contained={sc.is_self_contained}")
+        if sc.executable:
+            results = runner.run(sc)
+            rec["results"] = [r.to_dict() for r in results]
+            for r in results:
+                flag = "OK " if r.gate_correct else "!! "
+                print(f"   [{flag}] {r.case.role:14s} -> {r.verdict.value:28s} "
+                      f"(expected {r.expected.value})")
+            print(f"   autonomy: {sc.autonomy}")
+            print(f"   real-finding gap: {sc.gap}")
+        else:
+            print(f"   NOT EXECUTABLE — honest gap:")
+            print(f"     {sc.gap}")
+        print()
+        out.append(rec)
+
+    if args.json:
+        Path(args.json).write_text(_json.dumps({"milestone": "M4.5", "scenarios": out}, indent=2))
+        print(f"synthesis run -> {args.json}")
+    return 0
 
 
 def _cmd_backtest(args) -> int:

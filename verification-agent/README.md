@@ -126,6 +126,31 @@ Honest scope: the *path discovery* is autonomous; auto-synthesizing the full PoC
 scenario (deploy + args) is the remaining frontier. Design:
 [docs/M4_path_backends.md](docs/M4_path_backends.md).
 
+## And: **M4.5 — scenario synthesis (turn a found path into a verdict)**
+
+The component the backtest named: it synthesizes the gate scenario (deploy +
+invariant + control + attack) from a Seer lead, using a **target-agnostic**
+template (no protocol names — a `CONFIRM` can't be smuggled in), and runs it
+through the **byte-for-byte real** gate with **no fast path**. Because generation
+is where hallucination re-enters, the discipline holds hardest here, and it is
+*proven*, not asserted — from every lead the synthesizer emits a faithful **and**
+a deliberately rigged scenario:
+
+```
+[lead] receiveFromBridge  (bypasses retrieveAndCollectFees)
+   [OK ] faithful       -> CONFIRMED                    (the unguarded sibling breaks the invariant)
+   [OK ] rigged-control -> REJECTED_MALFORMED_CONTROL   (a machine-rigged predicate; Control catches it)
+```
+
+That second line is the guarantee: a machine that writes a rigged scenario is
+rejected exactly as a human's would be. **Honest boundary** (named, not hidden):
+the self-contained run proves the *pipeline* and the *Control guarantee*, not a
+real finding — and signature/permit-scope leads (the two blind Centrifuge ones)
+are **refused** rather than forced through a template that would misrepresent the
+bug. So **blind Tier-1 stays 0** until real-protocol deploy-graph + EIP-712
+synthesis lands — that is the next work order. Design:
+[docs/M4.5_scenario_synthesis.md](docs/M4.5_scenario_synthesis.md).
+
 ## And: **M6 — the backtest (the number that says hunter vs verifier)**
 
 M6 turns the loop loose on **settled** contests and measures it against a
@@ -188,6 +213,9 @@ python -m verification_agent hypothesize --model 2024-01-decent.model.json --con
 # M4: find a concrete path (Seer) and confirm it through the gate:
 python -m verification_agent findpath --model 2024-01-decent.model.json --repo ./2024-01-decent --connect-gate
 
+# M4.5: synthesize a gate scenario from a lead and run it through the unchanged gate:
+python -m verification_agent synthesize --demo --workspace ./synth_ws --json examples/m45_synthesis.json
+
 # M6: run the blind backtest and print the FROZEN three-tier scorecard:
 python -m verification_agent backtest --decent-repo ./2024-01-decent --json examples/m6_backtest.json
 ```
@@ -248,17 +276,20 @@ verification_agent/
   pathfind/ seer.py                   — structural reachability engine (M4)
             medusa.py, halmos.py      — fuzz + symbolic adapters; solidity/ harness
             orchestrator.py           — backend dispatch + coverage map; no gate import
+  synthesize/ templates.py            — target-agnostic scenario template; faithful + rigged (M4.5)
+            synthesizer.py            — lead → scenario; enforces the honest boundaries
+            runner.py                 — runs the synthesized scenario through the real gate
   backtest/ tiers.py                  — FROZEN three-tier taxonomy; a lead is not a catch (M6)
             contests.py               — lane-curated registry + answer keys (scorer-only)
             runner.py                 — BlindRunner: runs the loop on code alone, never reads keys
             scorer.py                 — opens keys post-freeze; mechanical tier assignment
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — model (M0) / verify (M1) / kb (M2) / hypothesize (M3) / findpath (M4) / backtest (M6)
+  cli.py                              — model/verify/kb/hypothesize/findpath/synthesize/backtest (M0–M6)
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
-docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M6_backtest
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_backtest — offline
+docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M4.5_scenario_synthesis / M6_backtest
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_backtest — offline
 ```
 
 ## Hard constraints
