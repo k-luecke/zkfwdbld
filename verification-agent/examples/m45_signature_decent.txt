@@ -1,0 +1,67 @@
+# M4.5 KEYSTONE — autonomous signature/Control synthesis, Decent M-03 (CALIBRATION, not blind)
+# command path: detect scheme from UTBFeeCollector.collectFees -> render signer -> splice -> gate
+# real Decent code @ 5d196214..., forge 1.7.1, solc 0.8.20 (offline)
+# evidence: examples/synthesized/DecentM03Keystone.t.sol (+ DecentM03KeystoneWrongSig.t.sol)
+#
+# Closes the ONE gap deploy-graph work exposed: the honest Control's signature is now
+# CONSTRUCTED from the protocol's signing scheme, not hand-supplied.
+
+=== SCHEME DETECTION (read from the verifier's source; CONSTRUCT not EXTRACT) ===
+verifier: UTBFeeCollector.collectFees
+   detected scheme : eip191_personal_sign
+   banner          : "\x19Ethereum Signed Message:\n32"   (extracted verbatim from source)
+   sig layout      : rsv   (inferred from splitSignature offsets)
+   evidence        : \x19Ethereum Signed Message:\n32
+NOTE: no protocol literal in the synthesizer source (asserted by test). The message
+preimage abi.encode(instructions,fees) and the fixture signer key are scenario-LOCAL.
+
+=== MACHINE-SYNTHESIZED SIGNER (emitted from the detected scheme; NOT copied from any hand sig) ===
+    function _synthSign(uint256 pk, bytes memory preimage)
+        internal view returns (bytes memory)
+    {
+        bytes32 digest = keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", keccak256(preimage)));
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(pk, digest);
+        return abi.encodePacked(r, s, v);
+    }
+Control calls: sig = _synthSign(signerPk, abi.encode(i, f));   (the hand `_sig` is GONE)
+
+=== GATE — FOUR PHASES (real Decent code, unchanged VerifyGate.sol) ===
+   1. BASELINE  invariant holds on seeded state                          -> pass
+   2. CONTROL   honest paid swapAndExecute with the SYNTHESIZED signature -> pass
+   3. ATTACK    receiveFromBridge (no fee/sig)                            -> executes
+   4. VERDICT   sink.pwnedCount advanced, fees not collected -> invariant broken
+   VAGATE_VERDICT CONFIRMED
+
+=== NEGATIVE CONTROL — WRONG SIG MUST FAIL LOUDLY (constraint #3) ===
+Rendered a WRONG scheme (RAW: digest = keccak256(preimage), no EIP-191 banner),
+spliced in its place, unchanged gate:
+   VAGATE_VERDICT REJECTED_MALFORMED_CONTROL_REVERT   (collectFees: "Wrong signature")
+=> The CONFIRMED above genuinely depended on the signature being CORRECTLY constructed.
+   The gate is not rubber-stamping; a wrong construction reverts Control, as required.
+
+=== FULL-SCENARIO AUTONOMY LEDGER (scenario-logic statements) ===
+MACHINE-autonomous: 8 / 26  = 31%   (deploy-graph-only baseline: 5/26 = 19%)
+   deploy+wiring backbone (5): UTB/UTBExecutor/UTBFeeCollector deploys + setExecutor
+                               + registerSwapper
+   signature signer       (3): digest reconstruction + vm.sign + r,s,v packing  <-- the
+                               previously-named CORE blocker, now MACHINE-constructed
+MACHINE hand-fix: 0 this session. (deploy-graph still carries its 1 payable-cast hand-fix:
+   the model drops the `payable` qualifier on setFeeCollector. Unchanged here.)
+HAND semantic mile (remaining, 18): state decls; actors; fee-token/sink/swapper mock
+   BEHAVIOUR; ownership transfer; collaborator-side setUtb/setSigner; funding; the
+   instruction-struct PAYLOADS (_instr); honest/attack orchestration.
+
+WIN: CONFIRMED with NO hand-supplied signature in the chain. Combined with the
+deploy-graph backbone this is a real autonomous true-positive CONFIRMED on real code.
+LABEL: CALIBRATION, NOT BLIND (M-03 was known when its gate case was built). Does not
+change the live-contest decision; proves the keystone on a true positive.
+
+=== GENERALITY PROBE (does this unlock the signature-scope class, or only this bug?) ===
+The detect->emit frame is GENERAL over schemes that sign a digest of a bytes preimage
+(EIP-191 personal_sign / raw ecrecover): only the digest expression changes, and the
+signer takes (pk, preimage). It does NOT yet cover EIP-712 typed data: that digest is
+built from a domain separator + typehash + per-field struct encoding, not an opaque
+preimage. EIP-712 is DETECTED (and the emitter refuses rather than guesses) but NOT
+emitted. So this keystone unlocks the EIP-191/raw signature class; the permit /
+signature-scope class (the deferred Centrifuge frontier) needs a typed-data digest
+builder, not just this signer. Transfers in SHAPE, not yet in COVERAGE.

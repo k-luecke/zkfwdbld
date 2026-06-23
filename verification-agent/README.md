@@ -155,6 +155,15 @@ was the tractable part; the real distance is the **semantic mile** — mock
 behaviour, call payloads, and the core blocker, **autonomous signature construction
 for the honest Control**.
 
+The **signature keystone** then closes the named core blocker: `SignatureSchemeSynthesizer`
+reads the verifier's source, **detects** the scheme (EIP-191 personal_sign), and
+**constructs** the Control's signature — no hand sig anywhere. Spliced with the
+deploy-graph backbone it **CONFIRMS Decent M-03 against real code**, and a *wrong*
+scheme reverts Control (`REJECTED_MALFORMED_CONTROL_REVERT`) — the guard fires, proven
+not asserted. Full-scenario autonomy moved **19% → 31%**. This is a real autonomous
+true-positive CONFIRMED — **calibration, not blind**. (EIP-712 is detected-but-not-emitted:
+the permit/signature-scope frontier transfers in shape, not yet coverage.)
+
 **An honest negative result** is kept first-class: the surfaced structural
 Centrifuge leads were **refuted against real code** (deploy the real `Root`, run the
 unchanged gate → `REJECTED_ATTACK_REVERTED`) — they are design-permissionless
@@ -291,6 +300,7 @@ verification_agent/
   synthesize/ templates.py            — target-agnostic scenario template; faithful + rigged (M4.5)
             synthesizer.py            — lead → scenario; enforces the honest boundaries
             deploygraph.py            — derive collaborator deploy+wiring from the M0 model
+            signature.py              — detect signing scheme + construct the Control signature
             runner.py                 — runs the synthesized scenario through the real gate
   backtest/ tiers.py                  — FROZEN three-tier taxonomy; a lead is not a catch (M6)
             contests.py               — lane-curated registry + answer keys (scorer-only)
@@ -302,7 +312,7 @@ fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
 docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M4.5_scenario_synthesis / M6_backtest
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_deploygraph / test_backtest — offline
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_deploygraph / test_signature / test_backtest — offline
 ```
 
 ## Hard constraints
