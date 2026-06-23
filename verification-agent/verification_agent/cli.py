@@ -78,6 +78,15 @@ def main(argv: list[str] | None = None) -> int:
     fp.add_argument("--external-timeout", type=int, default=90)
     fp.add_argument("--json", default=None, help="Write the coverage map JSON.")
 
+    bt = sub.add_parser(
+        "backtest",
+        help="Blind backtest over settled contests; frozen three-tier scorecard (M6).")
+    bt.add_argument("--examples-dir", default="examples",
+                    help="Directory holding the per-contest M0 model JSONs.")
+    bt.add_argument("--decent-repo", default=None,
+                    help="Cloned 2024-01-decent dir (for the M-03 gate confirmation).")
+    bt.add_argument("--json", default=None, help="Write the frozen scorecard JSON.")
+
     kq = sub.add_parser(
         "kb", help="Query the knowledge base for hypothesis priors (M2).")
     kq.add_argument("--surface", action="append", default=[],
@@ -105,8 +114,75 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_hypothesize(args)
     if args.command == "findpath":
         return _cmd_findpath(args)
+    if args.command == "backtest":
+        return _cmd_backtest(args)
     parser.error(f"unknown command {args.command}")
     return 2
+
+
+def _cmd_backtest(args) -> int:
+    import json as _json
+    from .backtest import (ANSWER_KEYS, CONTESTS, BlindRunner, aggregate,
+                           score_contest)
+
+    examples = Path(args.examples_dir)
+    runner = BlindRunner()
+
+    print("Verification-Agent — M6 backtest (FROZEN three-tier taxonomy; blind run)")
+    print("taxonomy pinned before run: Tier1=path+verdict, Tier2=+PoC-synthesis, "
+          "Tier3=surfaced-not-caught. A found path without a gate verdict is NOT a catch.\n")
+
+    # ---- BLIND RUN (no answer keys read) ----
+    runs = []
+    for c in CONTESTS:
+        models = [str(examples / m) for m in c["models"]]
+        if not all(Path(m).exists() for m in models):
+            print(f"[skip] {c['id']}: model(s) missing {models}")
+            continue
+        repo = args.decent_repo if c["id"] == "2024-01-decent" else None
+        run = runner.run(c["id"], models, repo_dir=repo, confirm_gate=bool(repo))
+        run["blind"] = c["blind"]
+        runs.append(run)
+        cc = run["counts"]
+        tag = "BLIND" if c["blind"] else "calibration"
+        print(f"[{tag:11s}] {c['id']:18s} surfaced={cc['surfaced']:3d} "
+              f"hypotheses={cc['hypotheses']:3d} paths={cc['paths_found']:2d} "
+              f"gate_confirmed={cc['gate_confirmed']}")
+
+    # ---- SCORE (answer keys opened now) ----
+    print("\n--- opening answer keys and scoring against the frozen taxonomy ---")
+    scored = [score_contest(r, ANSWER_KEYS[r["contest_id"]]) for r in runs]
+    for s in scored:
+        print(f"\n{s['contest_id']} ({'blind' if s['blind'] else 'calibration'}):")
+        for f in s["findings"]:
+            if not f["in_lane"]:
+                continue
+            mark = {"tier1_autonomous_path_and_verdict": "TIER-1 CATCH",
+                    "tier2_fully_autonomous_with_poc_synthesis": "TIER-2",
+                    "tier3_surfaced_not_caught": "tier-3 surfaced",
+                    "missed": "MISSED"}[f["tier"]]
+            lead = " +Seer-lead" if f["path_found"] else ""
+            print(f"   {f['id']:4s} [{f['mechanism']:18s}] {mark}{lead}  — {f['title'][:54]}")
+
+    agg = aggregate(scored)
+    print("\n================ FROZEN SCORECARD (lane: access-control / cross-chain) ================")
+    print(f"in-lane findings across {len(scored)} contest(s): {agg['in_lane_findings']}")
+    print(f"  TIER-1 autonomous path + verdict : {agg['tier1_autonomous_path_and_verdict']['count']} "
+          f"(recall {agg['tier1_autonomous_path_and_verdict']['recall']})  "
+          f"ids={agg['tier1_autonomous_path_and_verdict']['ids']}")
+    print(f"  TIER-2 fully autonomous (PoC syn): {agg['tier2_fully_autonomous']['count']} "
+          f"(recall {agg['tier2_fully_autonomous']['recall']})  [near-zero until M4.5]")
+    print(f"  TIER-3 surfaced not caught       : {agg['tier3_surfaced_not_caught']['count']}")
+    print(f"  surfaced total (tier-3 and up)   : {agg['surfaced_total']['count']} "
+          f"(recall {agg['surfaced_total']['recall']})")
+    print(f"  Seer path-leads on findings      : {agg['path_found_leads_on_findings']['count']} "
+          f"(NOT catches — leads only)")
+
+    if args.json:
+        payload = {"taxonomy": "frozen", "runs": runs, "scored": scored, "aggregate": agg}
+        Path(args.json).write_text(_json.dumps(payload, indent=2))
+        print(f"\nfrozen scorecard -> {args.json}")
+    return 0
 
 
 def _cmd_findpath(args) -> int:

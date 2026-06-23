@@ -126,8 +126,38 @@ Honest scope: the *path discovery* is autonomous; auto-synthesizing the full PoC
 scenario (deploy + args) is the remaining frontier. Design:
 [docs/M4_path_backends.md](docs/M4_path_backends.md).
 
-Triage + report (M5) and the backtest harness (M6) are next. The build order is
-load-bearing: the gate was trusted before anything upstream of it was built.
+## And: **M6 — the backtest (the number that says hunter vs verifier)**
+
+M6 turns the loop loose on **settled** contests and measures it against a
+taxonomy **frozen before the run** — the M1 predicate-author separation applied to
+scoring. Three tiers, logged separately and never collapsed: **Tier-1** =
+autonomous path **and** autonomous verdict; **Tier-2** = +machine-synthesized PoC
+(M4.5); **Tier-3** = surfaced but not caught. `classify()` has no `path_found`
+parameter on purpose — **a found path the gate did not confirm is a *lead*, not a
+catch.** The runner is **blind** (it cannot read the answer keys; the scorer opens
+them only after the output is frozen), and the contest set stays **in lane** —
+access-control / cross-domain / signature — rather than padded with rounding/DoS.
+
+```
+================ FROZEN SCORECARD (lane: access-control / cross-chain) ================
+in-lane findings across 2 contest(s): 8
+  TIER-1 autonomous path + verdict : 1 (recall 0.125)  ids=['M-03']   # the calibration finding
+  TIER-2 fully autonomous (PoC syn): 0 (recall 0.0)    [near-zero until M4.5]
+  TIER-3 surfaced not caught       : 5
+  surfaced total (tier-3 and up)   : 6 (recall 0.75)
+  Seer path-leads on findings      : 3 (NOT catches — leads only)
+```
+
+The honest read: on the **blind** contest (Centrifuge 2023-09) Tier-1 is **0** —
+the loop surfaces the right findings (recall 0.75) and Seer even produces leads on
+two, but no machine-built scenario harness exists to turn a lead into a verdict.
+**Today this is a surfacer + verifier, not yet a blind hunter; the named gap is
+M4.5 (PoC synthesis).** That is the number that says *build M4.5 before walking
+into a live contest*. Design: [docs/M6_backtest.md](docs/M6_backtest.md).
+
+Triage + report (M5) is next, built on top of this measured baseline. The build
+order is load-bearing: the gate was trusted, then everything upstream proven
+against it, before the output was ever scored.
 
 ## Usage
 
@@ -157,6 +187,9 @@ python -m verification_agent hypothesize --model 2024-01-decent.model.json --con
 
 # M4: find a concrete path (Seer) and confirm it through the gate:
 python -m verification_agent findpath --model 2024-01-decent.model.json --repo ./2024-01-decent --connect-gate
+
+# M6: run the blind backtest and print the FROZEN three-tier scorecard:
+python -m verification_agent backtest --decent-repo ./2024-01-decent --json examples/m6_backtest.json
 ```
 
 The output is self-describing: a `tool_status` block records which external
@@ -215,13 +248,17 @@ verification_agent/
   pathfind/ seer.py                   — structural reachability engine (M4)
             medusa.py, halmos.py      — fuzz + symbolic adapters; solidity/ harness
             orchestrator.py           — backend dispatch + coverage map; no gate import
+  backtest/ tiers.py                  — FROZEN three-tier taxonomy; a lead is not a catch (M6)
+            contests.py               — lane-curated registry + answer keys (scorer-only)
+            runner.py                 — BlindRunner: runs the loop on code alone, never reads keys
+            scorer.py                 — opens keys post-freeze; mechanical tier assignment
   schema.py                           — the JSON contract every stage consumes
-  cli.py                              — model (M0) / verify (M1) / kb (M2) / hypothesize (M3) / findpath (M4)
+  cli.py                              — model (M0) / verify (M1) / kb (M2) / hypothesize (M3) / findpath (M4) / backtest (M6)
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
-docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind — offline
+docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M6_backtest
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_backtest — offline
 ```
 
 ## Hard constraints

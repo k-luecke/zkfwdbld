@@ -14,8 +14,8 @@ report imply more certainty than the verify gate (M1) has established.
 | **M2 — Knowledge base** | **IMPLEMENTED** | Lane-curated, mechanism-structured, dual-source (OAK taxonomy + contest/incident worked examples). Mechanism-feature retrieval (fields ~0.86, lexical ~0.14); a prior is never a verdict. On the M-03 surface the real M-03 + same-class priors top the list while a bridge/fee vocabulary decoy ranks #18/20. See [docs/M2_knowledge_base.md](docs/M2_knowledge_base.md). |
 | **M3 — Hypothesis engine** | **IMPLEMENTED** (offline) / **PARTIAL** (Claude) | M0 surface + M2 priors → EV-ranked candidate hypotheses whose primary output is a gate-survivable invariant predicate. Proposes-never-confirms enforced structurally (no `verify` import; `is_candidate` only; LLM confidence zero-weight). On Decent the M-03 predicate clears the gate's baseline+control and CONFIRMS; benign `contribute()` is demoted to the EV floor. See [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md). |
 | **M4 — Path backends** | **IMPLEMENTED** (Seer) / **PARTIAL** (Medusa/Halmos) | Seer structural-reachability engine independently rediscovers the M-03 path (`receiveFromBridge` bypassing `retrieveAndCollectFees`) from the M0 model alone; handed to the M1 gate it CONFIRMS — machine-found path, machine verdict. Medusa (1.5.1) + Halmos (0.3.3) wired behind the same interface; coverage is environment-bounded and logged honestly. No `verify` import (wall). See [docs/M4_path_backends.md](docs/M4_path_backends.md). |
-| M5 — Triage + report | PROPOSED | Severity (C4/Sherlock/Cantina), uniqueness fingerprint, PoC minimize, draft. |
-| M6 — Backtest harness | PROPOSED | Full loop over 10–15 settled contests → recall/precision/uniqueness. The deliverable number. |
+| M5 — Triage + report | PROPOSED | Severity (C4/Sherlock/Cantina), uniqueness fingerprint, PoC minimize, draft. (Built after M6 per build order.) |
+| **M6 — Backtest harness** | **IMPLEMENTED** | **FROZEN** three-tier taxonomy pinned before the run (Tier-1 path+verdict / Tier-2 +PoC-synth / Tier-3 surfaced) — a found path without a gate verdict is **not** a catch. Blind run (`BlindRunner` never reads answer keys; scorer opens them after freeze), lane-curated set (Decent calibration + Centrifuge **blind**). Honest result: **Tier-1 1/8 (0.125, the calibration M-03; blind Tier-1=0)**, surfaced recall **0.75**, 3 Seer leads (not catches). The number says *surfacer+verifier today, build M4.5 before a live contest*. See [docs/M6_backtest.md](docs/M6_backtest.md). |
 
 ## Module-level state (M0)
 
@@ -38,6 +38,10 @@ report imply more certainty than the verify gate (M1) has established.
 | `pathfind/seer.py` | IMPLEMENTED | Structural-reachability engine; rediscovers the M-03 path from the M0 model. |
 | `pathfind/{medusa,halmos}.py` | PARTIAL | Stateful-fuzz + symbolic adapters; tools installed; coverage environment-bounded, logged honestly. |
 | `pathfind/orchestrator.py` | IMPLEMENTED | Dispatches backends; builds the per-backend/per-mechanism coverage map. No `verify` import. |
+| `backtest/tiers.py` | IMPLEMENTED (frozen) | The pinned three-tier taxonomy; `classify` is mechanical and has no `path_found` parameter (a lead is not a catch). `FROZEN_RULES` asserted by the scorer. |
+| `backtest/contests.py` | IMPLEMENTED | Lane-curated contest registry + `ANSWER_KEYS` (opened only by the scorer). Decent = calibration, Centrifuge = blind. |
+| `backtest/runner.py` | IMPLEMENTED | `BlindRunner` runs M0→M3→M4→M1 on code alone; never reads findings. |
+| `backtest/scorer.py` | IMPLEMENTED | Opens answer keys post-freeze, applies `classify`, aggregates lane-only recall per tier. |
 
 ## Known limitations (M0)
 
