@@ -1,0 +1,940 @@
+{
+  "taxonomy": "frozen",
+  "runs": [
+    {
+      "contest_id": "2024-01-decent",
+      "models": [
+        "examples/2024-01-decent.model.json",
+        "examples/2024-01-decent-bridge.model.json"
+      ],
+      "counts": {
+        "surfaced": 18,
+        "hypotheses": 18,
+        "paths_found": 2,
+        "gate_confirmed": 1
+      },
+      "surfaced_functions": [
+        "DcntEth.mint",
+        "DcntEth.mintByOwner",
+        "DcntEth.setRouter",
+        "DecentBridgeExecutor.execute",
+        "DecentEthRouter.addLiquidityEth",
+        "DecentEthRouter.addLiquidityWeth",
+        "DecentEthRouter.bridge",
+        "DecentEthRouter.bridgeWithPayload",
+        "DecentEthRouter.estimateSendAndCallFee",
+        "DecentEthRouter.onOFTReceived",
+        "DecentEthRouter.removeLiquidityWeth",
+        "UTB.bridgeAndExecute",
+        "UTB.receiveFromBridge",
+        "UTB.swapAndExecute",
+        "UTBFeeCollector.collectFees",
+        "UniSwapper.swapExactIn",
+        "UniSwapper.swapExactOut",
+        "UniSwapper.swapNoPath"
+      ],
+      "hypotheses": [
+        {
+          "target": "UTB.bridgeAndExecute",
+          "mechanism": "access-control",
+          "ev": 0.3288
+        },
+        {
+          "target": "UTB.swapAndExecute",
+          "mechanism": "access-control",
+          "ev": 0.3276
+        },
+        {
+          "target": "UTBFeeCollector.collectFees",
+          "mechanism": "signature-verification",
+          "ev": 0.2873
+        },
+        {
+          "target": "UniSwapper.swapExactIn",
+          "mechanism": "access-control",
+          "ev": 0.2403
+        },
+        {
+          "target": "UniSwapper.swapExactOut",
+          "mechanism": "access-control",
+          "ev": 0.239
+        },
+        {
+          "target": "UTB.receiveFromBridge",
+          "mechanism": "access-control",
+          "ev": 0.2315
+        },
+        {
+          "target": "UniSwapper.swapNoPath",
+          "mechanism": "access-control",
+          "ev": 0.2299
+        },
+        {
+          "target": "DecentEthRouter.bridge",
+          "mechanism": "access-control",
+          "ev": 0.336
+        },
+        {
+          "target": "DecentEthRouter.bridgeWithPayload",
+          "mechanism": "access-control",
+          "ev": 0.3336
+        },
+        {
+          "target": "DecentEthRouter.addLiquidityWeth",
+          "mechanism": "access-control",
+          "ev": 0.3329
+        },
+        {
+          "target": "DecentEthRouter.removeLiquidityWeth",
+          "mechanism": "access-control",
+          "ev": 0.2509
+        },
+        {
+          "target": "DecentBridgeExecutor.execute",
+          "mechanism": "fund-routing",
+          "ev": 0.2385
+        },
+        {
+          "target": "DecentEthRouter.estimateSendAndCallFee",
+          "mechanism": "fund-routing",
+          "ev": 0.2269
+        },
+        {
+          "target": "DcntEth.mint",
+          "mechanism": "fund-routing",
+          "ev": 0.225
+        },
+        {
+          "target": "DcntEth.mintByOwner",
+          "mechanism": "fund-routing",
+          "ev": 0.2231
+        },
+        {
+          "target": "DecentEthRouter.addLiquidityEth",
+          "mechanism": "replay",
+          "ev": 0.1929
+        },
+        {
+          "target": "DecentEthRouter.onOFTReceived",
+          "mechanism": "replay",
+          "ev": 0.1893
+        },
+        {
+          "target": "DcntEth.setRouter",
+          "mechanism": "access-control",
+          "ev": 0.0894
+        }
+      ],
+      "found_paths": [
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "receiveFromBridge",
+          "guard_bypassed": "retrieveAndCollectFees",
+          "reaches": [
+            "_swapAndExecute"
+          ],
+          "gate_binding": "DecentReceiveFromBridgeBypass"
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "swapNoPath",
+          "guard_bypassed": "routerIsSet",
+          "reaches": [
+            "_receiveAndWrapIfNeeded"
+          ],
+          "gate_binding": null
+        }
+      ],
+      "gate_confirmed": [
+        {
+          "binding": "DecentReceiveFromBridgeBypass",
+          "attack_entrypoint": "receiveFromBridge",
+          "verdict": "CONFIRMED",
+          "poc_synthesized": false
+        }
+      ],
+      "blind": false
+    },
+    {
+      "contest_id": "2023-09-centrifuge",
+      "models": [
+        "examples/2023-09-centrifuge.model.json"
+      ],
+      "counts": {
+        "surfaced": 59,
+        "hypotheses": 62,
+        "paths_found": 16,
+        "gate_confirmed": 0
+      },
+      "surfaced_functions": [
+        "AxelarRouter.execute",
+        "ERC20.approve",
+        "ERC20.decreaseAllowance",
+        "ERC20.increaseAllowance",
+        "ERC20.mint",
+        "ERC20.permit",
+        "ERC20.transfer",
+        "ERC20.transferFrom",
+        "Gateway.handle",
+        "InvestmentManager._calculatePrice",
+        "InvestmentManager.calculateDepositPrice",
+        "InvestmentManager.collectDeposit",
+        "InvestmentManager.decreaseDepositRequest",
+        "InvestmentManager.handleExecutedCollectInvest",
+        "InvestmentManager.handleExecutedCollectRedeem",
+        "InvestmentManager.handleExecutedDecreaseInvestOrder",
+        "InvestmentManager.handleExecutedDecreaseRedeemOrder",
+        "InvestmentManager.maxDeposit",
+        "InvestmentManager.maxMint",
+        "InvestmentManager.previewDeposit",
+        "InvestmentManager.previewMint",
+        "InvestmentManager.processDeposit",
+        "InvestmentManager.processMint",
+        "InvestmentManager.requestDeposit",
+        "LiquidityPool.approve",
+        "LiquidityPool.collectDeposit",
+        "LiquidityPool.collectRedeem",
+        "LiquidityPool.decreaseDepositRequest",
+        "LiquidityPool.decreaseRedeemRequest",
+        "LiquidityPool.deposit",
+        "LiquidityPool.maxDeposit",
+        "LiquidityPool.maxMint",
+        "LiquidityPool.mint",
+        "LiquidityPool.previewDeposit",
+        "LiquidityPool.previewMint",
+        "LiquidityPool.redeem",
+        "LiquidityPool.requestDeposit",
+        "LiquidityPool.requestDepositWithPermit",
+        "LiquidityPool.requestRedeem",
+        "LiquidityPool.requestRedeemWithPermit",
+        "LiquidityPool.transfer",
+        "LiquidityPool.transferFrom",
+        "LiquidityPool.withdraw",
+        "PauseAdmin.pause",
+        "PoolManager.deployLiquidityPool",
+        "PoolManager.deployTranche",
+        "PoolManager.handleTransfer",
+        "PoolManager.handleTransferTrancheTokens",
+        "PoolManager.transfer",
+        "PoolManager.transferTrancheTokensToCentrifuge",
+        "PoolManager.transferTrancheTokensToEVM",
+        "Root.executeScheduledRely",
+        "TrancheToken.approve",
+        "TrancheToken.decreaseAllowance",
+        "TrancheToken.increaseAllowance",
+        "TrancheToken.mint",
+        "TrancheToken.permit",
+        "XCMRouter.handle",
+        "XCMRouter.send"
+      ],
+      "hypotheses": [
+        {
+          "target": "LiquidityPool.requestDepositWithPermit",
+          "mechanism": "access-control",
+          "ev": 0.3401
+        },
+        {
+          "target": "LiquidityPool.mint",
+          "mechanism": "access-control",
+          "ev": 0.3378
+        },
+        {
+          "target": "LiquidityPool.deposit",
+          "mechanism": "access-control",
+          "ev": 0.3303
+        },
+        {
+          "target": "LiquidityPool.collectDeposit",
+          "mechanism": "access-control",
+          "ev": 0.3292
+        },
+        {
+          "target": "LiquidityPool.requestDeposit",
+          "mechanism": "access-control",
+          "ev": 0.3286
+        },
+        {
+          "target": "LiquidityPool.decreaseDepositRequest",
+          "mechanism": "access-control",
+          "ev": 0.3276
+        },
+        {
+          "target": "ERC20.permit",
+          "mechanism": "signature-verification",
+          "ev": 0.2873
+        },
+        {
+          "target": "TrancheToken.permit",
+          "mechanism": "signature-verification",
+          "ev": 0.2873
+        },
+        {
+          "target": "ERC20.permit",
+          "mechanism": "signature-verification",
+          "ev": 0.2852
+        },
+        {
+          "target": "TrancheToken.permit",
+          "mechanism": "signature-verification",
+          "ev": 0.2852
+        },
+        {
+          "target": "LiquidityPool.requestRedeemWithPermit",
+          "mechanism": "signature-verification",
+          "ev": 0.2793
+        },
+        {
+          "target": "XCMRouter.send",
+          "mechanism": "signature-verification",
+          "ev": 0.274
+        },
+        {
+          "target": "InvestmentManager.maxDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.2314
+        },
+        {
+          "target": "InvestmentManager.maxMint",
+          "mechanism": "fund-routing",
+          "ev": 0.2314
+        },
+        {
+          "target": "InvestmentManager.previewDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.231
+        },
+        {
+          "target": "InvestmentManager.previewMint",
+          "mechanism": "fund-routing",
+          "ev": 0.2306
+        },
+        {
+          "target": "InvestmentManager.calculateDepositPrice",
+          "mechanism": "fund-routing",
+          "ev": 0.2296
+        },
+        {
+          "target": "LiquidityPool.transferFrom",
+          "mechanism": "access-control",
+          "ev": 0.2284
+        },
+        {
+          "target": "LiquidityPool.withdraw",
+          "mechanism": "access-control",
+          "ev": 0.2279
+        },
+        {
+          "target": "LiquidityPool.redeem",
+          "mechanism": "access-control",
+          "ev": 0.2279
+        },
+        {
+          "target": "LiquidityPool.transfer",
+          "mechanism": "access-control",
+          "ev": 0.2276
+        },
+        {
+          "target": "LiquidityPool.approve",
+          "mechanism": "access-control",
+          "ev": 0.2276
+        },
+        {
+          "target": "PoolManager.transfer",
+          "mechanism": "access-control",
+          "ev": 0.227
+        },
+        {
+          "target": "LiquidityPool.collectRedeem",
+          "mechanism": "access-control",
+          "ev": 0.226
+        },
+        {
+          "target": "PoolManager.deployTranche",
+          "mechanism": "access-control",
+          "ev": 0.2255
+        },
+        {
+          "target": "PauseAdmin.pause",
+          "mechanism": "access-control",
+          "ev": 0.2255
+        },
+        {
+          "target": "LiquidityPool.mint",
+          "mechanism": "fund-routing",
+          "ev": 0.2253
+        },
+        {
+          "target": "ERC20.mint",
+          "mechanism": "fund-routing",
+          "ev": 0.2253
+        },
+        {
+          "target": "TrancheToken.mint",
+          "mechanism": "fund-routing",
+          "ev": 0.2253
+        },
+        {
+          "target": "LiquidityPool.requestRedeem",
+          "mechanism": "access-control",
+          "ev": 0.2251
+        },
+        {
+          "target": "InvestmentManager._calculatePrice",
+          "mechanism": "fund-routing",
+          "ev": 0.2246
+        },
+        {
+          "target": "LiquidityPool.maxDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.2246
+        },
+        {
+          "target": "LiquidityPool.maxMint",
+          "mechanism": "fund-routing",
+          "ev": 0.2246
+        },
+        {
+          "target": "InvestmentManager.collectDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.2244
+        },
+        {
+          "target": "InvestmentManager.requestDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.2241
+        },
+        {
+          "target": "InvestmentManager.processDeposit",
+          "mechanism": "fund-routing",
+          "ev": 0.2241
+        },
+        {
+          "target": "InvestmentManager.processMint",
+          "mechanism": "fund-routing",
+          "ev": 0.2239
+        },
+        {
+          "target": "LiquidityPool.decreaseRedeemRequest",
+          "mechanism": "access-control",
+          "ev": 0.2238
+        },
+        {
+          "target": "PoolManager.deployLiquidityPool",
+          "mechanism": "access-control",
+          "ev": 0.2238
+        },
+        {
+          "target": "InvestmentManager.decreaseDepositRequest",
+          "mechanism": "fund-routing",
+          "ev": 0.2233
+        },
+        {
+          "target": "PoolManager.handleTransfer",
+          "mechanism": "fund-routing",
+          "ev": 0.2233
+        },
+        {
+          "target": "PoolManager.transferTrancheTokensToCentrifuge",
+          "mechanism": "access-control",
+          "ev": 0.2225
+        },
+        {
+          "target": "PoolManager.handleTransferTrancheTokens",
+          "mechanism": "fund-routing",
+          "ev": 0.2222
+        },
+        {
+          "target": "PoolManager.transferTrancheTokensToEVM",
+          "mechanism": "access-control",
+          "ev": 0.2219
+        },
+        {
+          "target": "InvestmentManager.handleExecutedDecreaseInvestOrder",
+          "mechanism": "fund-routing",
+          "ev": 0.2217
+        },
+        {
+          "target": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
+          "mechanism": "fund-routing",
+          "ev": 0.2217
+        },
+        {
+          "target": "AxelarRouter.execute",
+          "mechanism": "fund-routing",
+          "ev": 0.2217
+        },
+        {
+          "target": "InvestmentManager.handleExecutedCollectRedeem",
+          "mechanism": "fund-routing",
+          "ev": 0.2216
+        },
+        {
+          "target": "InvestmentManager.handleExecutedCollectInvest",
+          "mechanism": "fund-routing",
+          "ev": 0.2214
+        },
+        {
+          "target": "LiquidityPool.previewMint",
+          "mechanism": "replay",
+          "ev": 0.1962
+        },
+        {
+          "target": "XCMRouter.handle",
+          "mechanism": "replay",
+          "ev": 0.1916
+        },
+        {
+          "target": "LiquidityPool.previewDeposit",
+          "mechanism": "replay",
+          "ev": 0.1893
+        },
+        {
+          "target": "Gateway.handle",
+          "mechanism": "replay",
+          "ev": 0.1893
+        },
+        {
+          "target": "ERC20.transfer",
+          "mechanism": "access-control",
+          "ev": 0.0751
+        },
+        {
+          "target": "ERC20.approve",
+          "mechanism": "access-control",
+          "ev": 0.0751
+        },
+        {
+          "target": "TrancheToken.approve",
+          "mechanism": "access-control",
+          "ev": 0.0751
+        },
+        {
+          "target": "ERC20.transferFrom",
+          "mechanism": "access-control",
+          "ev": 0.0742
+        },
+        {
+          "target": "ERC20.increaseAllowance",
+          "mechanism": "access-control",
+          "ev": 0.0739
+        },
+        {
+          "target": "ERC20.decreaseAllowance",
+          "mechanism": "access-control",
+          "ev": 0.0739
+        },
+        {
+          "target": "TrancheToken.increaseAllowance",
+          "mechanism": "access-control",
+          "ev": 0.0739
+        },
+        {
+          "target": "TrancheToken.decreaseAllowance",
+          "mechanism": "access-control",
+          "ev": 0.0739
+        },
+        {
+          "target": "Root.executeScheduledRely",
+          "mechanism": "access-control",
+          "ev": 0.0733
+        }
+      ],
+      "found_paths": [
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "requestDepositWithPermit",
+          "guard_bypassed": "withApproval",
+          "reaches": [
+            "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestDeposit, arguments:['assets', 'owner']  "
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "approve",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "_successCheck"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "transferFrom",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "_successCheck"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "transfer",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "_successCheck"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "transfer",
+          "guard_bypassed": "onlyGateway",
+          "reaches": [
+            "require(bool,string)"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "deployTranche",
+          "guard_bypassed": "onlyGateway",
+          "reaches": [
+            "require(bool,string)"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "requestRedeemWithPermit",
+          "guard_bypassed": "withApproval",
+          "reaches": [
+            "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestRedeem, arguments:['shares', 'owner']  "
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "deployLiquidityPool",
+          "guard_bypassed": "onlyGateway",
+          "reaches": [
+            "require(bool,string)"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "transferTrancheTokensToCentrifuge",
+          "guard_bypassed": "onlyGateway",
+          "reaches": [
+            "getTrancheToken"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "transferTrancheTokensToEVM",
+          "guard_bypassed": "onlyGateway",
+          "reaches": [
+            "getTrancheToken"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "approve",
+          "guard_bypassed": "auth, restricted",
+          "reaches": [
+            "_msgSender"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "increaseAllowance",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "_msgSender"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "decreaseAllowance",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "_msgSender"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "increaseAllowance",
+          "guard_bypassed": "auth, restricted",
+          "reaches": [
+            "_msgSender"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "decreaseAllowance",
+          "guard_bypassed": "auth, restricted",
+          "reaches": [
+            "_msgSender"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "executeScheduledRely",
+          "guard_bypassed": "auth",
+          "reaches": [
+            "require(bool,string)"
+          ],
+          "gate_binding": null
+        }
+      ],
+      "gate_confirmed": [],
+      "blind": true
+    }
+  ],
+  "scored": [
+    {
+      "contest_id": "2024-01-decent",
+      "blind": false,
+      "findings": [
+        {
+          "id": "H-01",
+          "title": "DcntEth router settable by anyone",
+          "mechanism": "access-control",
+          "severity": "High",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-02",
+          "title": "Missing min-gas check through LayerZero",
+          "mechanism": "gas",
+          "severity": "High",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-03",
+          "title": "DecentBridgeExecutor.execute misroutes funds on failure",
+          "mechanism": "fund-routing",
+          "severity": "High",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-04",
+          "title": "Lost tx if dst router lacks WETH reserves",
+          "mechanism": "liquidity",
+          "severity": "High",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-01",
+          "title": "Permanent token loss if swap data outdated",
+          "mechanism": "swap-correctness",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-02",
+          "title": "bridgeWithPayload directly callable, fee bypass",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-03",
+          "title": "UTB.receiveFromBridge bypasses fee/sig verification",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": true,
+          "gate_confirmed": true,
+          "tier": "tier1_autonomous_path_and_verdict"
+        },
+        {
+          "id": "M-04",
+          "title": "Capital loss from fixed fee calculations",
+          "mechanism": "accounting",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-05",
+          "title": "Refunded ETH stuck in DecentBridgeAdapter",
+          "mechanism": "fund-routing",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        }
+      ],
+      "leads": [
+        "receiveFromBridge",
+        "swapNoPath"
+      ],
+      "n_surface_flagged": 18
+    },
+    {
+      "contest_id": "2023-09-centrifuge",
+      "blind": true,
+      "findings": [
+        {
+          "id": "M-01",
+          "title": "onlyCentrifugeChainOrigin can't require msg.sender == axelarGateway",
+          "mechanism": "cross-domain-auth",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-02",
+          "title": "requestRedeemWithPermit front-run with different liquidity pool",
+          "mechanism": "signature-verification",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": true,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-03",
+          "title": "Cached DOMAIN_SEPARATOR incorrect for tranche tokens (permit)",
+          "mechanism": "signature-verification",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": true,
+          "path_found": true,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-04",
+          "title": "Deposit tiny amount to DoS other users",
+          "mechanism": "dos",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-05",
+          "title": "maxDeposit claiming blocks other users",
+          "mechanism": "accounting",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-06",
+          "title": "DelayedAdmin cannot PauseAdmin.removePauser",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": false,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "missed"
+        },
+        {
+          "id": "M-07",
+          "title": "trancheTokenAmount should round up on withdrawal",
+          "mechanism": "rounding",
+          "severity": "Medium",
+          "in_lane": false,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-08",
+          "title": "RestrictionManager incompletely implements ERC1404",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "surfaced": false,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "missed"
+        }
+      ],
+      "leads": [
+        "approve",
+        "decreaseAllowance",
+        "deployLiquidityPool",
+        "deployTranche",
+        "executeScheduledRely",
+        "increaseAllowance",
+        "requestDepositWithPermit",
+        "requestRedeemWithPermit",
+        "transfer",
+        "transferFrom",
+        "transferTrancheTokensToCentrifuge",
+        "transferTrancheTokensToEVM"
+      ],
+      "n_surface_flagged": 59
+    }
+  ],
+  "aggregate": {
+    "frozen_taxonomy": true,
+    "in_lane_findings": 8,
+    "tier1_autonomous_path_and_verdict": {
+      "count": 1,
+      "recall": 0.125,
+      "ids": [
+        "M-03"
+      ]
+    },
+    "tier2_fully_autonomous": {
+      "count": 0,
+      "recall": 0.0
+    },
+    "tier3_surfaced_not_caught": {
+      "count": 5
+    },
+    "surfaced_total": {
+      "count": 6,
+      "recall": 0.75
+    },
+    "path_found_leads_on_findings": {
+      "count": 3,
+      "recall": 0.375,
+      "note": "a lead is NOT a catch (no verdict)"
+    }
+  }
+}

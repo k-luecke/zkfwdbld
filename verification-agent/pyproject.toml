@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "verification-agent"
+version = "0.0.1"
+description = "Autonomous, human-supervised vulnerability-finding agent specialized for verification, reachability, and cross-chain/ZK scopes. Verify-or-discard."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "UNLICENSED" }
+authors = [{ name = "Kyle Luecke" }]
+
+# M0 needs only the static front-end. Path backends (Halmos/Medusa), the KB
+# vector store, and the Claude client are added at their milestones, not before.
+dependencies = [
+    "slither-analyzer>=0.10",
+    "solc-select>=1.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+verification-agent = "verification_agent.cli:main"
+
+[tool.setuptools]
+packages = [
+    "verification_agent",
+    "verification_agent.ingest",
+    "verification_agent.model",
+    "verification_agent.verify",
+    "verification_agent.kb",
+    "verification_agent.hypothesize",
+    "verification_agent.pathfind",
+    "verification_agent.synthesize",
+    "verification_agent.backtest",
+    "verification_agent.screen",
+]
+
+[tool.setuptools.package-data]
+"verification_agent.verify" = ["solidity/*.sol"]
+"verification_agent.kb" = ["data/*.jsonl"]
+"verification_agent.pathfind" = ["solidity/*.sol"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

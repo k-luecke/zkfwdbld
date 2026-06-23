@@ -1,0 +1,424 @@
+{
+  "schema_version": "0.1.0",
+  "repo_url": "(fixture)",
+  "commit": null,
+  "build_system": "unknown",
+  "compiled": false,
+  "tool_status": [
+    {
+      "name": "lite",
+      "available": true,
+      "ran": true,
+      "version": null,
+      "detail": "fixture"
+    }
+  ],
+  "contracts": [
+    {
+      "name": "SurfaceSampler",
+      "kind": "contract",
+      "inheritance": [],
+      "source_file": "fixtures/SurfaceSampler.sol"
+    }
+  ],
+  "storage_layout": [],
+  "entry_points": [
+    {
+      "contract": "SurfaceSampler",
+      "name": "claimWithSig",
+      "signature": "claimWithSig(bytes32,uint8,bytes32,bytes32)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "signature_proof_verification",
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "signature_proof_verification": [
+          "ecrecover(body)",
+          "recover(body)",
+          "digest(body)"
+        ],
+        "bridge_inbound_handler": [
+          "claim"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "verifyProof",
+      "signature": "verifyProof(uint256[8],uint256[2])",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "bool"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "signature_proof_verification"
+      ],
+      "surface_evidence": {
+        "signature_proof_verification": [
+          "verifyproof",
+          "groth16(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 21
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "proveStorage",
+      "signature": "proveStorage(bytes32,bytes32[])",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "bool"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "merkle_state_proof"
+      ],
+      "surface_evidence": {
+        "merkle_state_proof": [
+          "merkle(body)",
+          "merkleproof(body)",
+          "stateroot(body)",
+          "provestorage"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 31
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "relayMessage",
+      "signature": "relayMessage(uint256,address,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "relaymessage"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 40
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "setStateRoot",
+      "signature": "setStateRoot(bytes32)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyCrossDomain"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "merkle_state_proof",
+        "cross_domain_auth"
+      ],
+      "surface_evidence": {
+        "merkle_state_proof": [
+          "stateroot"
+        ],
+        "cross_domain_auth": [
+          "onlycrossdomain"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 54
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "slashOperator",
+      "signature": "slashOperator(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "slashing_avs_state",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "slashing_avs_state": [
+          "slash"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 59
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "contribute",
+      "signature": "contribute()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 65
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "currentOwner",
+      "signature": "currentOwner()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "address"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 69
+    }
+  ],
+  "call_graph": [],
+  "verification_surface": [
+    {
+      "contract": "SurfaceSampler",
+      "name": "claimWithSig",
+      "signature": "claimWithSig(bytes32,uint8,bytes32,bytes32)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "signature_proof_verification",
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "signature_proof_verification": [
+          "ecrecover(body)",
+          "recover(body)",
+          "digest(body)"
+        ],
+        "bridge_inbound_handler": [
+          "claim"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 16
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "verifyProof",
+      "signature": "verifyProof(uint256[8],uint256[2])",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "bool"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "signature_proof_verification"
+      ],
+      "surface_evidence": {
+        "signature_proof_verification": [
+          "verifyproof",
+          "groth16(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 21
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "proveStorage",
+      "signature": "proveStorage(bytes32,bytes32[])",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "bool"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "merkle_state_proof"
+      ],
+      "surface_evidence": {
+        "merkle_state_proof": [
+          "merkle(body)",
+          "merkleproof(body)",
+          "stateroot(body)",
+          "provestorage"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 31
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "relayMessage",
+      "signature": "relayMessage(uint256,address,bytes)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "relaymessage"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 40
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "setStateRoot",
+      "signature": "setStateRoot(bytes32)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyCrossDomain"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "merkle_state_proof",
+        "cross_domain_auth"
+      ],
+      "surface_evidence": {
+        "merkle_state_proof": [
+          "stateroot"
+        ],
+        "cross_domain_auth": [
+          "onlycrossdomain"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 54
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "slashOperator",
+      "signature": "slashOperator(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "slashing_avs_state",
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "slashing_avs_state": [
+          "slash"
+        ],
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "high",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 59
+    },
+    {
+      "contract": "SurfaceSampler",
+      "name": "contribute",
+      "signature": "contribute()",
+      "visibility": "external",
+      "mutability": "payable",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "fixtures/SurfaceSampler.sol",
+      "source_line": 65
+    }
+  ],
+  "notes": []
+}

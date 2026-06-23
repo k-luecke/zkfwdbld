@@ -1,0 +1,31 @@
+# Move 2 — protocol-aware hypothesis generation. Metric: confirmed-to-leads ratio.
+# A lead = a hypothesis M3 proposes. confirmed = lead whose host is gate-CONFIRMED
+# (Decent M-03 via the M4.5 keystone). Higher ratio = SHARPER hunter, not more leads.
+# Validated on the two contests with known answers. NatSpec/modifier rules are PRIORS.
+
+===== DECENT =====
+  BEFORE structure-alone : leads=  7  gate-CONFIRMED=1  ratio=0.143
+  AFTER  protocol-aware  : leads=  4  gate-CONFIRMED=1  ratio=0.250
+  -> ratio 0.143 -> 0.250  (1.75x); M-03 retained; 3 junk leads dropped
+  after leads: ['UTB.bridgeAndExecute', 'UTB.receiveFromBridge', 'UniSwapper.swapNoPath', 'StargateBridgeAdapter.bridge']
+
+===== CENTRIFUGE =====
+  BEFORE structure-alone : leads= 62  gate-CONFIRMED=0  ratio=0.000
+  AFTER  protocol-aware  : leads=  0  gate-CONFIRMED=0  ratio=0.000
+  -> leads 62 -> 0: hunter goes SILENT on the false positives.
+     (Centrifuge's real findings are non-structural — the known bug-class
+      coverage gap — so 0 structural-bypass violations is CORRECT, not a miss.)
+
+=== NatSpec probe: prose-only authority claims (no modifier), measured separately ===
+  DECENT: 0 prose-only authority rules.
+  CENTRIFUGE: 0 prose-only authority rules.
+  => On both contests, stated rules are encoded as MODIFIERS; NatSpec only
+     CORROBORATES (M-03/bridgeAndExecute carried authority comments) and adds
+     no NEW rules. Honest finding: modifier-asymmetry is the workhorse here;
+     NatSpec-as-generator did not move the ratio. The hook is in place for
+     protocols that state rules only in prose.
+
+=== HEADLINE ===
+  Decent confirmed-to-leads ratio: 0.143 -> 0.250 (sharper).
+  Centrifuge leads: 62 -> 0 (quieter; no real structural finding lost).
+  The hunter got sharper as a measured fact, on real codebases with known answers.

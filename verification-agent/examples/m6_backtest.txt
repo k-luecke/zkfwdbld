@@ -1,0 +1,32 @@
+# M6 backtest — FROZEN three-tier scorecard, blind run, lane-honest set
+# date: 2026-06-23T00:17:17Z
+# contests: 2024-01-decent (calibration, answer-key-informed), 2023-09-centrifuge (BLIND)
+# lane: access-control / cross-chain / signature (the mechanisms Seer+gate reach)
+
+Verification-Agent — M6 backtest (FROZEN three-tier taxonomy; blind run)
+taxonomy pinned before run: Tier1=path+verdict, Tier2=+PoC-synthesis, Tier3=surfaced-not-caught. A found path without a gate verdict is NOT a catch.
+
+[calibration] 2024-01-decent     surfaced= 18 hypotheses= 18 paths= 2 gate_confirmed=1
+[BLIND      ] 2023-09-centrifuge surfaced= 59 hypotheses= 62 paths=16 gate_confirmed=0
+
+--- opening answer keys and scoring against the frozen taxonomy ---
+
+2024-01-decent (calibration):
+   H-01 [access-control    ] tier-3 surfaced  — DcntEth router settable by anyone
+   M-02 [access-control    ] tier-3 surfaced  — bridgeWithPayload directly callable, fee bypass
+   M-03 [access-control    ] TIER-1 CATCH +Seer-lead  — UTB.receiveFromBridge bypasses fee/sig verification
+
+2023-09-centrifuge (blind):
+   M-01 [cross-domain-auth ] tier-3 surfaced  — onlyCentrifugeChainOrigin can't require msg.sender == 
+   M-02 [signature-verification] tier-3 surfaced +Seer-lead  — requestRedeemWithPermit front-run with different liqui
+   M-03 [signature-verification] tier-3 surfaced +Seer-lead  — Cached DOMAIN_SEPARATOR incorrect for tranche tokens (
+   M-06 [access-control    ] MISSED  — DelayedAdmin cannot PauseAdmin.removePauser
+   M-08 [access-control    ] MISSED  — RestrictionManager incompletely implements ERC1404
+
+================ FROZEN SCORECARD (lane: access-control / cross-chain) ================
+in-lane findings across 2 contest(s): 8
+  TIER-1 autonomous path + verdict : 1 (recall 0.125)  ids=['M-03']
+  TIER-2 fully autonomous (PoC syn): 0 (recall 0.0)  [near-zero until M4.5]
+  TIER-3 surfaced not caught       : 5
+  surfaced total (tier-3 and up)   : 6 (recall 0.75)
+  Seer path-leads on findings      : 3 (NOT catches — leads only)

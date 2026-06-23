@@ -1,0 +1,27 @@
+# M0 recall validation — Code4rena 2024-01-decent judged findings
+# date: 2026-06-22T22:29:26Z
+# models: src/ + lib/decent-bridge (both in-scope foundry projects)
+
+M0 recall vs judged Code4rena 2024-01-decent findings
+(surface loaded from 2 model(s); 28 tagged functions)
+
+  [COVERED] H-01: DcntEth.setRouter  (structural: unguarded_privileged_entrypoint)
+            DcntEth router settable by anyone (#721)
+  [COVERED] H-02: DecentEthRouter.bridge  (high: bridge_inbound_handler,unguarded_privileged_entrypoint)
+            Missing min-gas check through LayerZero (#525)
+  [COVERED] H-03: DecentBridgeExecutor.execute  (keyword: bridge_inbound_handler)
+            DecentBridgeExecutor.execute misroutes funds on failure (#436)
+  [COVERED] H-04: DecentEthRouter.onOFTReceived  (keyword: bridge_inbound_handler)
+            Lost tx if dst router lacks WETH reserves (#59)
+  [COVERED] M-01: UniSwapper.swapExactIn  (structural: unguarded_privileged_entrypoint)
+            Permanent token loss if swap data outdated (#665)
+  [COVERED] M-02: DecentEthRouter.bridgeWithPayload  (high: bridge_inbound_handler,unguarded_privileged_entrypoint)
+            bridgeWithPayload directly callable, fee bypass (#647)
+  [COVERED] M-03: UTB.receiveFromBridge  (structural: unguarded_privileged_entrypoint)
+            UTB.receiveFromBridge bypasses fee/sig verification (#590)
+  [COVERED] M-04: DecentEthRouter.bridge  (high: bridge_inbound_handler,unguarded_privileged_entrypoint)
+            Capital loss from fixed fee calculations (#520)
+  [COVERED] M-05: DecentEthRouter.bridgeWithPayload  (high: bridge_inbound_handler,unguarded_privileged_entrypoint)
+            Refunded ETH stuck in DecentBridgeAdapter (#262)
+
+recall: 9/9 judged findings have their host function on the tagged surface.

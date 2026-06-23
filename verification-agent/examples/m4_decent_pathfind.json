@@ -1,0 +1,291 @@
+{
+  "backends": [
+    {
+      "name": "seer-structural",
+      "available": true
+    },
+    {
+      "name": "medusa",
+      "available": true
+    },
+    {
+      "name": "halmos",
+      "available": true
+    }
+  ],
+  "results": [
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.bridgeAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.bridgeAndExecute",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0001,
+      "notes": "named target bridgeAndExecute is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.swapAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.swapAndExecute",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0,
+      "notes": "named target swapAndExecute is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTBFeeCollector.collectFees::signature-malleability::0",
+      "target": "UTBFeeCollector.collectFees",
+      "mechanism": "signature-verification",
+      "status": "out_of_scope",
+      "found": false,
+      "attack_entrypoint": null,
+      "call_sequence": [],
+      "reaches": [],
+      "guard_bypassed": null,
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "structural backend handles {'cross-domain-auth', 'access-control'}, not 'signature-verification'"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapExactIn::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactIn",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _receiveAndWrapIfNeeded()"
+      ],
+      "reaches": [
+        "_receiveAndWrapIfNeeded"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "named target swapExactIn is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapExactOut::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactOut",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _refundUser()"
+      ],
+      "reaches": [
+        "_refundUser"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "named target swapExactOut is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.receiveFromBridge::missing-auth-on-privileged-entrypoint::0",
+      "target": "UTB.receiveFromBridge",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0,
+      "notes": "unguarded UTB.receiveFromBridge reaches _swapAndExecute that guarded siblings protect with [retrieveAndCollectFees]"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapNoPath::alt-entrypoint-auth-bypass::0",
+      "target": "UniSwapper.swapNoPath",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _refundUser()"
+      ],
+      "reaches": [
+        "_refundUser"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "unguarded UniSwapper.swapNoPath reaches _refundUser that guarded siblings protect with [routerIsSet]"
+    }
+  ],
+  "coverage": {
+    "by_backend": {
+      "seer-structural": {
+        "found": 6,
+        "out_of_scope": 1
+      }
+    },
+    "by_mechanism": {
+      "access-control": {
+        "found_by": [
+          "seer-structural"
+        ]
+      },
+      "signature-verification": {}
+    }
+  },
+  "found_paths": [
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.bridgeAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.bridgeAndExecute",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0001,
+      "notes": "named target bridgeAndExecute is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.swapAndExecute::alt-entrypoint-auth-bypass::0",
+      "target": "UTB.swapAndExecute",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0,
+      "notes": "named target swapAndExecute is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapExactIn::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactIn",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _receiveAndWrapIfNeeded()"
+      ],
+      "reaches": [
+        "_receiveAndWrapIfNeeded"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "named target swapExactIn is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapExactOut::missing-auth-on-privileged-entrypoint::0",
+      "target": "UniSwapper.swapExactOut",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _refundUser()"
+      ],
+      "reaches": [
+        "_refundUser"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "named target swapExactOut is guarded; Seer pinpointed the unguarded sibling reaching the same privileged effect"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UTB.receiveFromBridge::missing-auth-on-privileged-entrypoint::0",
+      "target": "UTB.receiveFromBridge",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "receiveFromBridge",
+      "call_sequence": [
+        "UTB.receiveFromBridge()",
+        "-> _swapAndExecute()"
+      ],
+      "reaches": [
+        "_swapAndExecute"
+      ],
+      "guard_bypassed": "retrieveAndCollectFees",
+      "gate_binding": "DecentReceiveFromBridgeBypass",
+      "elapsed_s": 0.0,
+      "notes": "unguarded UTB.receiveFromBridge reaches _swapAndExecute that guarded siblings protect with [retrieveAndCollectFees]"
+    },
+    {
+      "backend": "seer-structural",
+      "hypothesis_id": "hyp::UniSwapper.swapNoPath::alt-entrypoint-auth-bypass::0",
+      "target": "UniSwapper.swapNoPath",
+      "mechanism": "access-control",
+      "status": "found",
+      "found": true,
+      "attack_entrypoint": "swapNoPath",
+      "call_sequence": [
+        "UniSwapper.swapNoPath()",
+        "-> _refundUser()"
+      ],
+      "reaches": [
+        "_refundUser"
+      ],
+      "guard_bypassed": "routerIsSet",
+      "gate_binding": null,
+      "elapsed_s": 0.0,
+      "notes": "unguarded UniSwapper.swapNoPath reaches _refundUser that guarded siblings protect with [routerIsSet]"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "milestone": "M4.5",
+  "scenarios": [
+    {
+      "lead_entrypoint": "receiveFromBridge",
+      "lead_guard": "retrieveAndCollectFees",
+      "mechanism": "access-control/alt-entrypoint",
+      "executable": true,
+      "is_self_contained": true,
+      "gap": "real-finding certification needs execution against the real deployed contract (does the unguarded sibling exist and reach the sink unauthorized?). Self-contained run proves the pipeline + the Control anti-rigging guarantee, not the real finding.",
+      "autonomy": "machine-derived: entrypoint, bypassed-guard, invariant, control, attack, both faithful and rigged variants. Hand-written: nothing (target-agnostic template).",
+      "cases": [
+        {
+          "contract": "Synth_receiveFromBridge_Faithful",
+          "role": "faithful",
+          "case_id": "receiveFromBridge_alt_entrypoint_bypass__SYNTH_FAITHFUL",
+          "expected_verdict": "CONFIRMED",
+          "note": "unguarded sibling breaks the authorized-effect invariant"
+        },
+        {
+          "contract": "Synth_receiveFromBridge_Rigged",
+          "role": "rigged-control",
+          "case_id": "receiveFromBridge__SYNTH_RIGGED_predicate",
+          "expected_verdict": "REJECTED_MALFORMED_CONTROL",
+          "note": "machine-rigged predicate; Control must reject it"
+        }
+      ],
+      "results": [
+        {
+          "contract": "Synth_receiveFromBridge_Faithful",
+          "role": "faithful",
+          "case_id": "receiveFromBridge_alt_entrypoint_bypass__SYNTH_FAITHFUL",
+          "expected_verdict": "CONFIRMED",
+          "verdict": "CONFIRMED",
+          "gate_correct": true,
+          "predicate": "every privileged effect is authorized: sink.effectCount == target.authorizedEffects"
+        },
+        {
+          "contract": "Synth_receiveFromBridge_Rigged",
+          "role": "rigged-control",
+          "case_id": "receiveFromBridge__SYNTH_RIGGED_predicate",
+          "expected_verdict": "REJECTED_MALFORMED_CONTROL",
+          "verdict": "REJECTED_MALFORMED_CONTROL",
+          "gate_correct": true,
+          "predicate": "RIGGED PREDICATE (demo): sink.effectCount == 0 (any honest use breaks it)"
+        }
+      ]
+    },
+    {
+      "lead_entrypoint": "requestRedeemWithPermit",
+      "lead_guard": "withApproval",
+      "mechanism": "signature-scope",
+      "executable": false,
+      "is_self_contained": false,
+      "gap": "signature/permit-scope mechanism. The structural template would misrepresent it: the guard is not absent, it is satisfied by a signature whose SCOPE is the bug (e.g. a permit not bound to the pool, replayable cross-pool). A faithful scenario needs the real protocol deployed + EIP-712 permit construction + a scope invariant \u2014 autonomous deploy-graph + signature synthesis is the named M4.5 frontier.",
+      "autonomy": "classified-only (no executable scenario; mechanism out of the structural template's honest scope)",
+      "cases": []
+    }
+  ]
+}

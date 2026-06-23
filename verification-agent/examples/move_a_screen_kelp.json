@@ -1,0 +1,10 @@
+{
+  "target": "examples/2023-11-kelp.model.json",
+  "surface_unguarded": 20,
+  "candidate_violations": 7,
+  "pathable_pairs": 0,
+  "pathable_evidence": [],
+  "shape_fit": 0.2,
+  "band": "LOW",
+  "note": "7 claimed-rule candidate(s) but Seer paths NONE \u2014 the asymmetries are not attacker-reachable bypasses (the Kelp pattern). The loop will go quiet here."
+}

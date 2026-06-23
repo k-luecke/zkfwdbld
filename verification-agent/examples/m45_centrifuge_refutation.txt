@@ -1,0 +1,56 @@
+# M4.5 — Centrifuge structural leads: an HONEST NEGATIVE RESULT (first-class artifact)
+# gate run: real Centrifuge code @ 0048f73a..., forge 1.7.1, solc 0.8.21 (offline)
+# evidence scenario: examples/synthesized/CentrifugeRelyLead.t.sol
+#
+# A system that documents what it proved FALSE against real code is more trustworthy
+# than one that only logs wins. This is that record.
+
+=== THE PREMISE THAT WAS CORRECTED ===
+The plan said: "convert the structural Centrifuge access-control leads first — they
+are nearest the proven class." Homework against the REAL contest source refuted it:
+the surfaced structural leads are design-permissionless functions guarded by
+preconditions, NOT access-control bypasses.
+
+   Root.executeScheduledRely  (Seer: "bypasses auth")
+      public BY DESIGN, but requires schedule[target]!=0 (set only by scheduleRely,
+      which is `auth`) AND the timelock to elapse. Permissionless EXECUTION of a
+      ward-AUTHORIZED, time-locked action. Authorization cannot be skipped.
+
+   PoolManager.deployLiquidityPool / deployTranche  (Seer: "bypasses onlyGateway")
+      public BY DESIGN, but gated by preconditions (tranche.token!=0, pool.createdAt!=0)
+      that require the onlyGateway addPool/addTranche to have run first. The privileged
+      state transition stays gated.
+
+The REAL Centrifuge access-control findings are M-06 (DelayedAdmin cannot call
+PauseAdmin.removePauser) and M-08 (RestrictionManager incomplete ERC1404) — both
+MISSED at M0 (never surfaced), and neither is unguarded-entrypoint shaped. M-01 is
+cross-domain-INSUFFICIENCY (the guard exists, it is just weak). None is a surfaced
+structural-bypass lead.
+
+=== THE GATE'S VERDICT AGAINST REAL CODE (not an assertion) ===
+Deployed the REAL Root and ran the lead's hypothesis through the UNCHANGED gate:
+   invariant: no unauthorized wardship — root.wards(attacker) == 0
+   baseline holds -> Control clears (the legitimate timelocked rely by a real ward)
+                  -> attack: attacker self-relies with no prior schedule
+   VAGATE_VERDICT REJECTED_ATTACK_REVERTED   (reverts: "Root/target-not-scheduled")
+
+The gate, against real Centrifuge code, says: NOT A BUG. The lead is refuted, not
+asserted-false. (The _seed here was hand-derived for the demonstration; no generic
+synthesizer was built for it, because the premise it would serve was corrected.)
+
+=== DECOMPOSED WORK ORDER (the precise "still 0") ===
+Blind Centrifuge Tier-1 is NOT a deploy-graph synthesis gap. It is a BUG-CLASS
+COVERAGE gap:
+   - the structural lead-class is EXHAUSTED on Centrifuge (surfaced leads are noise);
+   - M-06/M-08 need M0 RECALL *plus* non-structural templates (they are not
+     unguarded-entrypoint shaped, so the structural template would never fit);
+   - M-01 needs a cross-domain-auth template;
+   - M-02/M-03 need the permit/signature (EIP-712) frontier.
+Deploy-graph synthesis is necessary infrastructure for all of these, but on the
+structural lead-class specifically it yields correct REJECTIONS.
+
+=== STRATEGIC CONSEQUENCE ===
+The honest next BLIND structural target is NOT Centrifuge — its structural lead-class
+is exhausted and its real findings are non-structural. A blind structural Tier-1
+requires a DIFFERENT contest with a surfaced, real, structural alt-entrypoint bug,
+run blind with the proven synthesizer.

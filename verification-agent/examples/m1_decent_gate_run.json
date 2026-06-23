@@ -1,0 +1,75 @@
+{
+  "target": "/tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo",
+  "cases": [
+    {
+      "case_id": "M03_receiveFromBridge_unauth_fee_bypass",
+      "kind": "known_true",
+      "contract": "DecentReceiveFromBridgeBypass",
+      "hypothesis": "UTB.receiveFromBridge is public with no access control and calls _swapAndExecute directly, skipping the retrieveAndCollectFees modifier. An attacker executes a swap+payload with no signature and pays no fee, breaking the invariant 'every swap-execute is fee/sig gated'.",
+      "predicate": "UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE",
+      "expected_verdict": "CONFIRMED",
+      "verdict": "CONFIRMED",
+      "gate_correct": true,
+      "confirmed": true,
+      "source_finding": "Code4rena 2024-01-decent M-03 (issue #590)",
+      "severity": "Medium"
+    },
+    {
+      "case_id": "forged_signature_passes_collectFees__FALSE",
+      "kind": "false_hypothesis",
+      "contract": "DecentForgedSignatureFalse",
+      "hypothesis": "A forged ECDSA signature passes UTBFeeCollector.collectFees and bypasses the fee check in swapAndExecute.",
+      "predicate": "UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE",
+      "expected_verdict": "REJECTED_ATTACK_REVERTED",
+      "verdict": "REJECTED_ATTACK_REVERTED",
+      "gate_correct": true,
+      "confirmed": false,
+      "source_finding": "(constructed negative control)",
+      "severity": ""
+    },
+    {
+      "case_id": "paid_swap_claimed_as_bypass__WRONG_REASON",
+      "kind": "wrong_reason",
+      "contract": "DecentPaidSwapWrongReason",
+      "hypothesis": "A fully-valid, fully-PAID swapAndExecute is claimed to demonstrate a fee bypass. The transaction succeeds and changes on-chain state, but the fee IS paid, so the invariant is not violated. A gate that only checks 'did the tx do something' would launder this into a finding.",
+      "predicate": "UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE",
+      "expected_verdict": "REJECTED_INVARIANT_INTACT",
+      "verdict": "REJECTED_INVARIANT_INTACT",
+      "gate_correct": true,
+      "confirmed": false,
+      "source_finding": "(constructed wrong-reason control)",
+      "severity": ""
+    },
+    {
+      "case_id": "malformed_baseline__predicate_false_at_rest",
+      "kind": "malformed_baseline",
+      "contract": "DecentMalformedBaseline",
+      "hypothesis": "The invariant predicate is false on honest seeded state (feeCollector.balance > 0 at baseline). A predicate false at rest cannot witness a break, so the gate must refuse to proceed.",
+      "predicate": "BROKEN PREDICATE (demo): feeCollector.balance > 0 at baseline (false on honest seeded state)",
+      "expected_verdict": "REJECTED_MALFORMED_BASELINE",
+      "verdict": "REJECTED_MALFORMED_BASELINE",
+      "gate_correct": true,
+      "confirmed": false,
+      "source_finding": "(constructed bad-predicate control)",
+      "severity": ""
+    },
+    {
+      "case_id": "malformed_control__predicate_broken_by_honest_use",
+      "kind": "malformed_control",
+      "contract": "DecentMalformedControl",
+      "hypothesis": "The predicate (target.pwnedCount == 0) holds at baseline but is too brittle: a legitimate, fully-paid swap breaks it by design. If trusted, it would yield a false CONFIRMED; Control must catch it before the attack is judged.",
+      "predicate": "BROKEN PREDICATE (demo): target.pwnedCount == 0 (any legitimate paid swap violates it)",
+      "expected_verdict": "REJECTED_MALFORMED_CONTROL",
+      "verdict": "REJECTED_MALFORMED_CONTROL",
+      "gate_correct": true,
+      "confirmed": false,
+      "source_finding": "(constructed bad-predicate control)",
+      "severity": ""
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "gate_correct": 5,
+    "confirmed": 1
+  }
+}

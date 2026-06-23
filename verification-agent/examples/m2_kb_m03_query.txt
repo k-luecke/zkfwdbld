@@ -1,0 +1,41 @@
+# M2 knowledge-base demo — the M-03 surface
+# date: 2026-06-22T22:08:36Z
+# corpus: lane-curated, mechanism-structured, dual-source (OAK + findings/incidents)
+
+Verification-Agent — M2 KB demo: the M-03 surface
+
+Query 1 — surfaces + text only (M0-derivable signal):
+  1. 0.874 [contest_finding] alt-entrypoint-auth-bypass         c4.2024-01-decent.M-03
+        UTB.receiveFromBridge bypasses fee/signature verification
+  2. 0.549 [oak_taxonomy   ] alt-entrypoint-auth-bypass         oak.access.alt-entrypoint-bypass
+        Privileged action reachable through an unguarded alternate entrypoint
+  3. 0.513 [public_incident] signature-verification-bypass      incident.wormhole.2022
+        Wormhole: guardian signature verification bypass
+  4. 0.502 [oak_taxonomy   ] missing-auth-on-privileged-entrypoint oak.access.missing-modifier
+        Privileged setter/handler missing access control
+  5. 0.494 [public_incident] cross-domain-privileged-call       incident.polynetwork.2021
+        Poly Network: cross-chain manager used to rotate the trusted keeper
+  6. 0.491 [contest_finding] missing-auth-on-privileged-entrypoint c4.2024-01-decent.H-01
+        DcntEth router address settable by anyone
+   source mix: {'contest_finding': 2, 'oak_taxonomy': 2, 'public_incident': 2}
+
+Query 2 — + mechanism hint (keys within the surface):
+  1. 0.785 [contest_finding] alt-entrypoint-auth-bypass         c4.2024-01-decent.M-03
+        UTB.receiveFromBridge bypasses fee/signature verification
+  2. 0.611 [oak_taxonomy   ] alt-entrypoint-auth-bypass         oak.access.alt-entrypoint-bypass
+        Privileged action reachable through an unguarded alternate entrypoint
+  3. 0.586 [oak_taxonomy   ] missing-auth-on-privileged-entrypoint oak.access.missing-modifier
+        Privileged setter/handler missing access control
+  4. 0.581 [contest_finding] missing-auth-on-privileged-entrypoint c4.2024-01-decent.H-01
+        DcntEth router address settable by anyone
+  5. 0.512 [public_incident] cross-domain-privileged-call       incident.polynetwork.2021
+        Poly Network: cross-chain manager used to rotate the trusted keeper
+  6. 0.334 [oak_taxonomy   ] cross-domain-sender-spoof          oak.xdomain.sender-spoof
+        Cross-domain sender spoofing
+
+mechanism-vs-vocabulary check:
+   the bridge/fee 'rounding' decoy ranks #18 of 20 on Query 1 — vocabulary overlap did NOT pull it up.
+
+priors are leads to investigate — the M1 gate confirms every finding.
+
+structured results -> examples/m2_kb_m03_query.json

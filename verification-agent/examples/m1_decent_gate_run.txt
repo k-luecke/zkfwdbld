@@ -1,0 +1,49 @@
+# M1 verify-gate self-proof — recorded run
+# target: code-423n4/2024-01-decent @ commit 5d1962143ee5
+# date: 2026-06-22T21:58:25Z
+# forge: forge Version: 1.7.1
+# solc: 0.8.20 (staged, offline)
+
+Verification-Agent — M1 verify-gate self-proof
+target: /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo
+
+[OK ] known_true         DecentReceiveFromBridgeBypass
+       hypothesis : UTB.receiveFromBridge is public with no access control and calls _swapAndExecute directly, skipp...
+       predicate  : UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE
+       expected   : CONFIRMED
+       gate said  : CONFIRMED
+       provenance : Code4rena 2024-01-decent M-03 (issue #590)
+
+[OK ] false_hypothesis   DecentForgedSignatureFalse
+       hypothesis : A forged ECDSA signature passes UTBFeeCollector.collectFees and bypasses the fee check in swapAn...
+       predicate  : UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE
+       expected   : REJECTED_ATTACK_REVERTED
+       gate said  : REJECTED_ATTACK_REVERTED
+       provenance : (constructed negative control)
+
+[OK ] wrong_reason       DecentPaidSwapWrongReason
+       hypothesis : A fully-valid, fully-PAID swapAndExecute is claimed to demonstrate a fee bypass. The transaction...
+       predicate  : UTB swap-executes are signature/fee gated: target.pwnedCount == feesCollected/FEE
+       expected   : REJECTED_INVARIANT_INTACT
+       gate said  : REJECTED_INVARIANT_INTACT
+       provenance : (constructed wrong-reason control)
+
+[OK ] malformed_baseline DecentMalformedBaseline
+       hypothesis : The invariant predicate is false on honest seeded state (feeCollector.balance > 0 at baseline). ...
+       predicate  : BROKEN PREDICATE (demo): feeCollector.balance > 0 at baseline (false on honest seeded state)
+       expected   : REJECTED_MALFORMED_BASELINE
+       gate said  : REJECTED_MALFORMED_BASELINE
+       provenance : (constructed bad-predicate control)
+
+[OK ] malformed_control  DecentMalformedControl
+       hypothesis : The predicate (target.pwnedCount == 0) holds at baseline but is too brittle: a legitimate, fully...
+       predicate  : BROKEN PREDICATE (demo): target.pwnedCount == 0 (any legitimate paid swap violates it)
+       expected   : REJECTED_MALFORMED_CONTROL
+       gate said  : REJECTED_MALFORMED_CONTROL
+       provenance : (constructed bad-predicate control)
+
+summary: 5/5 gate verdicts correct; 1 CONFIRMED finding(s).
+verdict corners exercised: CONFIRMED, REJECTED_ATTACK_REVERTED, REJECTED_INVARIANT_INTACT, REJECTED_MALFORMED_BASELINE, REJECTED_MALFORMED_CONTROL
+
+structured run log -> examples/m1_decent_gate_run.json
+Gate behaved correctly on all cases.

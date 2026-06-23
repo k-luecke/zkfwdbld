@@ -1,0 +1,39 @@
+# Move 3 — blind hunt for a first Tier-1 catch on an UNREAD contest.
+# PRE-COMMITTED before reading any contest's findings. Frozen discipline below.
+
+GOAL: take the fully-solved class (alt-entrypoint / sibling auth-or-fee bypass —
+the M-03 mechanism) + the now-sharp protocol-aware hunter + Seer + the gate, and
+land a Tier-1 on a contest the system has not read. Tier-1 (per the frozen M6
+taxonomy) = hunter+Seer find the path AND the gate CONFIRMS; the scenario harness
+MAY be hand-built. So this is unblocked today; synthesis autonomy is not required.
+
+BLIND DISCIPLINE (frozen):
+  1. Screen on CLASS ONLY: in-lane (cross-chain / access-control) settled contest
+     with a judged access-control finding. Allowed to know the class exists.
+  2. Build the M0 model from CODE ALONE. Run the deterministic hunter
+     (protocol_rules) + Seer. FREEZE that output.
+  3. Open the findings report ONLY AFTER freeze, to score.
+  4. Do NOT tune the hunter/filters to any specific bug. Do NOT read which function
+     is vulnerable before freeze.
+  Caveat (honest): an LLM driver may carry residual training recall of famous
+  contests' bugs. Mitigation: the hunter/Seer are DETERMINISTIC over the model
+  (code-derived, not recall-derived), and the filter is not tuned to specifics.
+  Recall risk is flagged per-contest; weakest-recall targets preferred.
+
+SCREENED CANDIDATES (by build-config + class shape; findings NOT read):
+  rank target                       form    solc    src   lane / recall
+  1    2024-04-renzo                Foundry 0.8.19  82    cross-chain restaking (in-lane); moderate recall
+  2    2023-12-ethereumcreditguild  Foundry default 22    governance/roles access-control; WEAK recall (cleanest blind)
+  3    2023-11-kelp                 Foundry 0.8.21  40    LST admin/oracle access-control; some recall
+  rejected: 2023-07-axelar (Hardhat; M0 Foundry-first), 2023-05-maia (solc 0.8.18
+            unstaged + huge omnichain), 2023-10-brahma (451 src; Slither too heavy),
+            2024-05-olas (no root foundry.toml), 2023-10-nextgen (no foundry.toml).
+
+PLAN: build #1 (renzo) blind; if its M0 pipeline fails offline, fall back to #2/#3.
+Run hunter+Seer, freeze, then open findings and score:
+  - SURFACED: did the hunter propose the real finding's host as a claimed-rule violation?
+  - PATHED:   did Seer find a path on it?
+  - CONFIRMED: could the gate confirm it (hand-built scenario allowed = Tier-1)?
+Honest outcomes: a CATCH (surfaced+pathed+confirmed) is the credential. A
+SURFACED-BUT-UNCONFIRMED is a precise work order (which scenario shape to build
+next), not a failure. A BUILD WALL is reported as the M0-offline bottleneck.
