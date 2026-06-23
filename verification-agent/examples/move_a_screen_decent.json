@@ -1,0 +1,32 @@
+{
+  "target": "examples/2024-01-decent.model.json",
+  "surface_unguarded": 7,
+  "candidate_violations": 4,
+  "pathable_pairs": 3,
+  "pathable_evidence": [
+    {
+      "attack_entrypoint": "receiveFromBridge",
+      "guard_bypassed": "retrieveAndCollectFees",
+      "reaches": [
+        "_swapAndExecute"
+      ]
+    },
+    {
+      "attack_entrypoint": "receiveFromBridge",
+      "guard_bypassed": "retrieveAndCollectFees",
+      "reaches": [
+        "_swapAndExecute"
+      ]
+    },
+    {
+      "attack_entrypoint": "swapNoPath",
+      "guard_bypassed": "routerIsSet",
+      "reaches": [
+        "_receiveAndWrapIfNeeded"
+      ]
+    }
+  ],
+  "shape_fit": 0.9,
+  "band": "HIGH",
+  "note": "3 attacker-reachable guarded/unguarded sibling pair(s) over a shared effect \u2014 the loop can catch here."
+}

@@ -105,6 +105,28 @@ def main(argv: list[str] | None = None) -> int:
     sy.add_argument("--target", default=None, help="Target contract for --deploygraph.")
     sy.add_argument("--json", default=None, help="Write the synthesis run JSON.")
 
+    sc = sub.add_parser(
+        "screen",
+        help="Shape-fit pre-screen: rank a codebase for the alt-entrypoint bug-class "
+             "SHAPE from structure alone (Move A). Works on settled OR live scope.")
+    sc.add_argument("--model", default=None, help="Path to an existing M0 model JSON.")
+    sc.add_argument("--local", default=None, help="Local checkout to build + screen.")
+    sc.add_argument("--repo", default=None, help="GitHub repo URL to clone + screen.")
+    sc.add_argument("--commit", default=None, help="Commit to pin (with --repo).")
+    sc.add_argument("--source-root", default=None,
+                    help="Source dir for NatSpec corroboration (defaults to --local).")
+    sc.add_argument("--json", default=None, help="Write the shape-fit report JSON.")
+
+    ak = sub.add_parser(
+        "answer-key",
+        help="Fetch + parse a settled contest's judged H/M findings into the scorer's "
+             "ANSWER_KEYS format (Move B). Runs AFTER a blind run; never feeds it.")
+    ak.add_argument("--contest", required=True,
+                    help="Contest id, e.g. 2024-01-decent (clones <id>-findings).")
+    ak.add_argument("--report", default=None,
+                    help="Path to a saved report.md (use if the host is offline).")
+    ak.add_argument("--json", default=None, help="Write the answer-key JSON.")
+
     kq = sub.add_parser(
         "kb", help="Query the knowledge base for hypothesis priors (M2).")
     kq.add_argument("--surface", action="append", default=[],
@@ -136,6 +158,10 @@ def main(argv: list[str] | None = None) -> int:
         return _cmd_backtest(args)
     if args.command == "synthesize":
         return _cmd_synthesize(args)
+    if args.command == "screen":
+        return _cmd_screen(args)
+    if args.command == "answer-key":
+        return _cmd_answer_key(args)
     parser.error(f"unknown command {args.command}")
     return 2
 
@@ -168,6 +194,80 @@ def _cmd_deploygraph(args) -> int:
     if args.json:
         Path(args.json).write_text(_json.dumps(g.to_dict(), indent=2))
         print(f"\ndeploy-graph -> {args.json}")
+    return 0
+
+
+def _cmd_answer_key(args) -> int:
+    import json as _json
+    import tempfile
+
+    from .screen.findings import (
+        fetch_findings_repo, parse_c4_report, to_answer_key,
+    )
+
+    if args.report:
+        report = Path(args.report)
+        if not report.exists():
+            print(f"saved report not found: {report}")
+            return 2
+    else:
+        dest = Path(tempfile.mkdtemp(prefix="vagent-findings-"))
+        report = fetch_findings_repo(args.contest, dest)
+        if report is None:
+            print(f"could not fetch {args.contest}-findings (offline?). "
+                  f"Re-run with --report <saved report.md>. Not faking retrieval.")
+            return 2
+
+    findings = parse_c4_report(report.read_text())
+    rows = to_answer_key(findings)
+    print(f"Verification-Agent — judged answer key for {args.contest} (Move B)")
+    print(f"parsed {len(findings)} H/M findings. id/title/severity exact; "
+          f"hosts+mechanism heuristic (flagged).")
+    for f in findings:
+        print(f"  {f.id} [{f.severity:6s}][{f.mechanism:20s}] {f.hosts}")
+    if args.json:
+        payload = {"contest": args.contest,
+                   "answer_key": [list(r) for r in rows],
+                   "note": "hosts+mechanism are heuristic; id/title/severity exact. "
+                           "This is fetch+score infra; the BlindRunner never reads it."}
+        Path(args.json).write_text(_json.dumps(payload, indent=2))
+        print(f"\nanswer key -> {args.json}")
+    return 0
+
+
+def _cmd_screen(args) -> int:
+    import json as _json
+    import tempfile
+
+    from .screen import ShapeScreener
+
+    if args.model:
+        model = _json.loads(Path(args.model).read_text())
+        src = args.source_root
+    elif args.local or args.repo:
+        workdir = Path(tempfile.mkdtemp(prefix="vagent-screen-"))
+        m = build_model(repo_url=args.repo, commit=args.commit, workdir=workdir,
+                        local_path=Path(args.local) if args.local else None)
+        model = m.to_dict()
+        src = args.source_root or args.local
+    else:
+        print("provide --model, --local, or --repo")
+        return 2
+
+    rep = ShapeScreener().screen(model, source_root=src,
+                                 target=args.model or args.local or args.repo)
+    print("Verification-Agent — shape-fit pre-screen (SHAPE only; findings never read)")
+    print(f"target           : {rep.target}")
+    print(f"band             : {rep.band}   shape_fit={rep.shape_fit}")
+    print(f"surface (M0)     : {rep.surface_unguarded}")
+    print(f"claimed-rule cand: {rep.candidate_violations}  (Move-2 sibling asymmetry)")
+    print(f"Seer-pathable    : {rep.pathable_pairs}  <- the decisive signal")
+    for e in rep.pathable_evidence:
+        print(f"   PATH {e['attack_entrypoint']} bypasses {e['guard_bypassed']} -> {e['reaches']}")
+    print(f"note             : {rep.note}")
+    if args.json:
+        Path(args.json).write_text(_json.dumps(rep.to_dict(), indent=2))
+        print(f"\nshape-fit report -> {args.json}")
     return 0
 
 

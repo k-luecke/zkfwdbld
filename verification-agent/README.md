@@ -316,13 +316,15 @@ verification_agent/
             contests.py               — lane-curated registry + answer keys (scorer-only)
             runner.py                 — BlindRunner: runs the loop on code alone, never reads keys
             scorer.py                 — opens keys post-freeze; mechanical tier assignment
+  screen/   shape.py                  — shape-fit pre-screen: alt-entrypoint fit from structure (Move A)
+            findings.py               — fetch+parse judged findings into the answer-key format (Move B)
   schema.py                           — the JSON contract every stage consumes
   cli.py                              — model/verify/kb/hypothesize/findpath/synthesize/backtest (M0–M6)
 fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
 docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M4.5_scenario_synthesis / M6_backtest
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_protocol_rules / test_pathfind / test_synthesize / test_deploygraph / test_signature / test_backtest — offline
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_protocol_rules / test_pathfind / test_synthesize / test_deploygraph / test_signature / test_screen / test_backtest — offline
 ```
 
 ## Hard constraints

@@ -35,6 +35,7 @@ packages = [
     "verification_agent.pathfind",
     "verification_agent.synthesize",
     "verification_agent.backtest",
+    "verification_agent.screen",
 ]
 
 [tool.setuptools.package-data]
