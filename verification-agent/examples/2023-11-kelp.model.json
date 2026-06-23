@@ -1,0 +1,2627 @@
+{
+  "schema_version": "0.1.0",
+  "repo_url": "(local)",
+  "commit": "cebf9a9fd1355c2d5d560268745c3056c21de78f",
+  "build_system": "foundry",
+  "compiled": true,
+  "tool_status": [
+    {
+      "name": "foundry",
+      "available": true,
+      "ran": true,
+      "version": null,
+      "detail": "forge build ok"
+    },
+    {
+      "name": "slither",
+      "available": true,
+      "ran": true,
+      "version": "0.11.5",
+      "detail": "extracted structural model"
+    }
+  ],
+  "contracts": [
+    {
+      "name": "LRTConfig",
+      "kind": "contract",
+      "inheritance": [
+        "AccessControlUpgradeable",
+        "ERC165Upgradeable",
+        "IERC165Upgradeable",
+        "IAccessControlUpgradeable",
+        "ContextUpgradeable",
+        "Initializable",
+        "ILRTConfig"
+      ],
+      "source_file": "src/LRTConfig.sol"
+    },
+    {
+      "name": "LRTDepositPool",
+      "kind": "contract",
+      "inheritance": [
+        "ReentrancyGuardUpgradeable",
+        "PausableUpgradeable",
+        "ContextUpgradeable",
+        "Initializable",
+        "LRTConfigRoleChecker",
+        "ILRTDepositPool"
+      ],
+      "source_file": "src/LRTDepositPool.sol"
+    },
+    {
+      "name": "LRTOracle",
+      "kind": "contract",
+      "inheritance": [
+        "PausableUpgradeable",
+        "ContextUpgradeable",
+        "Initializable",
+        "LRTConfigRoleChecker",
+        "ILRTOracle"
+      ],
+      "source_file": "src/LRTOracle.sol"
+    },
+    {
+      "name": "NodeDelegator",
+      "kind": "contract",
+      "inheritance": [
+        "ReentrancyGuardUpgradeable",
+        "PausableUpgradeable",
+        "ContextUpgradeable",
+        "Initializable",
+        "LRTConfigRoleChecker",
+        "INodeDelegator"
+      ],
+      "source_file": "src/NodeDelegator.sol"
+    },
+    {
+      "name": "RSETH",
+      "kind": "contract",
+      "inheritance": [
+        "AccessControlUpgradeable",
+        "ERC165Upgradeable",
+        "IERC165Upgradeable",
+        "IAccessControlUpgradeable",
+        "PausableUpgradeable",
+        "ERC20Upgradeable",
+        "IERC20MetadataUpgradeable",
+        "IERC20Upgradeable",
+        "ContextUpgradeable",
+        "LRTConfigRoleChecker",
+        "Initializable"
+      ],
+      "source_file": "src/RSETH.sol"
+    },
+    {
+      "name": "IEigenStrategyManager",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/IEigenStrategyManager.sol"
+    },
+    {
+      "name": "ILRTConfig",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/ILRTConfig.sol"
+    },
+    {
+      "name": "ILRTDepositPool",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/ILRTDepositPool.sol"
+    },
+    {
+      "name": "ILRTOracle",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/ILRTOracle.sol"
+    },
+    {
+      "name": "INodeDelegator",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/INodeDelegator.sol"
+    },
+    {
+      "name": "IPriceFetcher",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/IPriceFetcher.sol"
+    },
+    {
+      "name": "IRSETH",
+      "kind": "interface",
+      "inheritance": [
+        "IERC20"
+      ],
+      "source_file": "src/interfaces/IRSETH.sol"
+    },
+    {
+      "name": "IStrategy",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/interfaces/IStrategy.sol"
+    },
+    {
+      "name": "AggregatorInterface",
+      "kind": "interface",
+      "inheritance": [],
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol"
+    },
+    {
+      "name": "ChainlinkPriceOracle",
+      "kind": "contract",
+      "inheritance": [
+        "Initializable",
+        "LRTConfigRoleChecker",
+        "IPriceFetcher"
+      ],
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol"
+    },
+    {
+      "name": "LRTConfigRoleChecker",
+      "kind": "abstract",
+      "inheritance": [],
+      "source_file": "src/utils/LRTConfigRoleChecker.sol"
+    },
+    {
+      "name": "LRTConstants",
+      "kind": "library",
+      "inheritance": [],
+      "source_file": "src/utils/LRTConstants.sol"
+    },
+    {
+      "name": "UtilLib",
+      "kind": "library",
+      "inheritance": [],
+      "source_file": "src/utils/UtilLib.sol"
+    }
+  ],
+  "storage_layout": [
+    {
+      "contract": "LRTConfig",
+      "name": "tokenMap",
+      "type": "mapping(bytes32 => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "contractMap",
+      "type": "mapping(bytes32 => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "isSupportedAsset",
+      "type": "mapping(address => bool)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "depositLimitByAsset",
+      "type": "mapping(address => uint256)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "assetStrategy",
+      "type": "mapping(address => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "supportedAssetList",
+      "type": "address[]",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "rsETH",
+      "type": "address",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "maxNodeDelegatorCount",
+      "type": "uint256",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "nodeDelegatorQueue",
+      "type": "address[]",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "assetPriceOracle",
+      "type": "mapping(address => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "assetPriceFeed",
+      "type": "mapping(address => address)",
+      "slot": null,
+      "offset": null
+    },
+    {
+      "contract": "LRTConfigRoleChecker",
+      "name": "lrtConfig",
+      "type": "ILRTConfig",
+      "slot": null,
+      "offset": null
+    }
+  ],
+  "entry_points": [
+    {
+      "contract": "LRTConfig",
+      "name": "rsETH",
+      "signature": "rsETH()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 21
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "assetStrategy",
+      "signature": "assetStrategy(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 23
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "isSupportedAsset",
+      "signature": "isSupportedAsset(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 25
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "depositLimitByAsset",
+      "signature": "depositLimitByAsset(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 33
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "initialize",
+      "signature": "initialize(address,address,address,address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 41
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "addNewSupportedAsset",
+      "signature": "addNewSupportedAsset(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 73
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "updateAssetDepositLimit",
+      "signature": "updateAssetDepositLimit(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 94
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "updateAssetStrategy",
+      "signature": "updateAssetStrategy(address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 109
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "getLSTToken",
+      "signature": "getLSTToken(bytes32)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 127
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "getContract",
+      "signature": "getContract(bytes32)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 131
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "getSupportedAssetList",
+      "signature": "getSupportedAssetList()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 135
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "setRSETH",
+      "signature": "setRSETH(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 144
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "setToken",
+      "signature": "setToken(bytes32,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 149
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "setContract",
+      "signature": "setContract(bytes32,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 165
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 31
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getTotalAssetDeposits",
+      "signature": "getTotalAssetDeposits(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getAssetCurrentLimit",
+      "signature": "getAssetCurrentLimit(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 56
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getNodeDelegatorQueue",
+      "signature": "getNodeDelegatorQueue()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 62
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getAssetDistributionData",
+      "signature": "getAssetDistributionData(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit(body)"
+        ],
+        "slashing_avs_state": [
+          "eigen(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 71
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getRsETHAmountToMint",
+      "signature": "getRsETHAmountToMint(address,uint256)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 95
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "depositAsset",
+      "signature": "depositAsset(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint",
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 119
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "addNodeDelegatorContractToQueue",
+      "signature": "addNodeDelegatorContractToQueue(address[])",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 162
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "transferAssetToNodeDelegator",
+      "signature": "transferAssetToNodeDelegator(uint256,address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "nonReentrant",
+        "onlyLRTManager",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 183
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "updateMaxNodeDelegatorCount",
+      "signature": "updateMaxNodeDelegatorCount(uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 202
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "pause",
+      "signature": "pause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 208
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "unpause",
+      "signature": "unpause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 213
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "assetPriceOracle",
+      "signature": "assetPriceOracle(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 10
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 29
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "getAssetPrice",
+      "signature": "getAssetPrice(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 45
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "getRSETHPrice",
+      "signature": "getRSETHPrice()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 52
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "updatePriceOracleFor",
+      "signature": "updatePriceOracleFor(address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 88
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "pause",
+      "signature": "pause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 102
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "unpause",
+      "signature": "unpause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 107
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 26
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "maxApproveToEigenStrategyManager",
+      "signature": "maxApproveToEigenStrategyManager(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 38
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "depositAssetIntoStrategy",
+      "signature": "depositAssetIntoStrategy(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 51
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "transferBackToLRTDepositPool",
+      "signature": "transferBackToLRTDepositPool(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 74
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "getAssetBalances",
+      "signature": "getAssetBalances()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 94
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "getAssetBalance",
+      "signature": "getAssetBalance(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 121
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "pause",
+      "signature": "pause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 127
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "unpause",
+      "signature": "unpause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 132
+    },
+    {
+      "contract": "RSETH",
+      "name": "initialize",
+      "signature": "initialize(address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/RSETH.sol",
+      "source_line": 32
+    },
+    {
+      "contract": "RSETH",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "whenNotPaused"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/RSETH.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "RSETH",
+      "name": "burnFrom",
+      "signature": "burnFrom(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "whenNotPaused"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/RSETH.sol",
+      "source_line": 54
+    },
+    {
+      "contract": "RSETH",
+      "name": "pause",
+      "signature": "pause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/RSETH.sol",
+      "source_line": 60
+    },
+    {
+      "contract": "RSETH",
+      "name": "unpause",
+      "signature": "unpause()",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/RSETH.sol",
+      "source_line": 66
+    },
+    {
+      "contract": "RSETH",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/RSETH.sol",
+      "source_line": 73
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "assetPriceFeed",
+      "signature": "assetPriceFeed(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 9
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 27
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "getAssetPrice",
+      "signature": "getAssetPrice(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 37
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "updatePriceFeedFor",
+      "signature": "updatePriceFeedFor(address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTManager",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 45
+    },
+    {
+      "contract": "LRTConfigRoleChecker",
+      "name": "updateLRTConfig",
+      "signature": "updateLRTConfig(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyLRTAdmin"
+      ],
+      "is_entry_point": true,
+      "surfaces": [],
+      "surface_evidence": {},
+      "structural_priority": false,
+      "confidence": "none",
+      "source_file": "src/utils/LRTConfigRoleChecker.sol",
+      "source_line": 47
+    }
+  ],
+  "call_graph": [
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_setToken",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_addNewSupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_addNewSupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_grantRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_setToken",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_addNewSupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "_setToken",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "__AccessControl_init",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['rETH'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['stETH'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['rsETH_'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['admin'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['cbETH'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.addNewSupportedAsset",
+      "callee": "_addNewSupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.addNewSupportedAsset",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.addNewSupportedAsset",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetDepositLimit",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetDepositLimit",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetDepositLimit",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetStrategy",
+      "callee": "revert ValueAlreadyInUse()",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetStrategy",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetStrategy",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.updateAssetStrategy",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['strategy'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.setRSETH",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.setRSETH",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['rsETH_'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfig.setToken",
+      "callee": "_setToken",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.setToken",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.setContract",
+      "callee": "_setContract",
+      "external": false
+    },
+    {
+      "caller": "LRTConfig.setContract",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.updateLRTConfig",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.initialize",
+      "callee": "__ReentrancyGuard_init",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.initialize",
+      "callee": "__Pausable_init",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getTotalAssetDeposits",
+      "callee": "getAssetDistributionData",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.getAssetCurrentLimit",
+      "callee": "getTotalAssetDeposits",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.getAssetCurrentLimit",
+      "callee": "ILRTConfig.TMP_14467(uint256) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:depositLimitByAsset, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getAssetDistributionData",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.getAssetDistributionData",
+      "callee": "INodeDelegator.TMP_14477(uint256) = HIGH_LEVEL_CALL, dest:TMP_14476(INodeDelegator), function:getAssetBalance, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getAssetDistributionData",
+      "callee": "IERC20.TMP_14475(uint256) = HIGH_LEVEL_CALL, dest:TMP_14474(IERC20), function:balanceOf, arguments:['REF_3225']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getAssetDistributionData",
+      "callee": "IERC20.TMP_14472(uint256) = HIGH_LEVEL_CALL, dest:TMP_14470(IERC20), function:balanceOf, arguments:['TMP_14471']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getRsETHAmountToMint",
+      "callee": "ILRTOracle.TMP_14481(uint256) = HIGH_LEVEL_CALL, dest:lrtOracle(ILRTOracle), function:getAssetPrice, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getRsETHAmountToMint",
+      "callee": "ILRTOracle.TMP_14483(uint256) = HIGH_LEVEL_CALL, dest:lrtOracle(ILRTOracle), function:getRSETHPrice, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.getRsETHAmountToMint",
+      "callee": "ILRTConfig.TMP_14479(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3229']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "revert TokenTransferFailed()",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "revert MaximumDepositLimitReached()",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "whenNotPaused",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "_mintRsETH",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "nonReentrant",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "revert InvalidAmount()",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "getAssetCurrentLimit",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.depositAsset",
+      "callee": "IERC20.TMP_14492(bool) = HIGH_LEVEL_CALL, dest:TMP_14490(IERC20), function:transferFrom, arguments:['msg.sender', 'TMP_14491', 'depositAmount']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.addNodeDelegatorContractToQueue",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.addNodeDelegatorContractToQueue",
+      "callee": "revert MaximumNodeDelegatorCountReached()",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.addNodeDelegatorContractToQueue",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['REF_3238'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.transferAssetToNodeDelegator",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.transferAssetToNodeDelegator",
+      "callee": "revert TokenTransferFailed()",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.transferAssetToNodeDelegator",
+      "callee": "nonReentrant",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.transferAssetToNodeDelegator",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.transferAssetToNodeDelegator",
+      "callee": "IERC20.TMP_14515(bool) = HIGH_LEVEL_CALL, dest:TMP_14514(IERC20), function:transfer, arguments:['nodeDelegator', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTDepositPool.updateMaxNodeDelegatorCount",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.pause",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.pause",
+      "callee": "_pause",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.unpause",
+      "callee": "_unpause",
+      "external": false
+    },
+    {
+      "caller": "LRTDepositPool.unpause",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.updateLRTConfig",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.initialize",
+      "callee": "__Pausable_init",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getAssetPrice",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.getAssetPrice",
+      "callee": "IPriceFetcher.TMP_14598(uint256) = HIGH_LEVEL_CALL, dest:TMP_14597(IPriceFetcher), function:getAssetPrice, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "getAssetPrice",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "ILRTConfig.TMP_14604(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3258']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "IRSETH.TMP_14602(uint256) = HIGH_LEVEL_CALL, dest:TMP_14601(IRSETH), function:totalSupply, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "ILRTConfig.TMP_14600(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:rsETH, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "ILRTDepositPool.TMP_14609(uint256) = HIGH_LEVEL_CALL, dest:TMP_14608(ILRTDepositPool), function:getTotalAssetDeposits, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.getRSETHPrice",
+      "callee": "ILRTConfig.TMP_14605(address[]) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getSupportedAssetList, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.updatePriceOracleFor",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.updatePriceOracleFor",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.updatePriceOracleFor",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['priceOracle'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTOracle.pause",
+      "callee": "_pause",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.pause",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.unpause",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTOracle.unpause",
+      "callee": "_unpause",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.updateLRTConfig",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.initialize",
+      "callee": "__Pausable_init",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.initialize",
+      "callee": "__ReentrancyGuard_init",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.maxApproveToEigenStrategyManager",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.maxApproveToEigenStrategyManager",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.maxApproveToEigenStrategyManager",
+      "callee": "IERC20.TMP_14699(bool) = HIGH_LEVEL_CALL, dest:TMP_14696(IERC20), function:approve, arguments:['eigenlayerStrategyManagerAddress', 'TMP_14698']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.maxApproveToEigenStrategyManager",
+      "callee": "ILRTConfig.TMP_14695(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3273']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "nonReentrant",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "whenNotPaused",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "ILRTConfig.TMP_14702(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:assetStrategy, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "IEigenStrategyManager.TMP_14710(uint256) = HIGH_LEVEL_CALL, dest:TMP_14708(IEigenStrategyManager), function:depositIntoStrategy, arguments:['TMP_14709', 'token', 'balance']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "IERC20.TMP_14706(uint256) = HIGH_LEVEL_CALL, dest:token(IERC20), function:balanceOf, arguments:['TMP_14705']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.depositAssetIntoStrategy",
+      "callee": "ILRTConfig.TMP_14704(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3277']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "revert TokenTransferFailed()",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "nonReentrant",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "whenNotPaused",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "IERC20.TMP_14717(bool) = HIGH_LEVEL_CALL, dest:TMP_14716(IERC20), function:transfer, arguments:['lrtDepositPool', 'amount']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.transferBackToLRTDepositPool",
+      "callee": "ILRTConfig.TMP_14715(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3281']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalances",
+      "callee": "ILRTConfig.TMP_14724(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:getContract, arguments:['REF_3284']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalances",
+      "callee": "IStrategy.TMP_14733(IERC20) = HIGH_LEVEL_CALL, dest:TMP_14732(IStrategy), function:underlyingToken, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalances",
+      "callee": "IStrategy.TMP_14737(uint256) = HIGH_LEVEL_CALL, dest:TMP_14735(IStrategy), function:userUnderlyingView, arguments:['TMP_14736']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalances",
+      "callee": "IEigenStrategyManager.TUPLE_99(IStrategy[],uint256[]) = HIGH_LEVEL_CALL, dest:TMP_14725(IEigenStrategyManager), function:getDeposits, arguments:['TMP_14726']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalance",
+      "callee": "ILRTConfig.TMP_14738(address) = HIGH_LEVEL_CALL, dest:lrtConfig(ILRTConfig), function:assetStrategy, arguments:['asset']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.getAssetBalance",
+      "callee": "IStrategy.TMP_14741(uint256) = HIGH_LEVEL_CALL, dest:TMP_14739(IStrategy), function:userUnderlyingView, arguments:['TMP_14740']  ",
+      "external": true
+    },
+    {
+      "caller": "NodeDelegator.pause",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.pause",
+      "callee": "_pause",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.unpause",
+      "callee": "_unpause",
+      "external": false
+    },
+    {
+      "caller": "NodeDelegator.unpause",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "__Pausable_init",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "_grantRole",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "__ERC20_init",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "__AccessControl_init",
+      "external": false
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['admin'] ",
+      "external": true
+    },
+    {
+      "caller": "RSETH.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "RSETH.mint",
+      "callee": "whenNotPaused",
+      "external": false
+    },
+    {
+      "caller": "RSETH.mint",
+      "callee": "_mint",
+      "external": false
+    },
+    {
+      "caller": "RSETH.mint",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "RSETH.burnFrom",
+      "callee": "_burn",
+      "external": false
+    },
+    {
+      "caller": "RSETH.burnFrom",
+      "callee": "whenNotPaused",
+      "external": false
+    },
+    {
+      "caller": "RSETH.burnFrom",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "RSETH.pause",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "RSETH.pause",
+      "callee": "_pause",
+      "external": false
+    },
+    {
+      "caller": "RSETH.unpause",
+      "callee": "_unpause",
+      "external": false
+    },
+    {
+      "caller": "RSETH.unpause",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "RSETH.updateLRTConfig",
+      "callee": "onlyRole",
+      "external": false
+    },
+    {
+      "caller": "RSETH.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['_lrtConfig'] ",
+      "external": true
+    },
+    {
+      "caller": "ChainlinkPriceOracle.updateLRTConfig",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "ChainlinkPriceOracle.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    },
+    {
+      "caller": "ChainlinkPriceOracle.initialize",
+      "callee": "initializer",
+      "external": false
+    },
+    {
+      "caller": "ChainlinkPriceOracle.initialize",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfig_'] ",
+      "external": true
+    },
+    {
+      "caller": "ChainlinkPriceOracle.getAssetPrice",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "ChainlinkPriceOracle.getAssetPrice",
+      "callee": "AggregatorInterface.TMP_14997(uint256) = HIGH_LEVEL_CALL, dest:TMP_14996(AggregatorInterface), function:latestAnswer, arguments:[]  ",
+      "external": true
+    },
+    {
+      "caller": "ChainlinkPriceOracle.updatePriceFeedFor",
+      "callee": "onlyLRTManager",
+      "external": false
+    },
+    {
+      "caller": "ChainlinkPriceOracle.updatePriceFeedFor",
+      "callee": "onlySupportedAsset",
+      "external": false
+    },
+    {
+      "caller": "ChainlinkPriceOracle.updatePriceFeedFor",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['priceFeed'] ",
+      "external": true
+    },
+    {
+      "caller": "LRTConfigRoleChecker.updateLRTConfig",
+      "callee": "onlyLRTAdmin",
+      "external": false
+    },
+    {
+      "caller": "LRTConfigRoleChecker.updateLRTConfig",
+      "callee": "UtilLib.LIBRARY_CALL, dest:UtilLib, function:UtilLib.checkNonZeroAddress(address), arguments:['lrtConfigAddr'] ",
+      "external": true
+    }
+  ],
+  "verification_surface": [
+    {
+      "contract": "LRTConfig",
+      "name": "depositLimitByAsset",
+      "signature": "depositLimitByAsset(address)",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 33
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "initialize",
+      "signature": "initialize(address,address,address,address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 41
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "addNewSupportedAsset",
+      "signature": "addNewSupportedAsset(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 73
+    },
+    {
+      "contract": "LRTConfig",
+      "name": "updateAssetDepositLimit",
+      "signature": "updateAssetDepositLimit(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTConfig.sol",
+      "source_line": 94
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 31
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getTotalAssetDeposits",
+      "signature": "getTotalAssetDeposits(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getAssetCurrentLimit",
+      "signature": "getAssetCurrentLimit(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 56
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getAssetDistributionData",
+      "signature": "getAssetDistributionData(address)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit(body)"
+        ],
+        "slashing_avs_state": [
+          "eigen(body)"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 71
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "getRsETHAmountToMint",
+      "signature": "getRsETHAmountToMint(address,uint256)",
+      "visibility": "public",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 95
+    },
+    {
+      "contract": "LRTDepositPool",
+      "name": "depositAsset",
+      "signature": "depositAsset(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint",
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTDepositPool.sol",
+      "source_line": 119
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 29
+    },
+    {
+      "contract": "LRTOracle",
+      "name": "getRSETHPrice",
+      "signature": "getRSETHPrice()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/LRTOracle.sol",
+      "source_line": 52
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 26
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "maxApproveToEigenStrategyManager",
+      "signature": "maxApproveToEigenStrategyManager(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 38
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "depositAssetIntoStrategy",
+      "signature": "depositAssetIntoStrategy(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 51
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "transferBackToLRTDepositPool",
+      "signature": "transferBackToLRTDepositPool(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "whenNotPaused",
+        "nonReentrant",
+        "onlySupportedAsset",
+        "onlyLRTManager"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 74
+    },
+    {
+      "contract": "NodeDelegator",
+      "name": "getAssetBalances",
+      "signature": "getAssetBalances()",
+      "visibility": "external",
+      "mutability": "view",
+      "modifiers": [],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler",
+        "slashing_avs_state"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "deposit"
+        ],
+        "slashing_avs_state": [
+          "eigen"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/NodeDelegator.sol",
+      "source_line": 94
+    },
+    {
+      "contract": "RSETH",
+      "name": "initialize",
+      "signature": "initialize(address,address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/RSETH.sol",
+      "source_line": 32
+    },
+    {
+      "contract": "RSETH",
+      "name": "mint",
+      "signature": "mint(address,uint256)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "onlyRole",
+        "whenNotPaused"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "bridge_inbound_handler"
+      ],
+      "surface_evidence": {
+        "bridge_inbound_handler": [
+          "mint"
+        ]
+      },
+      "structural_priority": false,
+      "confidence": "keyword",
+      "source_file": "src/RSETH.sol",
+      "source_line": 47
+    },
+    {
+      "contract": "ChainlinkPriceOracle",
+      "name": "initialize",
+      "signature": "initialize(address)",
+      "visibility": "external",
+      "mutability": "nonpayable",
+      "modifiers": [
+        "initializer"
+      ],
+      "is_entry_point": true,
+      "surfaces": [
+        "unguarded_privileged_entrypoint"
+      ],
+      "surface_evidence": {
+        "unguarded_privileged_entrypoint": [
+          "external-entrypoint",
+          "writes-state",
+          "external-call",
+          "no-auth-modifier"
+        ]
+      },
+      "structural_priority": true,
+      "confidence": "structural",
+      "source_file": "src/oracles/ChainlinkPriceOracle.sol",
+      "source_line": 27
+    }
+  ],
+  "notes": [
+    "using local path /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/screen/2023-11-kelp (no clone)",
+    "build: forge build ok",
+    "verification surface: 20 of 56 entry points tagged priority"
+  ]
+}

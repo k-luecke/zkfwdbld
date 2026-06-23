@@ -24,7 +24,7 @@ report imply more certainty than the verify gate (M1) has established.
 |---|---|---|
 | `ingest/clone.py` | IMPLEMENTED | Clone + pin commit + recursive submodules. |
 | `ingest/build.py` | IMPLEMENTED (Foundry) / PARTIAL (Hardhat) | Foundry first-class; Hardhat detected + compiled, modeling tuned for Foundry. |
-| `model/slither_runner.py` | IMPLEMENTED | Contracts, inheritance, entry points, storage vars, call graph. Storage *slots* left null (exact packing needs `forge inspect`) — labeled, not guessed. |
+| `model/slither_runner.py` | IMPLEMENTED | Contracts, inheritance, entry points, storage vars, call graph. Storage *slots* left null (exact packing needs `forge inspect`) — labeled, not guessed. Robust to Foundry projects that need `out/build-info`: on Slither failure it generates build-info and retries with `ignore_compile` (lets the M0 pipeline model fresh contests offline — proven on 2023-11-kelp). |
 | `model/surface.py` | IMPLEMENTED | The specialization filter: keyword tags (vocabulary) **plus** a name-independent structural rule (`tag_structural`) for unguarded privileged entrypoints. Evidence + confidence on every tag. |
 | `model/lite.py` | PARTIAL | Regex fallback when Slither can't compile. Approximate by design; output flagged DEGRADED. |
 | `model/model_builder.py` | IMPLEMENTED | Orchestrates the stages; records tool provenance in `tool_status`. |

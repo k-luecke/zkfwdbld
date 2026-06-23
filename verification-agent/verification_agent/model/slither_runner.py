@@ -41,11 +41,53 @@ def slither_available() -> bool:
         return False
 
 
+def _ensure_foundry_build_info(target: Path) -> bool:
+    """Generate Foundry `out/build-info` so Slither can consume it offline.
+
+    crytic-compile's foundry platform re-runs `forge build` without `--build-info`,
+    which fails on projects that need it ("out/build-info is not a directory").
+    We generate it explicitly in the foundry root and let Slither ignore compile.
+    General M0 robustness — not target-specific.
+    """
+    import os
+    import subprocess
+
+    root = target if (target / "foundry.toml").exists() else None
+    if root is None:
+        for child in sorted(p for p in target.iterdir() if p.is_dir()) if target.is_dir() else []:
+            if (child / "foundry.toml").exists():
+                root = child
+                break
+    if root is None:
+        return False
+    env = dict(os.environ)
+    foundry_bin = Path.home() / ".foundry" / "bin"
+    if foundry_bin.is_dir():
+        env["PATH"] = f"{foundry_bin}{os.pathsep}{env.get('PATH', '')}"
+    env.setdefault("FOUNDRY_OFFLINE", "true")
+    svm = Path.home() / ".svm"
+    if svm.is_dir():
+        env.setdefault("SVM_HOME", str(svm))
+    try:
+        subprocess.run(["forge", "build", "--build-info"], cwd=str(root),
+                       env=env, capture_output=True, text=True, timeout=400)
+    except Exception:
+        return False
+    return any(root.glob("**/build-info/*.json"))
+
+
 def run_slither(target: Path) -> SlitherExtract:
     """Run Slither over ``target`` (a project dir or a single .sol file)."""
     from slither import Slither  # imported lazily so the package loads without it
 
-    sl = Slither(str(target))
+    try:
+        sl = Slither(str(target))
+    except Exception:
+        # Foundry build-info may be missing; generate it and retry ignoring compile.
+        if _ensure_foundry_build_info(target):
+            sl = Slither(str(target), ignore_compile=True)
+        else:
+            raise
 
     contracts: list[ContractInfo] = []
     storage: list[StorageSlot] = []

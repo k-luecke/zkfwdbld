@@ -1,0 +1,46 @@
+# Move 3 — first BLIND pipeline run on an unread contest: 2023-11-kelp (rsETH LST)
+# Screened on class (access-control), built + hunted BLIND, frozen before any
+# findings were read. Protocol pre-committed in examples/move3_blind_protocol.txt.
+
+=== WHAT RAN (end-to-end, blind) ===
+clone -> forge build (offline) -> M0 model (Slither; needed the build-info fix) ->
+protocol-aware hunter (Move 2) -> Seer (M4). First time the full finding loop ran
+on a contest the system had never read. Model: 18 contracts, 56 entry points,
+153 call-graph edges, 20 surface.
+
+=== FROZEN OUTPUT (findings NOT read at freeze) ===
+protocol-aware leads (claimed-rule violations): 7
+  EV 0.360  LRTConfig.initialize            reach _setToken needs onlyRole (vs setToken)
+  EV 0.279  LRTConfig.addNewSupportedAsset  reach _addNewSupportedAsset needs initializer
+  EV 0.084  LRTConfig.setToken              reach _setToken needs initializer
+  EV 0.084  LRTDepositPool.unpause          reach _unpause needs onlyRole (cross-contract)
+  EV 0.084  LRTOracle.unpause               reach _unpause needs onlyRole (cross-contract)
+  EV 0.084  NodeDelegator.unpause           reach _unpause needs onlyRole (cross-contract)
+  EV 0.084  RSETH.unpause                   reach _unpause needs onlyLRTAdmin (cross-contract)
+Seer paths found: 0
+
+=== RESULT: NO CATCH (honest) ===
+Seer pathed 0 of the 7 leads, so there is no Tier-1 catch (Tier-1 requires Seer to
+find the path and hand it to the gate). The leads are initializer-vs-role and
+cross-contract unpause ASYMMETRIES — not the solved alt-entrypoint shape (a
+guarded/unguarded sibling reaching a SHARED privileged sink, M-03 style). The
+system did NOT manufacture a catch on a contest lacking the shape — it went quiet,
+exactly as it did on Centrifuge. No false positive under blind conditions.
+
+=== TWO HONEST WALLS (the work order) ===
+1. SCREENING WAS TOO LOOSE. "access-control protocol" is not enough; an LST's real
+   bugs are typically accounting/oracle, a different class. Screen specifically for
+   the alt-entrypoint SHAPE: a judged finding where a permissionless path reaches an
+   effect a sibling GATES. Kelp does not have it (Seer 0 paths corroborates).
+2. SCORING IS OFFLINE-BLOCKED. Kelp's judged H/M findings live on the Code4rena site,
+   not in the repo; offline they can't be fetched, and scoring on fuzzy model recall
+   would violate the blind discipline. So whether any lead maps to a real finding is
+   UNSCORED. (Moot for a catch here, since Seer pathed nothing.)
+
+=== WHAT THIS SESSION PROVED ===
+The full finding loop runs BLIND, end-to-end, on a fresh contest (enabled by a
+general M0 build-info fix so Slither consumes Foundry build-info offline). And under
+blind conditions on a wrong-shape contest, the sharpened hunter + Seer + gate
+discipline produced NO false catch. The first blind CATCH now needs a contest screened
+for the alt-entrypoint shape + a way to fetch the answer key to score. Both are
+mechanical next steps, not capability gaps.
