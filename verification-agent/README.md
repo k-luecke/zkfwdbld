@@ -100,7 +100,16 @@ into EV-ranked **candidate** hypotheses whose primary output is a
 - **EV earns its keep** against M0's over-inclusive surface: a blast-radius
   factor sinks the benign `contribute()` to the EV floor below every real
   function. EV gets you to the right neighborhood; the gate adjudicates within
-  it. Design: [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md).
+  it.
+- **Protocol-aware generation (Move 2)** makes the hunter *sharper*, not louder.
+  A hypothesis now targets a violation of the protocol's own **stated rule** (a
+  guarded sibling enforces modifier `M` over effect `E`; here is a path reaching
+  `E` without `M`), not a generic "unguarded" shape. Measured by
+  **confirmed-to-leads ratio**: Decent **0.143 → 0.250** (7→4 leads, M-03
+  retained); Centrifuge **62 → 0 leads** — silent on the design-permissionless
+  false positives, with no real structural finding lost (its real findings are a
+  different bug class). Rules are priors, never truth; the gate still adjudicates.
+  Design: [docs/M3_hypothesis_engine.md](docs/M3_hypothesis_engine.md).
 
 ## And: **M4 — path backends (find the path, not just verify it)**
 
@@ -292,6 +301,7 @@ verification_agent/
             embedder.py               — lexical tiebreaker behind a pluggable Embedder
             query.py, data/*.jsonl    — query builders + curated dual-source corpus
   hypothesize/ engine.py, ev.py       — M0 surface + M2 priors → EV-ranked candidates (M3)
+            protocol_rules.py         — stated-rule extraction; protocol-aware generation (Move 2)
             invariants.py             — invariant pattern library (the predicate)
             provider.py               — offline + Claude generators; no gate import
   pathfind/ seer.py                   — structural reachability engine (M4)
@@ -312,7 +322,7 @@ fixtures/   SurfaceSampler.sol        — offline fixture for the tagger
 tools/      build_corpus.py           — regenerates the curated KB corpus
             validate_recall.py        — M0 recall vs the judged Decent finding set
 docs/       M0_recall / M1_verify_gate / M2_knowledge_base / M3_hypothesis_engine / M4_path_backends / M4.5_scenario_synthesis / M6_backtest
-tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_pathfind / test_synthesize / test_deploygraph / test_signature / test_backtest — offline
+tests/      test_surface / test_verify_gate / test_kb / test_hypothesize / test_protocol_rules / test_pathfind / test_synthesize / test_deploygraph / test_signature / test_backtest — offline
 ```
 
 ## Hard constraints

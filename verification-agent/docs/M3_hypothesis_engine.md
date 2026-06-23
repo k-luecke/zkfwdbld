@@ -110,6 +110,51 @@ gate then confirms M-03 and would reject a benign sibling.
   reachable; it is not exercised in this environment. Same boundary: its
   confidence is advisory; it never touches the gate.
 
+## Move 2 — protocol-aware generation (the hunter got sharper)
+
+The original engine reasoned from **structure alone**: every function on the
+recall-biased surface became a lead. That cannot tell a real violation from a
+legitimately permissionless function — which is why it was loud on unfamiliar
+code (Centrifuge surfaced 62 structural leads, all design-permissionless).
+
+Move 2 makes a hypothesis target a violation of the protocol's **own stated rule**
+([protocol_rules.py](../verification_agent/hypothesize/protocol_rules.py)). The
+protocol *states* a rule whenever its code gates an effect: a guarded sibling `G`
+reaches an internal effect `E` while carrying a modifier `M` (auth, *or* a
+fee/precondition gate). That is the claim "reaching `E` requires `M`". A
+**claimed-rule violation** is an entrypoint `F` reaching the same `E` *without* `M`
+— a real lead ("the protocol claims only-via-M causes E; here is not-M causing E"),
+versus "F is unguarded", which is noise. The filter excludes trivial shared callees
+(control-flow, `_msgSender`, getters, type-converters, builtins) — exactly the
+trivia that paired siblings into noise before. Rules are **priors, not truth**
+(a stated rule is "worth testing whether this holds", never established fact); the
+gate still adjudicates.
+
+**The metric is confirmed-to-leads ratio, not lead count.** A change that raises
+leads without raising the ratio made the hunter *worse*. Measured on the two
+contests with known answers (`examples/move2_protocol_aware.txt`):
+
+| Contest | Before (structure) | After (protocol-aware) |
+|---|---|---|
+| **Decent** | 7 leads, 1 confirmed → **0.143** | 4 leads, 1 confirmed → **0.250** (M-03 retained, 3 junk dropped) |
+| **Centrifuge** | 62 leads, 0 confirmed | **0 leads** — silent on the false positives |
+
+Decent's ratio rose 1.75× by *shrinking the denominator* while keeping the M-03
+hypothesis. Centrifuge went to **0** structural-bypass violations — correct, not a
+miss: its real findings are non-structural (cross-domain / signature / missed at
+M0), the known bug-class coverage gap, and the 62 prior leads were all
+design-permissionless false positives now suppressed.
+
+**NatSpec probe (honest):** prose-only authority claims (a rule stated in comments
+but not in a modifier) numbered **0** on both contests — the stated rules are all in
+modifiers, which the asymmetry signal already captures; NatSpec only *corroborates*
+(M-03 and `bridgeAndExecute` carried authority comments). So on this evidence
+modifier-asymmetry is the workhorse and NatSpec-as-generator did not move the ratio;
+the hook is in place for protocols that state rules only in prose.
+
+Protocol-aware is the default; `protocol_aware=False` reproduces the structural
+generator (used to measure before/after, and by the tests that cover that path).
+
 ## Run it
 
 ```bash

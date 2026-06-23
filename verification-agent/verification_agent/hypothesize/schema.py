@@ -91,6 +91,10 @@ class Hypothesis:
     llm_confidence: float = 0.0
     generator: str = "offline"      # offline | claude
 
+    # Move 2: the protocol's own stated rule this hypothesis attacks (a PRIOR, not
+    # truth). Present when generation was gated by a claimed-rule violation.
+    claimed_rule: dict[str, Any] | None = None
+
     # Hard guardrail, visible at every call site.
     is_candidate: bool = True
 
@@ -110,6 +114,7 @@ class Hypothesis:
             "prior_sources": self.prior_sources,
             "llm_confidence": self.llm_confidence,
             "generator": self.generator,
+            "claimed_rule": self.claimed_rule,
             "is_candidate": self.is_candidate,  # always True
             "gate_binding": self.invariant.gate_binding,
         }

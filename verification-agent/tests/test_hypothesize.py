@@ -46,7 +46,10 @@ def test_predicate_is_well_formed():
 def test_ev_deprioritizes_benign_overtag():
     # The fixture surface includes contribute(): an unguarded state-changer with
     # no external call and no verification keyword — benign, low blast radius.
-    hyps = _run(FIXTURE)
+    # This is a STRUCTURAL-mode property (EV ranking over the recall-biased
+    # surface); protocol-aware mode suppresses such non-violations entirely.
+    model = json.loads(Path(FIXTURE).read_text())
+    hyps = HypothesisEngine().run(model, protocol_aware=False)
     by_name = {h.target_function: h for h in hyps}
     assert "contribute" in by_name
     # It must sink below the genuinely dangerous functions.

@@ -48,7 +48,10 @@ def test_seer_rediscovers_m03_path():
 def test_seer_out_of_scope_for_non_reachability_mechanism():
     model = _model()
     seer = SeerStructuralBackend()
-    sig = [h for h in _hyps(model) if h.root_cause == "signature-verification"]
+    # A signature-verification hypothesis comes from the structural generator
+    # (protocol-aware mode maps claimed-rule violations to access-control only).
+    sig = [h for h in HypothesisEngine().run(model, protocol_aware=False)
+           if h.root_cause == "signature-verification"]
     assert sig
     r = seer.find_path(sig[0], model)
     # The structural backend honestly declines mechanisms it doesn't reason about.
