@@ -104,11 +104,22 @@ class RuleViolation:
                 "natspec": self.natspec, "statement": self.statement()}
 
 
-def _adjacency(model: dict) -> dict[str, set[str]]:
+def _adjacency(model: dict) -> tuple[dict[str, set[str]], set[str]]:
+    """Adjacency plus the set of in-scope INTERNAL nodes (callers, and callees of
+    internal edges). The internal set lets us treat a qualified internal function
+    (Contract.fn) as a meaningful effect while still excluding external high-level
+    calls (Token.transfer), which a bare-string '.' check could not distinguish."""
     adj: dict[str, set[str]] = defaultdict(set)
+    internal: set[str] = set()
     for e in model.get("call_graph", []):
-        adj[e.get("caller", "")].add(e.get("callee", ""))
-    return adj
+        caller = e.get("caller", "")
+        callee = e.get("callee", "")
+        adj[caller].add(callee)
+        if caller:
+            internal.add(caller)
+        if callee and not e.get("external", False):
+            internal.add(callee)
+    return adj, internal
 
 
 def _reach(adj: dict[str, set[str]], start: str, depth: int = 5) -> set[str]:
@@ -127,14 +138,22 @@ def _reach(adj: dict[str, set[str]], start: str, depth: int = 5) -> set[str]:
     return seen
 
 
-def _is_meaningful_effect(callee: str, modifiers: set[str]) -> bool:
+def _is_meaningful_effect(callee: str, modifiers: set[str],
+                          internal_nodes: frozenset[str] | set[str] = frozenset()) -> bool:
     if not callee or callee in modifiers:
         return False
-    # External calls / builtins / Slither high-level-call reprs are not the
-    # INTERNAL state effect we test for a stated-rule violation.
-    if "." in callee or "(" in callee or "HIGH_LEVEL_CALL" in callee:
+    if "(" in callee or "HIGH_LEVEL_CALL" in callee:
         return False
-    if callee in _NOISE_EXACT or _NOISE_NAME.search(callee):
+    if "." in callee:
+        # Qualified: a real in-scope internal function IS a meaningful effect
+        # (multi-hop flows resolve to Contract.fn); an external high-level call
+        # (not in the internal set) is not the internal state effect we test.
+        if callee not in internal_nodes:
+            return False
+        bare = callee.rsplit(".", 1)[-1]
+    else:
+        bare = callee
+    if bare in _NOISE_EXACT or _NOISE_NAME.search(bare):
         return False
     return True
 
@@ -173,7 +192,7 @@ def extract_rules_and_violations(
     model: dict, source_root: str | None = None,
 ) -> tuple[list[ClaimedRule], list[RuleViolation]]:
     """Derive stated rules (modifier asymmetry, + NatSpec) and their violations."""
-    adj = _adjacency(model)
+    adj, internal_nodes = _adjacency(model)
     eps = [e for e in model.get("entry_points", []) if e.get("is_entry_point")]
     all_mods = {m for e in eps for m in (e.get("modifiers") or [])}
     src = Path(source_root) if source_root else None
@@ -193,7 +212,7 @@ def extract_rules_and_violations(
     reachers: dict[str, list[str]] = defaultdict(list)              # E -> [F]
     for key, d in info.items():
         for callee in d["reach"]:
-            if not _is_meaningful_effect(callee, all_mods):
+            if not _is_meaningful_effect(callee, all_mods, internal_nodes):
                 continue
             reachers[callee].append(key)
             for m in d["mods"]:

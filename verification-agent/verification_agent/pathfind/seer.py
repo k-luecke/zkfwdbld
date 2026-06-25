@@ -19,6 +19,7 @@ State label: IMPLEMENTED.
 from __future__ import annotations
 
 import time
+from collections import defaultdict
 from typing import Any
 
 from .schema import PathResult, PathStatus
@@ -128,18 +129,35 @@ class SeerStructuralBackend:
             modifier_names.update(mods)
 
         sinks: dict[str, set[str]] = {fn: set() for fn in modifiers}
-        prefix = f"{contract}."
+        # Build adjacency over ALL edges, then take the sinks each entrypoint reaches
+        # TRANSITIVELY. A qualified in-scope callee (Contract.fn) is itself a node with
+        # out-edges, so deep flows (ext -> A -> B -> sink) are followed; a bare callee
+        # (legacy/leaf) simply terminates. This keeps the saved Decent model (direct,
+        # bare) identical while enabling multi-hop reachability on complete graphs.
+        adj: dict[str, set[str]] = defaultdict(set)
         for e in model.get("call_graph", []):
-            caller = e.get("caller", "")
-            if not caller.startswith(prefix):
-                continue
-            fn = caller[len(prefix):]
-            if fn not in sinks:
-                continue
-            callee = e.get("callee", "")
-            if callee in _CALLEE_NOISE or callee in modifier_names:
-                continue
-            if callee.endswith("()") and ("." in callee[:-2] or callee[:-2] in ("",)):
-                continue  # library/encoder calls like abi.encode()
-            sinks[fn].add(callee)
+            adj[e.get("caller", "")].add(e.get("callee", ""))
+
+        def _reachable(start: str, depth: int = 8) -> set[str]:
+            seen: set[str] = set()
+            frontier = {start}
+            for _ in range(depth):
+                nxt: set[str] = set()
+                for n in frontier:
+                    for c in adj.get(n, ()):
+                        if c and c not in seen:
+                            seen.add(c)
+                            nxt.add(c)
+                if not nxt:
+                    break
+                frontier = nxt
+            return seen
+
+        for fn in modifiers:
+            for callee in _reachable(f"{contract}.{fn}"):
+                if callee in _CALLEE_NOISE or callee in modifier_names:
+                    continue
+                if callee.endswith("()") and ("." in callee[:-2] or callee[:-2] in ("",)):
+                    continue  # library/encoder calls like abi.encode()
+                sinks[fn].add(callee)
         return modifiers, sinks

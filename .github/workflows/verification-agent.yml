@@ -1,0 +1,40 @@
+name: verification-agent
+
+# Scoped to the verification-agent/ subproject. The default job runs the
+# pure-Python test suite and an offline smoke — no Slither/solc/Foundry and no
+# network. Tests that need those external tools are marked `needs_tools` and are
+# opt-in (run them locally or in a separate tool-provisioned job).
+on:
+  push:
+    paths:
+      - "verification-agent/**"
+      - ".github/workflows/verification-agent.yml"
+  pull_request:
+    paths:
+      - "verification-agent/**"
+      - ".github/workflows/verification-agent.yml"
+
+defaults:
+  run:
+    working-directory: verification-agent
+
+jobs:
+  pure-python:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install (editable + dev extras)
+        run: pip install -e ".[dev]"
+      - name: Pure-Python tests (no Slither/Foundry/network)
+        run: pytest -m "not needs_tools" -q
+      - name: Offline CLI smoke
+        run: |
+          python -m verification_agent --help
+          python -m verification_agent model --help
