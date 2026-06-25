@@ -1,4 +1,4 @@
-"""Command-line entry point for the M0 harness.
+"""Command-line entry point for the verification-agent.
 
 Usage:
     python -m verification_agent model \
@@ -6,9 +6,16 @@ Usage:
 
     python -m verification_agent model --local ./path/to/checkout
 
-Only the M0 ``model`` command is implemented. Hypothesis / path / verify
-commands are intentionally absent until M1 (the verify gate) is built and
-trusted — see STATUS.md.
+Implemented commands (see STATUS.md for the per-module maturity labels):
+    model       M0 — build the JSON target model
+    hypothesize M3 — rank hypotheses over a model
+    findpath    M4 — structural path-finding toward the break predicate
+    verify      M1 — run the truth gate on a built scenario
+    synthesize  M4.5 — scenario synthesis from a discovered lead
+    screen      pre-filter pass
+    backtest    M6 — blind run + score against frozen answer keys
+    answer-key  inspect a contest's frozen answer key
+    kb          query the knowledge base
 
 State label: IMPLEMENTED.
 """

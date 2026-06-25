@@ -43,13 +43,19 @@ class BlindRunner:
             hyps.extend(mh)
             report = orch.run(mh, model, repo_dir=repo_dir, run_external=False)
             for r in report["found_paths"]:
-                key = (r["attack_entrypoint"], r["guard_bypassed"])
+                key = (r.get("target", ""), r["attack_entrypoint"], r["guard_bypassed"])
                 if key in seen:
                     continue
                 seen.add(key)
+                # Qualify the attack entrypoint with its contract (from the
+                # hypothesis target) so scoring compares Contract.function, never
+                # a bare name that could collide across contracts.
+                contract = (r.get("target", "") or "").split(".")[0]
                 found.append({
                     "backend": r["backend"],
                     "attack_entrypoint": r["attack_entrypoint"],
+                    "attack_target": (f"{contract}.{r['attack_entrypoint']}"
+                                      if contract else r["attack_entrypoint"]),
                     "guard_bypassed": r["guard_bypassed"],
                     "reaches": r["reaches"],
                     "gate_binding": r["gate_binding"],
@@ -95,6 +101,7 @@ class BlindRunner:
             out.append({
                 "binding": binding,
                 "attack_entrypoint": f["attack_entrypoint"],
+                "attack_target": f.get("attack_target", f["attack_entrypoint"]),
                 "verdict": r.verdict.value,
                 # The gate's deploy/invariant scenario is hand-built (M1); the
                 # PATH was machine-found. PoC synthesis (M4.5) not done.
