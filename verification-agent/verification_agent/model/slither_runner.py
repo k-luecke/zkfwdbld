@@ -142,13 +142,7 @@ def run_slither(target: Path) -> SlitherExtract:
             if _is_dependency_path(_func_def_file(func)):
                 continue
             full = func.full_name  # name(arg types)
-            callees, ext_edges = _calls(func)
-            for callee, is_ext in ext_edges:
-                edges.append(CallEdge(
-                    caller=f"{contract.name}.{func.name}",
-                    callee=callee,
-                    external=is_ext,
-                ))
+            callees, _ = _calls(func)  # callee names for surface tagging
             mod_names = [m.name for m in func.modifiers]
             keyword_surfaces = tag_surfaces(
                 function_name=func.name,
@@ -186,6 +180,21 @@ def run_slither(target: Path) -> SlitherExtract:
                 source_line=_func_line(func),
             )
             entry_points.append(fi)
+
+        # Full internal call graph: emit edges for EVERY function DEFINED in this
+        # contract (not just entry points), with qualified internal callees and
+        # low-level-call edges. Downstream reachability (protocol_rules / seer)
+        # traverses this transitively, so a privileged sink reached only via an
+        # internal chain (ext -> A -> B -> sink) is now visible.
+        for func in getattr(contract, "functions", []):
+            declarer = getattr(func, "contract_declarer", None)
+            if declarer is not None and declarer != contract:
+                continue  # inherited from a base contract — emitted under its definer
+            if getattr(func, "is_constructor", False):
+                continue
+            if _is_dependency_path(_func_def_file(func)):
+                continue
+            edges.extend(_function_edges(func, contract.name))
 
     return SlitherExtract(contracts, storage, entry_points, edges, _slither_version())
 
@@ -239,6 +248,38 @@ def _func_def_file(func) -> str | None:
         return None
 
 
+def _qualify_internal(target, default_contract: str) -> str:
+    """Qualify an internal-call target to ``Contract.function`` so the node identity
+    matches a caller node and the graph can be traversed multi-hop. Solidity builtins
+    (require / keccak256 / ...) have no declaring contract and stay bare — the
+    downstream effect filters drop them as noise."""
+    name = getattr(target, "name", None) or str(target)
+    cd = getattr(target, "contract_declarer", None) or getattr(target, "contract", None)
+    cn = getattr(cd, "name", None)
+    return f"{cn}.{name}" if cn else name
+
+
+def _function_edges(func, contract_name: str) -> list[CallEdge]:
+    """All outgoing call edges for one function: internal (qualified), high-level
+    (qualified, external) and low-level (call/delegatecall/staticcall, external).
+    Pure/duck-typed over Slither's accessors so it is unit-testable without Slither."""
+    caller = f"{contract_name}.{getattr(func, 'name', '')}"
+    out: list[CallEdge] = []
+    for ic in getattr(func, "internal_calls", []) or []:
+        target = getattr(ic, "function", None) or ic
+        out.append(CallEdge(caller=caller,
+                            callee=_qualify_internal(target, contract_name),
+                            external=False))
+    for hc in getattr(func, "high_level_calls", []) or []:
+        callee = _hlc_name(hc)
+        if callee:
+            out.append(CallEdge(caller=caller, callee=callee, external=True))
+    for lc in getattr(func, "low_level_calls", []) or []:
+        callee = str(getattr(lc, "name", "low_level_call"))
+        out.append(CallEdge(caller=caller, callee=callee, external=True))
+    return out
+
+
 def _calls(func) -> tuple[list[str], list[tuple[str, bool]]]:
     """Return (callee names, [(qualified_callee, is_external)])."""
     names: list[str] = []
@@ -263,15 +304,23 @@ def _calls(func) -> tuple[list[str], list[tuple[str, bool]]]:
 
 
 def _hlc_name(hc) -> str | None:
+    """Qualified ``Contract.function`` for a high-level call. Slither >= 0.10
+    returns ``(Contract, HighLevelCall)`` tuples; the IR Operation has the target
+    Function at ``op.function``, not directly at ``op.name`` (which is None).
+    Older slither variants returned ``(Contract, Function)`` — handled by the
+    bare ``.name`` fallback. Returns None when neither shape resolves, so the
+    edge is skipped rather than poisoned with the raw IR string."""
     try:
         if isinstance(hc, tuple) and len(hc) == 2:
-            contract, function = hc
-            cn = getattr(contract, "name", None) or str(contract)
-            fn = getattr(function, "name", None) or str(function)
-            return f"{cn}.{fn}"
-        # Newer slither: object with .destination / .function
-        fn = getattr(getattr(hc, "function", None), "name", None)
-        return fn
+            contract, second = hc
+            cn = getattr(contract, "name", None)
+            inner_fn = getattr(second, "function", None)
+            fn = getattr(inner_fn, "name", None) or getattr(second, "name", None)
+            if cn and fn:
+                return f"{cn}.{fn}"
+            return None
+        inner_fn = getattr(hc, "function", None)
+        return getattr(inner_fn, "name", None)
     except Exception:
         return None
 

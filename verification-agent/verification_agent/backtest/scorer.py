@@ -19,27 +19,43 @@ assert FROZEN_RULES["tier1_requires_gate_confirmed"]
 assert FROZEN_RULES["path_found_is_not_a_catch"]
 
 
-def _fn(host: str) -> str:
-    return host.split(".")[-1]
+def _qualified(record: dict[str, Any]) -> str:
+    """Best-effort fully-qualified ``Contract.function`` id for a run record.
+
+    Prefer an explicit ``attack_target`` (already qualified); else combine the
+    contract from the hypothesis ``target`` with the bare ``attack_entrypoint``.
+    Comparing on the qualified id is what prevents over-crediting a finding to the
+    wrong contract when a function name repeats (Gateway.handle vs Router.handle).
+    """
+    t = record.get("attack_target")
+    if t and "." in t:
+        return t
+    target = record.get("target", "") or ""
+    contract = target.split(".")[0] if "." in target else ""
+    fn = record.get("attack_entrypoint") or ""
+    return f"{contract}.{fn}" if contract else fn
 
 
 def score_contest(run: dict[str, Any], answer_key: list[tuple]) -> dict[str, Any]:
     surfaced_set = set(run.get("surfaced_functions", []))
     confirmed_fns = {
-        c["attack_entrypoint"] for c in run.get("gate_confirmed", [])
+        _qualified(c) for c in run.get("gate_confirmed", [])
         if c.get("verdict") == "CONFIRMED"}
     confirmed_poc = {
-        c["attack_entrypoint"] for c in run.get("gate_confirmed", [])
+        _qualified(c) for c in run.get("gate_confirmed", [])
         if c.get("verdict") == "CONFIRMED" and c.get("poc_synthesized")}
-    lead_fns = {p["attack_entrypoint"] for p in run.get("found_paths", [])}
+    lead_fns = {_qualified(p) for p in run.get("found_paths", [])}
 
     findings = []
     for fid, title, mechanism, severity, hosts in answer_key:
-        surfaced = any(h in surfaced_set for h in hosts)
-        host_fns = {_fn(h) for h in hosts}
-        gate_confirmed = bool(host_fns & confirmed_fns)
-        poc = bool(host_fns & confirmed_poc)
-        path_found = bool(host_fns & lead_fns)
+        # Answer-key hosts are already fully qualified (e.g. UTB.receiveFromBridge);
+        # compare qualified-to-qualified everywhere so a function name repeated
+        # across contracts cannot be cross-credited.
+        host_set = set(hosts)
+        surfaced = bool(host_set & surfaced_set)
+        gate_confirmed = bool(host_set & confirmed_fns)
+        poc = bool(host_set & confirmed_poc)
+        path_found = bool(host_set & lead_fns)
         tier = classify(surfaced=surfaced, gate_confirmed=gate_confirmed,
                         poc_synthesized=poc)
         findings.append({

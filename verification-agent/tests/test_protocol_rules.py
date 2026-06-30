@@ -27,23 +27,31 @@ def _model(p):
 def test_decent_keeps_m03_as_a_claimed_rule_violation():
     _, viol = extract_rules_and_violations(_model(DECENT))
     keys = {v.key for v in viol}
-    # M-03: receiveFromBridge reaches _swapAndExecute that the guarded sibling
-    # (swapAndExecute, modifier retrieveAndCollectFees) protects.
+    # M-03: receiveFromBridge reaches a guarded internal effect that the guarded
+    # sibling (swapAndExecute, modifier retrieveAndCollectFees) protects. With
+    # the whole-program call graph, the chain is receiveFromBridge -> _swapAndExecute
+    # -> performSwap; both qualified internal effects are valid violations.
     assert "UTB.receiveFromBridge" in keys
-    m03 = next(v for v in viol if v.key == "UTB.receiveFromBridge")
-    assert m03.effect == "_swapAndExecute"
-    assert m03.required_modifier == "retrieveAndCollectFees"
+    m03s = [v for v in viol if v.key == "UTB.receiveFromBridge"
+            and v.required_modifier == "retrieveAndCollectFees"]
+    assert m03s, "no retrieveAndCollectFees-guarded effect found for receiveFromBridge"
+    effects = {v.effect for v in m03s}
+    assert effects & {"UTB._swapAndExecute", "UTB.performSwap"}, (
+        f"expected an in-scope qualified internal effect, got {effects}")
 
 
 def test_trivial_shared_callees_are_not_treated_as_effects():
     # The discriminator must not pair siblings over control-flow / pure helpers
     # (require/_msgSender/getters/converters) — that was the Centrifuge noise.
+    # Qualified internal effects (Contract.fn) ARE valid; the noise filter rejects
+    # IR-string leaks and parameterized builtins.
     _, viol = extract_rules_and_violations(_model(CENTRIFUGE))
     for v in viol:
         e = v.effect.lower()
         assert "require" not in e and "_msgsender" not in e
         assert "tobytes32" not in e and "toaddress" not in e
-        assert "." not in v.effect and "(" not in v.effect
+        assert "HIGH_LEVEL_CALL" not in v.effect and "TUPLE_" not in v.effect
+        assert "(" not in v.effect
 
 
 def test_protocol_aware_sharpens_decent_ratio():

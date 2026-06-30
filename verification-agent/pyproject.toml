@@ -45,3 +45,6 @@ packages = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "needs_tools: requires external tools (Slither/solc/Foundry/Medusa/Halmos). Opt-in; excluded from the default pure-Python CI run via -m 'not needs_tools'.",
+]

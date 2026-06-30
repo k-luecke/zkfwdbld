@@ -77,12 +77,14 @@ def _run():
         "surfaced_functions": ["A.confirmed", "A.leadOnly", "A.justSurfaced",
                                "A.roundingThing"],
         "found_paths": [
-            {"attack_entrypoint": "confirmed", "guard_bypassed": "g"},
-            {"attack_entrypoint": "leadOnly", "guard_bypassed": "g"},
+            {"attack_entrypoint": "confirmed", "attack_target": "A.confirmed",
+             "guard_bypassed": "g"},
+            {"attack_entrypoint": "leadOnly", "attack_target": "A.leadOnly",
+             "guard_bypassed": "g"},
         ],
         "gate_confirmed": [
-            {"attack_entrypoint": "confirmed", "verdict": "CONFIRMED",
-             "poc_synthesized": False},
+            {"attack_entrypoint": "confirmed", "attack_target": "A.confirmed",
+             "verdict": "CONFIRMED", "poc_synthesized": False},
         ],
     }
 
@@ -118,12 +120,34 @@ def test_tier2_never_collapsed_into_tier1():
     run = {
         "contest_id": "s", "blind": True,
         "surfaced_functions": ["A.f"], "found_paths": [],
-        "gate_confirmed": [{"attack_entrypoint": "f", "verdict": "CONFIRMED",
-                            "poc_synthesized": True}],
+        "gate_confirmed": [{"attack_entrypoint": "f", "attack_target": "A.f",
+                            "verdict": "CONFIRMED", "poc_synthesized": True}],
     }
     agg = aggregate([score_contest(run, key)])
     assert agg["tier2_fully_autonomous"]["count"] == 1
     assert agg["tier1_autonomous_path_and_verdict"]["count"] == 0
+
+
+def test_scorer_does_not_overcredit_across_contracts():
+    # Same function name on two contracts. The gate confirmed Router.handle, but
+    # the answer key's finding is on Gateway.handle. Bare-name matching would
+    # cross-credit this as a Tier-1 catch; qualified matching must not.
+    key = [("Y-01", "gateway handle bypass", "access-control", "High",
+            ["Gateway.handle"])]
+    run = {
+        "contest_id": "s", "blind": True,
+        "surfaced_functions": ["Gateway.handle", "Router.handle"],
+        "found_paths": [{"attack_entrypoint": "handle",
+                         "attack_target": "Router.handle", "guard_bypassed": "g"}],
+        "gate_confirmed": [{"attack_entrypoint": "handle",
+                            "attack_target": "Router.handle",
+                            "verdict": "CONFIRMED", "poc_synthesized": False}],
+    }
+    f = score_contest(run, key)["findings"][0]
+    assert f["surfaced"] is True            # Gateway.handle is in the surface set
+    assert f["gate_confirmed"] is False     # but Router.handle != Gateway.handle
+    assert f["path_found"] is False
+    assert f["tier"] == Tier.TIER3.value    # surfaced-not-caught, NOT a Tier-1 catch
 
 
 # --- lane + registry sanity -------------------------------------------------
