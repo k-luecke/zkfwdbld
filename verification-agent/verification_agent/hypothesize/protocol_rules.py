@@ -41,6 +41,12 @@ _NOISE_EXACT = {
     "require(bool,string)", "require(bool)", "require", "assert", "revert",
     "_msgSender", "_msgData", "_successCheck", "balanceOf", "totalSupply",
     "allowance", "decimals", "symbol", "name", "owner", "wards", "_toUint128",
+    # Sentinel string emitted by the slither_runner when a function performs
+    # .call/.delegatecall/.staticcall — it's not a function, it's a placeholder,
+    # so it can never be a real privileged effect. Seer's own _CALLEE_NOISE
+    # already excludes this; added here after the 2026-06-30 precision
+    # diagnosis showed protocol_rules was pairing on it.
+    "low_level_call",
 }
 # Prefix/substring noise (view/pure/getter shapes), matched anywhere it applies:
 _NOISE_NAME = re.compile(
@@ -108,7 +114,15 @@ def _adjacency(model: dict) -> tuple[dict[str, set[str]], set[str]]:
     """Adjacency plus the set of in-scope INTERNAL nodes (callers, and callees of
     internal edges). The internal set lets us treat a qualified internal function
     (Contract.fn) as a meaningful effect while still excluding external high-level
-    calls (Token.transfer), which a bare-string '.' check could not distinguish."""
+    calls (Token.transfer), which a bare-string '.' check could not distinguish.
+
+    Library callees (CallEdge.library_callee=True, set structurally at emission
+    time per slither's contract.is_library) are excluded from the internal set —
+    library helpers like MathLib.mulDiv / BytesLib.slice / SafeTransferLib.safeTransferFrom
+    are pure utilities called from many intentionally-unrelated paths and are
+    never privileged protocol effects. Excluding them by construction rather
+    than allowlist is the 2026-06-30 precision-regression fix's load-bearing
+    correctness property."""
     adj: dict[str, set[str]] = defaultdict(set)
     internal: set[str] = set()
     for e in model.get("call_graph", []):
@@ -117,7 +131,7 @@ def _adjacency(model: dict) -> tuple[dict[str, set[str]], set[str]]:
         adj[caller].add(callee)
         if caller:
             internal.add(caller)
-        if callee and not e.get("external", False):
+        if callee and not e.get("external", False) and not e.get("library_callee", False):
             internal.add(callee)
     return adj, internal
 
@@ -151,6 +165,15 @@ def _is_meaningful_effect(callee: str, modifiers: set[str],
         if callee not in internal_nodes:
             return False
         bare = callee.rsplit(".", 1)[-1]
+        # Also reject qualified modifier names — the whole-program call graph
+        # emits synthetic ``caller → Contract.modifier`` edges, and the
+        # bare-name check below catches the modifier when isolated but the
+        # ``callee in modifiers`` check at the top of this function only sees
+        # the qualified form. Without this stripping, modifier-as-effect leaks
+        # through as a "rule" tautologically violated by any function not
+        # carrying the modifier. (2026-06-30 precision-regression fix.)
+        if bare in modifiers:
+            return False
     else:
         bare = callee
     if bare in _NOISE_EXACT or _NOISE_NAME.search(bare):

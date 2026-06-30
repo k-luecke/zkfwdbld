@@ -1,0 +1,573 @@
+{
+  "taxonomy": "frozen",
+  "runs": [
+    {
+      "contest_id": "2024-01-decent",
+      "models": [
+        "examples/2024-01-decent.model.json",
+        "examples/2024-01-decent-bridge.model.json"
+      ],
+      "tool_versions": {
+        "foundry": [
+          "1.5.1-stable"
+        ],
+        "slither": [
+          "0.11.5"
+        ],
+        "solc": [
+          "0.8.20"
+        ]
+      },
+      "counts": {
+        "surfaced": 18,
+        "hypotheses": 9,
+        "paths_found": 5,
+        "gate_confirmed": 1
+      },
+      "surfaced_functions": [
+        "DcntEth.mint",
+        "DcntEth.mintByOwner",
+        "DcntEth.setRouter",
+        "DecentBridgeExecutor.execute",
+        "DecentEthRouter.addLiquidityEth",
+        "DecentEthRouter.addLiquidityWeth",
+        "DecentEthRouter.bridge",
+        "DecentEthRouter.bridgeWithPayload",
+        "DecentEthRouter.estimateSendAndCallFee",
+        "DecentEthRouter.onOFTReceived",
+        "DecentEthRouter.removeLiquidityWeth",
+        "UTB.bridgeAndExecute",
+        "UTB.receiveFromBridge",
+        "UTB.swapAndExecute",
+        "UTBFeeCollector.collectFees",
+        "UniSwapper.swapExactIn",
+        "UniSwapper.swapExactOut",
+        "UniSwapper.swapNoPath"
+      ],
+      "hypotheses": [
+        {
+          "target": "UTB.receiveFromBridge",
+          "mechanism": "access-control",
+          "ev": 0.3375
+        },
+        {
+          "target": "UniSwapper.swapNoPath",
+          "mechanism": "access-control",
+          "ev": 0.3375
+        },
+        {
+          "target": "UniSwapper.swapExactIn",
+          "mechanism": "access-control",
+          "ev": 0.3375
+        },
+        {
+          "target": "UniSwapper.swapExactOut",
+          "mechanism": "access-control",
+          "ev": 0.3375
+        },
+        {
+          "target": "UniSwapper.swap",
+          "mechanism": "access-control",
+          "ev": 0.084
+        },
+        {
+          "target": "DcntEth.mint",
+          "mechanism": "access-control",
+          "ev": 0.2812
+        },
+        {
+          "target": "DcntEth.mintByOwner",
+          "mechanism": "access-control",
+          "ev": 0.2789
+        },
+        {
+          "target": "DcntEth.burn",
+          "mechanism": "access-control",
+          "ev": 0.084
+        },
+        {
+          "target": "DcntEth.burnByOwner",
+          "mechanism": "access-control",
+          "ev": 0.084
+        }
+      ],
+      "found_paths": [
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "receiveFromBridge",
+          "attack_target": "UTB.receiveFromBridge",
+          "guard_bypassed": "retrieveAndCollectFees",
+          "reaches": [
+            "UTB._swapAndExecute"
+          ],
+          "gate_binding": "DecentReceiveFromBridgeBypass"
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "swapNoPath",
+          "attack_target": "UniSwapper.swapNoPath",
+          "guard_bypassed": "onlyUtb, routerIsSet",
+          "reaches": [
+            "UniSwapper._receiveAndWrapIfNeeded"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "swapNoPath",
+          "attack_target": "UniSwapper.swapNoPath",
+          "guard_bypassed": "onlyUtb, routerIsSet",
+          "reaches": [
+            "UniSwapper._receiveAndWrapIfNeeded"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "swapNoPath",
+          "attack_target": "UniSwapper.swapNoPath",
+          "guard_bypassed": "onlyUtb, routerIsSet",
+          "reaches": [
+            "UniSwapper._receiveAndWrapIfNeeded"
+          ],
+          "gate_binding": null
+        },
+        {
+          "backend": "seer-structural",
+          "attack_entrypoint": "swapNoPath",
+          "attack_target": "UniSwapper.swapNoPath",
+          "guard_bypassed": "onlyUtb, routerIsSet",
+          "reaches": [
+            "UniSwapper._receiveAndWrapIfNeeded"
+          ],
+          "gate_binding": null
+        }
+      ],
+      "gate_confirmed": [
+        {
+          "binding": "DecentReceiveFromBridgeBypass",
+          "attack_entrypoint": "receiveFromBridge",
+          "attack_target": "UTB.receiveFromBridge",
+          "verdict": "CONFIRMED",
+          "poc_synthesized": false
+        }
+      ],
+      "blind": false
+    },
+    {
+      "contest_id": "2023-09-centrifuge",
+      "models": [
+        "examples/2023-09-centrifuge.model.json"
+      ],
+      "tool_versions": {
+        "foundry": [
+          "1.5.1-stable"
+        ],
+        "slither": [
+          "0.11.5"
+        ],
+        "solc": [
+          "0.8.20"
+        ]
+      },
+      "counts": {
+        "surfaced": 59,
+        "hypotheses": 2,
+        "paths_found": 0,
+        "gate_confirmed": 0
+      },
+      "surfaced_functions": [
+        "AxelarRouter.execute",
+        "ERC20.approve",
+        "ERC20.decreaseAllowance",
+        "ERC20.increaseAllowance",
+        "ERC20.mint",
+        "ERC20.permit",
+        "ERC20.transfer",
+        "ERC20.transferFrom",
+        "Gateway.handle",
+        "InvestmentManager._calculatePrice",
+        "InvestmentManager.calculateDepositPrice",
+        "InvestmentManager.collectDeposit",
+        "InvestmentManager.decreaseDepositRequest",
+        "InvestmentManager.handleExecutedCollectInvest",
+        "InvestmentManager.handleExecutedCollectRedeem",
+        "InvestmentManager.handleExecutedDecreaseInvestOrder",
+        "InvestmentManager.handleExecutedDecreaseRedeemOrder",
+        "InvestmentManager.maxDeposit",
+        "InvestmentManager.maxMint",
+        "InvestmentManager.previewDeposit",
+        "InvestmentManager.previewMint",
+        "InvestmentManager.processDeposit",
+        "InvestmentManager.processMint",
+        "InvestmentManager.requestDeposit",
+        "LiquidityPool.approve",
+        "LiquidityPool.collectDeposit",
+        "LiquidityPool.collectRedeem",
+        "LiquidityPool.decreaseDepositRequest",
+        "LiquidityPool.decreaseRedeemRequest",
+        "LiquidityPool.deposit",
+        "LiquidityPool.maxDeposit",
+        "LiquidityPool.maxMint",
+        "LiquidityPool.mint",
+        "LiquidityPool.previewDeposit",
+        "LiquidityPool.previewMint",
+        "LiquidityPool.redeem",
+        "LiquidityPool.requestDeposit",
+        "LiquidityPool.requestDepositWithPermit",
+        "LiquidityPool.requestRedeem",
+        "LiquidityPool.requestRedeemWithPermit",
+        "LiquidityPool.transfer",
+        "LiquidityPool.transferFrom",
+        "LiquidityPool.withdraw",
+        "PauseAdmin.pause",
+        "PoolManager.deployLiquidityPool",
+        "PoolManager.deployTranche",
+        "PoolManager.handleTransfer",
+        "PoolManager.handleTransferTrancheTokens",
+        "PoolManager.transfer",
+        "PoolManager.transferTrancheTokensToCentrifuge",
+        "PoolManager.transferTrancheTokensToEVM",
+        "Root.executeScheduledRely",
+        "TrancheToken.approve",
+        "TrancheToken.decreaseAllowance",
+        "TrancheToken.increaseAllowance",
+        "TrancheToken.mint",
+        "TrancheToken.permit",
+        "XCMRouter.handle",
+        "XCMRouter.send"
+      ],
+      "hypotheses": [
+        {
+          "target": "PauseAdmin.pause",
+          "mechanism": "access-control",
+          "ev": 0.3375
+        },
+        {
+          "target": "DelayedAdmin.pause",
+          "mechanism": "access-control",
+          "ev": 0.084
+        }
+      ],
+      "found_paths": [],
+      "gate_confirmed": [],
+      "blind": true
+    }
+  ],
+  "scored": [
+    {
+      "contest_id": "2024-01-decent",
+      "blind": false,
+      "findings": [
+        {
+          "id": "H-01",
+          "title": "DcntEth router settable by anyone",
+          "mechanism": "access-control",
+          "severity": "High",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-02",
+          "title": "Missing min-gas check through LayerZero",
+          "mechanism": "gas",
+          "severity": "High",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-03",
+          "title": "DecentBridgeExecutor.execute misroutes funds on failure",
+          "mechanism": "fund-routing",
+          "severity": "High",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "H-04",
+          "title": "Lost tx if dst router lacks WETH reserves",
+          "mechanism": "liquidity",
+          "severity": "High",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-01",
+          "title": "Permanent token loss if swap data outdated",
+          "mechanism": "swap-correctness",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-02",
+          "title": "bridgeWithPayload directly callable, fee bypass",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-03",
+          "title": "UTB.receiveFromBridge bypasses fee/sig verification",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": true,
+          "gate_confirmed": true,
+          "tier": "tier1_autonomous_path_and_verdict"
+        },
+        {
+          "id": "M-04",
+          "title": "Capital loss from fixed fee calculations",
+          "mechanism": "accounting",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-05",
+          "title": "Refunded ETH stuck in DecentBridgeAdapter",
+          "mechanism": "fund-routing",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        }
+      ],
+      "leads": [
+        "UTB.receiveFromBridge",
+        "UniSwapper.swapNoPath"
+      ],
+      "n_surface_flagged": 18
+    },
+    {
+      "contest_id": "2023-09-centrifuge",
+      "blind": true,
+      "findings": [
+        {
+          "id": "M-01",
+          "title": "onlyCentrifugeChainOrigin can't require msg.sender == axelarGateway",
+          "mechanism": "cross-domain-auth",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": true,
+          "voided_reason": "answer-key mis-keyed: C4 #537 places the finding in AxelarRouter.execute (modifier onlyCentrifugeChainOrigin), and the mechanism is denial-of-service (msg.sender == axelarGateway can never hold under real Axelar flow), not access-control bypass. Gateway.handle is guarded by a different modifier (onlyIncomingRouter) and is not the vulnerable function. Re-audit pending; row excluded from in-lane denominator so a substrate hit on Gateway.handle cannot score against this finding.",
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-02",
+          "title": "requestRedeemWithPermit front-run with different liquidity pool",
+          "mechanism": "signature-verification",
+          "severity": "Medium",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-03",
+          "title": "Cached DOMAIN_SEPARATOR incorrect for tranche tokens (permit)",
+          "mechanism": "signature-verification",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": true,
+          "voided_reason": "re-audit (2026-06-30): C4 #146 mechanism is 'permit() always reverts for tranche tokens because the cached DOMAIN_SEPARATOR is computed with empty name'. Pure liveness / DoS for legitimate permit integrations, no adversary. Fails three-field check on adversary-exists, same shape as M-01. See docs/NEXT_SESSION_KEY_REAUDIT.md.",
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-04",
+          "title": "Deposit tiny amount to DoS other users (lack of access control on receiver)",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-05",
+          "title": "maxDeposit claiming blocks other users",
+          "mechanism": "accounting",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-06",
+          "title": "DelayedAdmin cannot PauseAdmin.removePauser",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": true,
+          "voided_reason": "re-audit (2026-06-30): C4 #92 is 'DelayedAdmin lacks a function its README spec promises (removePauser caller)'. Missing capability / spec-conformance bug, NOT access-control bypass. No adversary; no privileged effect reached. Fails three-field check on mechanism and adversary-exists. KILLS the prior session's leading gate-generalization target.",
+          "surfaced": false,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "missed"
+        },
+        {
+          "id": "M-07",
+          "title": "trancheTokenAmount should round up on withdrawal",
+          "mechanism": "rounding",
+          "severity": "Medium",
+          "in_lane": false,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": true,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "tier3_surfaced_not_caught"
+        },
+        {
+          "id": "M-08",
+          "title": "RestrictionManager incompletely implements ERC1404",
+          "mechanism": "access-control",
+          "severity": "Medium",
+          "in_lane": true,
+          "voided": false,
+          "voided_reason": null,
+          "surfaced": false,
+          "path_found": false,
+          "gate_confirmed": false,
+          "tier": "missed"
+        }
+      ],
+      "leads": [],
+      "n_surface_flagged": 59
+    }
+  ],
+  "aggregate": {
+    "frozen_taxonomy": true,
+    "in_lane_findings": 6,
+    "tier1_autonomous_path_and_verdict": {
+      "count": 1,
+      "recall": 0.167,
+      "ids": [
+        "M-03"
+      ]
+    },
+    "tier2_fully_autonomous": {
+      "count": 0,
+      "recall": 0.0
+    },
+    "tier3_surfaced_not_caught": {
+      "count": 4
+    },
+    "surfaced_total": {
+      "count": 5,
+      "recall": 0.833
+    },
+    "path_found_leads_on_findings": {
+      "count": 1,
+      "recall": 0.167,
+      "note": "a lead is NOT a catch (no verdict)"
+    }
+  },
+  "voided_findings": [
+    {
+      "contest": "2023-09-centrifuge",
+      "id": "M-01",
+      "title": "onlyCentrifugeChainOrigin can't require msg.sender == axelarGateway",
+      "mechanism": "cross-domain-auth",
+      "severity": "Medium",
+      "in_lane": false,
+      "voided": true,
+      "voided_reason": "answer-key mis-keyed: C4 #537 places the finding in AxelarRouter.execute (modifier onlyCentrifugeChainOrigin), and the mechanism is denial-of-service (msg.sender == axelarGateway can never hold under real Axelar flow), not access-control bypass. Gateway.handle is guarded by a different modifier (onlyIncomingRouter) and is not the vulnerable function. Re-audit pending; row excluded from in-lane denominator so a substrate hit on Gateway.handle cannot score against this finding.",
+      "surfaced": true,
+      "path_found": false,
+      "gate_confirmed": false,
+      "tier": "tier3_surfaced_not_caught"
+    },
+    {
+      "contest": "2023-09-centrifuge",
+      "id": "M-03",
+      "title": "Cached DOMAIN_SEPARATOR incorrect for tranche tokens (permit)",
+      "mechanism": "signature-verification",
+      "severity": "Medium",
+      "in_lane": false,
+      "voided": true,
+      "voided_reason": "re-audit (2026-06-30): C4 #146 mechanism is 'permit() always reverts for tranche tokens because the cached DOMAIN_SEPARATOR is computed with empty name'. Pure liveness / DoS for legitimate permit integrations, no adversary. Fails three-field check on adversary-exists, same shape as M-01. See docs/NEXT_SESSION_KEY_REAUDIT.md.",
+      "surfaced": true,
+      "path_found": false,
+      "gate_confirmed": false,
+      "tier": "tier3_surfaced_not_caught"
+    },
+    {
+      "contest": "2023-09-centrifuge",
+      "id": "M-06",
+      "title": "DelayedAdmin cannot PauseAdmin.removePauser",
+      "mechanism": "access-control",
+      "severity": "Medium",
+      "in_lane": false,
+      "voided": true,
+      "voided_reason": "re-audit (2026-06-30): C4 #92 is 'DelayedAdmin lacks a function its README spec promises (removePauser caller)'. Missing capability / spec-conformance bug, NOT access-control bypass. No adversary; no privileged effect reached. Fails three-field check on mechanism and adversary-exists. KILLS the prior session's leading gate-generalization target.",
+      "surfaced": false,
+      "path_found": false,
+      "gate_confirmed": false,
+      "tier": "missed"
+    }
+  ],
+  "notes": [
+    "Centrifuge M-01 voided after the substrate's own read of C4 #537 surfaced that the answer key is mis-keyed (wrong host function, wrong bug class, no adversary). Pending a full three-field re-audit (host / mechanism / adversary-exists) across all in-lane rows before any surfacing claim is restated."
+  ]
+}

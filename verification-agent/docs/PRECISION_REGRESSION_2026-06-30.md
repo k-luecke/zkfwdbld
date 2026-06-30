@@ -162,6 +162,106 @@ filter bug. The fix is a deeper extractor change ("either-of-N-guards is
 acceptable") and is **out of scope** for the minimum-filter call. Flag it
 as a separate item.
 
+## Full-trace verification (not name-resemblance)
+
+The classification above is by *effect category*. The categories are
+structural buckets, and "the effect is a modifier so it's spurious" is
+itself the name-resemblance shortcut the answer-key audit just taught us
+to mistrust. So one full-trace read per bucket, to source — host found,
+path checked, claimed rule shown not to exist as a protocol invariant
+rather than just looking wrong on its name.
+
+### Category A trace — `PauseAdmin.pause → Auth.auth` (modifier-as-effect)
+
+- **Host in source**: `src/admins/PauseAdmin.sol` line 47:
+  `function pause() public canPause`. Externally callable. ✓
+- **Path in source**: `PauseAdmin.pause()` body is one line: `root.pause()`.
+  Edge chain in the model: `PauseAdmin.pause → Root.pause` (external, real
+  call), then `Root.pause → Auth.auth` (synthetic modifier edge because
+  `Root.pause` carries the `auth` modifier). So the depth-2 transitive
+  reach `PauseAdmin.pause ⤳ Auth.auth` is real in the graph, but the
+  terminal edge is the synthetic modifier-as-callee artifact, not a
+  function call. There is no actual call from `pause()` to anything named
+  `auth` in source.
+- **Claimed rule in source**: "reaching `Auth.auth` requires the `auth`
+  modifier." The extractor inferred this rule by observing 47 edges of
+  the form `<auth-carrying function> → Auth.auth` (every `auth`-modified
+  function emits this synthetic edge). It then sees `PauseAdmin.pause`
+  transitively reach `Auth.auth` through the legitimately-authorized
+  `Root.pause` intermediate, and flags it because `pause()` itself
+  doesn't carry `auth` (it carries `canPause`). There is no such protocol
+  invariant — the protocol's intended scheme is "Root.pause is callable
+  by `auth`-wards directly OR via `canPause`-protected `PauseAdmin.pause`",
+  a legitimate dual-path design.
+
+**Verdict: SPURIOUS confirmed by source.** Two compounding errors: (i)
+`Auth.auth` exists as a graph node only because of synthetic
+modifier-as-callee edges (the qualified-name filter miss), and (ii) the
+transitive reach goes through an intermediate (`Root.pause`) that IS
+legitimately authorized via a different scheme — the bleed-through from
+the category-D "multiple-authorized-paths" shape. The qualified-modifier
+filter alone resolves (i); (ii) is fully resolved only when the rule
+model also handles "either-of-N-guards" (category D, deferred).
+
+### Category B trace — `InvestmentManager.previewDeposit → MathLib.mulDiv` (library-as-effect)
+
+- **Host in source**: `src/InvestmentManager.sol` line 370,
+  `function previewDeposit(address user, address liquidityPool, uint256 _currencyAmount)`.
+  Public view function. ✓
+- **Path in source**: `previewDeposit` calls `calculateDepositPrice`
+  which calls `_calculatePrice` which calls `MathLib.mulDiv`. So the
+  path to `mulDiv` is real. ✓
+- **Claimed rule in source**: "reaching `MathLib.mulDiv` requires
+  `onlyGateway`" — read `MathLib.sol` directly: `function mulDiv(uint256
+  x, uint256 y, uint256 denominator) internal pure returns (uint256
+  result)`. It's `internal pure` — stateless math borrowed from
+  OpenZeppelin's Math.sol via the contract's own header comment. There
+  is **no protocol invariant** stating "mulDiv must be gated by
+  onlyGateway" — many code paths call mulDiv for many unrelated reasons
+  (deposit, redeem, withdraw, price preview). The "asymmetry" is
+  coincidence of shared library use, not a stated rule.
+
+**Verdict: SPURIOUS confirmed by source.** The path exists, but the
+effect is a pure utility function the protocol calls from many
+intentionally-unrelated contexts; no invariant gates it.
+
+### Category C trace — `ERC20.permit → low_level_call` (sentinel-as-effect)
+
+- **Host in source**: `src/token/ERC20.sol` line 225,
+  `function permit(...) external`. Externally callable. ✓
+- **Path in source**: `permit()` performs an `ecrecover` and a state
+  write (`allowance[owner][spender] = value`). It does NOT call
+  `.call`/`.delegatecall`/`.staticcall` directly. The edge to
+  `low_level_call` in the call graph comes from a transitive reach
+  through some downstream path (slither's `_reach(adj, "ERC20.permit",
+  depth=5)` lands on a function that does a low-level call somewhere).
+- **Claimed rule in source**: "reaching `low_level_call` requires
+  `auth`" — `low_level_call` is not a function; it's the literal string
+  `slither_runner.py` emits as a callee placeholder when a function has
+  a low-level call (`out.append(CallEdge(caller=caller, callee="low_level_call", external=True))`).
+  The "rule" pairs any two paths that happen to transitively reach any
+  low-level call, of which there are many.
+
+**Verdict: SPURIOUS confirmed by source.** The "effect" is a sentinel
+string, not a function — by construction it cannot be a real protocol
+invariant.
+
+### What the traces add to the bucket diagnosis
+
+The buckets are right *because of the mechanism in each case*, not
+because of name resemblance:
+- Category A: the rule is tautological by emission (modifier reaches
+  itself).
+- Category B: the rule pairs intentionally-unrelated paths through a
+  pure library.
+- Category C: the "effect" is a placeholder string.
+
+In none of the three cases would reading more leads in the same bucket
+change the verdict, because the spurious-ness lives in the
+graph-construction logic, not in any individual lead. Reading more leads
+in *other* buckets would be the move that could change the verdict —
+but there are no other buckets in the 87.
+
 ## Aggregate verdict
 
 | | Count | % |
@@ -228,9 +328,54 @@ regression**: the BlindRunner uses Seer's path-finding, not the
 protocol-aware hypothesis engine. The audited floor (surfacing 2/3,
 leads 0/3, gate-confirmed 0 on Centrifuge in-lane) stands as-is.
 
-## Stop point
+## Stop point (original)
 
-This session ends with the table above. No filter implementation, no
-test relaxation. Bring this to Kyle for review; the filter goes in next
-session, on a fix shape signed off on by him, with the Decent M-03
-acceptance check baked in.
+This session originally ended at characterization — the table above —
+with no filter implementation. After review, Kyle endorsed (1) + (2a) +
+(3) with Decent M-03 as the acceptance gate. The fix was then
+implemented in the same session.
+
+## Post-fix outcome
+
+The three-part minimum filter landed (commits in this push):
+
+* **(1) Qualified-modifier strip** — `_is_meaningful_effect` now strips
+  the `Contract.` prefix when checking modifier membership.
+* **(2a) Structural library marking** — `CallEdge.library_callee` field
+  populated at emission time from `slither.contract.is_library`;
+  `_adjacency` excludes library callees from `internal_nodes`. Plus a
+  follow-up that was forced by the data: library functions themselves
+  emit synthetic self-recursive edges that put them into `internal_nodes`
+  as *callers*, defeating the per-callee flag — so the slither_runner
+  now also **skips emitting outgoing edges from library bodies**.
+  Nothing inside a library is privileged or attacker-reachable, so
+  tracing through them is pure noise; their callers are still emitted
+  via the high-level-call edge from non-library code.
+* **(3)** `low_level_call` added to `_NOISE_EXACT`.
+
+Centrifuge protocol-aware leads: **87 → 2**. Budget < 15: ✓ under.
+The 2 remaining leads are exactly the pre-registered Root.pause
+category-D shape (multi-authorized-paths), documented at
+`docs/SEQUENCE_PRE_REGISTRATION.md` as a known confound on Sequence
+output.
+
+Decent acceptance gate: **✓ M-03 lead preserved**
+(`UTB.receiveFromBridge` with `claimed-rule-violation` /
+`retrieveAndCollectFees`). Decent total protocol-aware leads: 5
+(sharpening, not regression).
+
+End-to-end backtest scorecard against the audited key: **unchanged**
+from the audit-only FREEZE. TIER-1 = 1, surfaced = 5, recall = 0.833,
+Seer leads on findings = 1. The fix did precisely what it was supposed
+to and **did not move the floor** — the BlindRunner uses Seer's
+path-finder, not the protocol-aware hypothesis engine, and the fix is
+on the latter.
+
+xfail marker removed; test now passes naturally. Suite: 80 / 80.
+
+## What's left in the "things known broken on the substrate Sequence
+runs on" list
+
+**Empty.** The Root.pause / OR-authorized-path shape is pre-registered
+and readable, not broken. After this fix, the next instruction is the
+blind run-book for Sequence, not another hardening pass.

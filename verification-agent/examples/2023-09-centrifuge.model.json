@@ -4449,3982 +4449,3668 @@
     {
       "caller": "Escrow.approve",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Escrow.approve",
       "callee": "SafeTransferLib.safeApprove",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.file",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "InvestmentManager._isAllowedToInvest",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "callee": "PoolManagerLike.isAllowedAsPoolCurrency",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "GatewayLike.increaseInvestOrder",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "SafeTransferLib.safeTransferFrom",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.isAllowedAsPoolCurrency",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.trancheId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "GatewayLike.cancelInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
       "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestDeposit",
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "InvestmentManager._isAllowedToInvest",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "InvestmentManager._toUint128",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.transferFrom",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.trancheId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "GatewayLike.increaseRedeemOrder",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "PoolManagerLike.isAllowedAsPoolCurrency",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.requestRedeem",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "GatewayLike.increaseRedeemOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "GatewayLike.cancelRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.transferFrom",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.requestRedeem",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseDepositRequest",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "GatewayLike.decreaseInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseDepositRequest",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseRedeemRequest",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseRedeemRequest",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "GatewayLike.decreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseRedeemRequest",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectDeposit",
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectDeposit",
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectDeposit",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectDeposit",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
       "callee": "GatewayLike.collectInvest",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.trancheId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectDeposit",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "Auth.auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.poolId",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectRedeem",
-      "callee": "PoolManagerLike.currencyAddressToId",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "GatewayLike.collectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "LiquidityPoolLike.trancheId",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectRedeem",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectRedeem",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectRedeem",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
       "callee": "InvestmentManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
       "callee": "PoolManagerLike.currencyIdToAddress",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.updateTrancheTokenPrice",
-      "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
       "callee": "LiquidityPoolLike.updatePrice",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.updateTrancheTokenPrice",
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "InvestmentManager._updateLiquidityPoolPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "InvestmentManager.onlyGateway",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "PoolManagerLike.currencyIdToAddress",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "LiquidityPoolLike.mint",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedCollectInvest",
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "InvestmentManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "InvestmentManager._updateLiquidityPoolPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "LiquidityPoolLike.burn",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "UserEscrowLike.transferIn",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "PoolManagerLike.currencyIdToAddress",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "InvestmentManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "SafeTransferLib.safeTransferFrom",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "PoolManagerLike.currencyIdToAddress",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "InvestmentManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "LiquidityPoolLike.transferFrom",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "PoolManagerLike.currencyIdToAddress",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
+      "callee": "LiquidityPoolLike.transferFrom",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.totalAssets",
       "callee": "InvestmentManager.convertToAssets",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
       "callee": "InvestmentManager._getPoolDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
       "callee": "LiquidityPoolLike.latestPrice",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
       "callee": "MathLib.mulDiv",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.convertToAssets",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
       "callee": "InvestmentManager._getPoolDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
       "callee": "LiquidityPoolLike.latestPrice",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
       "callee": "MathLib.mulDiv",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.previewDeposit",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewDeposit",
       "callee": "InvestmentManager._calculateTrancheTokenAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewDeposit",
       "callee": "InvestmentManager.calculateDepositPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
       "callee": "InvestmentManager._calculateCurrencyAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
       "callee": "InvestmentManager.calculateDepositPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
       "callee": "InvestmentManager.calculateRedeemPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
       "callee": "InvestmentManager._calculateTrancheTokenAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
       "callee": "InvestmentManager._calculateCurrencyAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
       "callee": "InvestmentManager.calculateRedeemPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "InvestmentManager._deposit",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "InvestmentManager.calculateDepositPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "InvestmentManager._calculateTrancheTokenAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "InvestmentManager.calculateDepositPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "InvestmentManager._calculateCurrencyAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "InvestmentManager._deposit",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._deposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._deposit",
       "callee": "InvestmentManager._decreaseDepositLimits",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._deposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._deposit",
       "callee": "LiquidityPoolLike.transferFrom",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._deposit",
       "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "InvestmentManager._calculateCurrencyAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "InvestmentManager.calculateRedeemPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "InvestmentManager._redeem",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "InvestmentManager.calculateRedeemPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "InvestmentManager._redeem",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "InvestmentManager._calculateTrancheTokenAmount",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._redeem",
       "callee": "InvestmentManager._decreaseRedemptionLimits",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._redeem",
       "callee": "UserEscrowLike.transferOut",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._redeem",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.calculateDepositPrice",
       "callee": "InvestmentManager._calculatePrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.calculateRedeemPrice",
       "callee": "InvestmentManager._calculatePrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
       "callee": "InvestmentManager._toPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
       "callee": "InvestmentManager._toPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
       "callee": "InvestmentManager._getPoolDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
       "callee": "MathLib.mulDiv",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager._updateLiquidityPoolPrice",
       "callee": "InvestmentManager._calculatePrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._updateLiquidityPoolPrice",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._updateLiquidityPoolPrice",
       "callee": "LiquidityPoolLike.updatePrice",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateTrancheTokenAmount",
       "callee": "InvestmentManager._toPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateTrancheTokenAmount",
       "callee": "InvestmentManager._fromPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateTrancheTokenAmount",
       "callee": "InvestmentManager._getPoolDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateTrancheTokenAmount",
       "callee": "MathLib.mulDiv",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager._calculateCurrencyAmount",
       "callee": "InvestmentManager._getPoolDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateCurrencyAmount",
       "callee": "InvestmentManager._fromPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateCurrencyAmount",
       "callee": "InvestmentManager._toPriceDecimals",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculateCurrencyAmount",
       "callee": "MathLib.mulDiv",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager._isAllowedToInvest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._isAllowedToInvest",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager._isAllowedToInvest",
-      "callee": "LiquidityPoolLike.checkTransferRestriction",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._isAllowedToInvest",
       "callee": "PoolManagerLike.getLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._isAllowedToInvest",
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._toUint128",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._fromPriceDecimals",
       "callee": "InvestmentManager._toUint128",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._fromPriceDecimals",
       "callee": "InvestmentManager._toUint128",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager._getPoolDecimals",
-      "callee": "LiquidityPoolLike.decimals",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager._getPoolDecimals",
-      "callee": "ERC20Like.decimals",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._getPoolDecimals",
       "callee": "LiquidityPoolLike.asset",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "LiquidityPool.file",
-      "callee": "Auth.auth",
-      "external": false
+      "caller": "InvestmentManager._getPoolDecimals",
+      "callee": "LiquidityPoolLike.decimals",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._getPoolDecimals",
+      "callee": "ERC20Like.decimals",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalAssets",
       "callee": "LiquidityPool.totalSupply",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalAssets",
       "callee": "InvestmentManagerLike.totalAssets",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.convertToShares",
       "callee": "InvestmentManagerLike.convertToShares",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.convertToAssets",
       "callee": "InvestmentManagerLike.convertToAssets",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxDeposit",
       "callee": "InvestmentManagerLike.maxDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewDeposit",
       "callee": "InvestmentManagerLike.previewDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.deposit",
       "callee": "InvestmentManagerLike.processDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.mint",
       "callee": "InvestmentManagerLike.processMint",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxMint",
       "callee": "InvestmentManagerLike.maxMint",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewMint",
       "callee": "InvestmentManagerLike.previewMint",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxWithdraw",
       "callee": "InvestmentManagerLike.maxWithdraw",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewWithdraw",
       "callee": "InvestmentManagerLike.previewWithdraw",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.withdraw",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.withdraw",
       "callee": "InvestmentManagerLike.processWithdraw",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxRedeem",
       "callee": "InvestmentManagerLike.maxRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewRedeem",
       "callee": "InvestmentManagerLike.previewRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.redeem",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.redeem",
       "callee": "InvestmentManagerLike.processRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDeposit",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDeposit",
       "callee": "InvestmentManagerLike.requestDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDepositWithPermit",
       "callee": "InvestmentManagerLike.requestDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDepositWithPermit",
       "callee": "ERC20PermitLike.permit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeem",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeem",
       "callee": "InvestmentManagerLike.requestRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeemWithPermit",
       "callee": "InvestmentManagerLike.requestRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeemWithPermit",
       "callee": "TrancheTokenLike.permit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseDepositRequest",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseDepositRequest",
       "callee": "InvestmentManagerLike.decreaseDepositRequest",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseRedeemRequest",
       "callee": "LiquidityPool.withApproval",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseRedeemRequest",
       "callee": "InvestmentManagerLike.decreaseRedeemRequest",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.collectDeposit",
       "callee": "InvestmentManagerLike.collectDeposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.collectRedeem",
       "callee": "InvestmentManagerLike.collectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.name",
       "callee": "TrancheTokenLike.name",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.symbol",
       "callee": "TrancheTokenLike.symbol",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decimals",
       "callee": "TrancheTokenLike.decimals",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalSupply",
       "callee": "TrancheTokenLike.totalSupply",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.balanceOf",
       "callee": "TrancheTokenLike.balanceOf",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.allowance",
       "callee": "TrancheTokenLike.allowance",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
       "callee": "bytes.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.transferFrom",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
       "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.transferFrom",
-      "callee": "LiquidityPool._successCheck",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
-      "callee": "bytes.concat()",
-      "external": false
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
-      "callee": "LiquidityPool._successCheck",
-      "external": false
+      "callee": "bytes.concat()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.approve",
+      "callee": "bytes.concat()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.approve",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.approve",
       "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.approve",
-      "callee": "bytes.concat()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.approve",
-      "callee": "LiquidityPool._successCheck",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.approve",
       "callee": "low_level_call",
-      "external": true
-    },
-    {
-      "caller": "LiquidityPool.mint",
-      "callee": "LiquidityPool._successCheck",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.mint",
-      "callee": "bytes.concat()",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.mint",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.mint",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.mint",
+      "callee": "bytes.concat()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.mint",
       "callee": "low_level_call",
-      "external": true
-    },
-    {
-      "caller": "LiquidityPool.burn",
-      "callee": "LiquidityPool._successCheck",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.burn",
-      "callee": "Auth.auth",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.burn",
       "callee": "bytes.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.burn",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.burn",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.burn",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.updatePrice",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.checkTransferRestriction",
       "callee": "TrancheTokenLike.checkTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool._successCheck",
-      "callee": "revert(uint256,uint256)",
-      "external": false
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool._successCheck",
       "callee": "returndatacopy(uint256,uint256,uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool._successCheck",
+      "callee": "revert(uint256,uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool._successCheck",
       "callee": "returndatasize()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool._successCheck",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.file",
-      "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transfer",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.transfer",
-      "callee": "SafeTransferLib.safeTransferFrom",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transfer",
       "callee": "GatewayLike.transfer",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.transfer",
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
       "callee": "PoolManager.getTrancheToken",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.transferTrancheTokensToCentrifuge",
+      "callee": "TrancheTokenLike.burn",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
       "callee": "GatewayLike.transferTrancheTokensToCentrifuge",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.transferTrancheTokensToCentrifuge",
-      "callee": "TrancheTokenLike.burn",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.transferTrancheTokensToEVM",
-      "callee": "PoolManager.getTrancheToken",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.transferTrancheTokensToEVM",
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
       "callee": "GatewayLike.transferTrancheTokensToEVM",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
       "callee": "TrancheTokenLike.burn",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addPool",
       "callee": "PoolManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.allowPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.allowPoolCurrency",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.allowPoolCurrency",
       "callee": "PoolManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "PoolManager.allowPoolCurrency",
+      "caller": "PoolManager.addTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.addTranche",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addTranche",
       "callee": "PoolManager.onlyGateway",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.addTranche",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.addTranche",
-      "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "PoolManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "PoolManager.getTrancheToken",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "TrancheTokenLike.file",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "TrancheTokenLike.file",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.updateMember",
-      "callee": "PoolManager.onlyGateway",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.updateMember",
-      "callee": "PoolManager.getTrancheToken",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.updateMember",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.updateMember",
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.updateMember",
+      "callee": "TrancheTokenLike.restrictionManager",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
       "callee": "MemberlistLike.updateMember",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.updateMember",
-      "callee": "TrancheTokenLike.restrictionManager",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.handleTransfer",
-      "callee": "PoolManager.onlyGateway",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransfer",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.handleTransfer",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransfer",
       "callee": "SafeTransferLib.safeTransferFrom",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "PoolManager.handleTransfer",
       "callee": "EscrowLike.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "PoolManager.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "PoolManager.getTrancheToken",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "MemberlistLike.hasMember",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "TrancheTokenLike.mint",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "TrancheTokenLike.restrictionManager",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.handleTransferTrancheTokens",
+      "callee": "TrancheTokenLike.mint",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
       "callee": "TrancheTokenFactoryLike.newTrancheToken",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.deployLiquidityPool",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.deployLiquidityPool",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "PoolManager.isAllowedAsPoolCurrency",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.deployLiquidityPool",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.deployLiquidityPool",
-      "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "EscrowLike.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.deployLiquidityPool",
+      "callee": "AuthLike.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "ERC2771Like.addLiquidityPool",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.deployLiquidityPool",
-      "callee": "AuthLike.rely",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.deployLiquidityPool",
-      "callee": "AuthLike.rely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "EscrowLike.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "LiquidityPoolFactoryLike.newLiquidityPool",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.deployLiquidityPool",
+      "callee": "AuthLike.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.isAllowedAsPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.isAllowedAsPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.pause",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.unpause",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.scheduleRely",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.cancelRely",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.executeScheduledRely",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.executeScheduledRely",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.relyContract",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.relyContract",
       "callee": "AuthLike.rely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Root.denyContract",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.denyContract",
       "callee": "AuthLike.deny",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferIn",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferIn",
       "callee": "SafeTransferLib.safeTransferFrom",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "UserEscrow.transferOut",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "UserEscrow.transferOut",
-      "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
-      "callee": "SafeTransferLib.safeTransfer",
-      "external": true
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
       "callee": "ERC20Like.allowance",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UserEscrow.transferOut",
+      "callee": "SafeTransferLib.safeTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "DelayedAdmin.pause",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.pause",
       "callee": "Root.pause",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.unpause",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.unpause",
       "callee": "Root.unpause",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.scheduleRely",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.scheduleRely",
       "callee": "Root.scheduleRely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.cancelRely",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.cancelRely",
       "callee": "Root.cancelRely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.addPauser",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.removePauser",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.pause",
       "callee": "PauseAdmin.canPause",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.pause",
       "callee": "Root.pause",
-      "external": true
-    },
-    {
-      "caller": "Gateway.file",
-      "callee": "Auth.auth",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.addIncomingRouter",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.removeIncomingRouter",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.updateOutgoingRouter",
       "callee": "Auth.auth",
-      "external": false
-    },
-    {
-      "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
-    },
-    {
-      "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "Gateway.onlyPoolManager",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "Messages.formatTransferTrancheTokens",
-      "external": true
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.transferTrancheTokensToCentrifuge",
+      "callee": "Gateway.onlyPoolManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
       "callee": "Messages.formatDomain",
-      "external": true
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "Gateway.transferTrancheTokensToCentrifuge",
+      "callee": "Messages.formatTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
       "callee": "Gateway.onlyPoolManager",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "Messages.formatDomain",
-      "external": true
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
       "callee": "Messages.formatTransferTrancheTokens",
-      "external": true
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "Gateway.transferTrancheTokensToEVM",
+      "callee": "Messages.formatDomain",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.transfer",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
-    },
-    {
-      "caller": "Gateway.transfer",
-      "callee": "Gateway.pauseable",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
       "callee": "Gateway.onlyPoolManager",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.transfer",
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.transfer",
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
       "callee": "Messages.formatTransfer",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transfer",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.increaseInvestOrder",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
-    },
-    {
-      "caller": "Gateway.increaseInvestOrder",
-      "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.increaseInvestOrder",
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.increaseInvestOrder",
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
       "callee": "Messages.formatIncreaseInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.increaseInvestOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.decreaseInvestOrder",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
       "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.decreaseInvestOrder",
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
       "callee": "Messages.formatDecreaseInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.increaseRedeemOrder",
-      "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
       "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.increaseRedeemOrder",
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
       "callee": "Messages.formatIncreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
-    },
-    {
-      "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.decreaseRedeemOrder",
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.decreaseRedeemOrder",
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
       "callee": "Messages.formatDecreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.collectInvest",
-      "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
       "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.collectInvest",
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
       "callee": "Messages.formatCollectInvest",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.collectInvest",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.collectRedeem",
-      "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.collectRedeem",
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
       "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
       "callee": "Messages.formatCollectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.collectRedeem",
       "callee": "RouterLike.send",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
       "callee": "Gateway.onlyInvestmentManager",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
       "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
       "callee": "Messages.formatCancelInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.cancelInvestOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.cancelRedeemOrder",
-      "callee": "Gateway.onlyInvestmentManager",
-      "external": false
-    },
-    {
-      "caller": "Gateway.cancelRedeemOrder",
-      "callee": "Gateway.pauseable",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
       "callee": "Gateway._addressToBytes32",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.cancelRedeemOrder",
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.cancelRedeemOrder",
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
       "callee": "Messages.formatCancelRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
       "callee": "RouterLike.send",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "revert(string)",
-      "external": false
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Gateway.onlyIncomingRouter",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "Gateway.pauseable",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.parseExecutedDecreaseRedeemOrder",
-      "external": true
+      "callee": "revert(string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.parseAddTranche",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseIncomingTransfer",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.handleTransferTrancheTokens",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.addCurrency",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isAddCurrency",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.addPool",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isTransferTrancheTokens",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.updateMember",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseAddCurrency",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isExecutedCollectInvest",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "RootLike.scheduleRely",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isScheduleUpgrade",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.handleExecutedCollectInvest",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isUpdateMember",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseTransferTrancheTokens20",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseExecutedCollectInvest",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseScheduleUpgrade",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseUpdateMember",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isAddPool",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isCancelUpgrade",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.handleExecutedDecreaseInvestOrder",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.allowPoolCurrency",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isExecutedDecreaseInvestOrder",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "RootLike.cancelRely",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseAddPool",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.updateTrancheTokenPrice",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.updateTrancheTokenMetadata",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseCancelUpgrade",
-      "external": true
+      "callee": "Gateway.onlyIncomingRouter",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isUpdateTrancheTokenPrice",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.parseExecutedDecreaseInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isExecutedCollectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isAllowPoolCurrency",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.parseExecutedCollectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.parseUpdateTrancheTokenPrice",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "Messages.isUpdateTrancheTokenMetadata",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.parseAllowPoolCurrency",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "PoolManagerLike.handleTransfer",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.parseUpdateTrancheTokenMetadata",
-      "external": true
-    },
-    {
-      "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.handleExecutedCollectRedeem",
-      "external": true
+      "callee": "Messages.parseExecutedCollectRedeem",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "PoolManagerLike.addTranche",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "InvestmentManagerLike.handleExecutedDecreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "Gateway.handle",
+      "callee": "Messages.isScheduleUpgrade",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "Gateway.handle",
+      "callee": "RootLike.scheduleRely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isExecutedDecreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isTransfer",
-      "external": true
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseScheduleUpgrade",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.addCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "Messages.isAddTranche",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.messageType",
-      "callee": "BytesLib.toUint8",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseExecutedDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.formatAddCurrency",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseAddTranche",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.isAddCurrency",
-      "callee": "Messages.messageType",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseIncomingTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddCurrency",
-      "callee": "BytesLib.toAddress",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.isCancelUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddCurrency",
-      "callee": "BytesLib.toUint128",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.handleTransferTrancheTokens",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.formatAddPool",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "RootLike.cancelRely",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.isAddPool",
-      "callee": "Messages.messageType",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.isAddCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddPool",
-      "callee": "BytesLib.toUint64",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.updateMember",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.formatAllowPoolCurrency",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.addPool",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.isAllowPoolCurrency",
-      "callee": "Messages.messageType",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.isTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAllowPoolCurrency",
-      "callee": "BytesLib.toUint64",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "InvestmentManagerLike.handleExecutedCollectInvest",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.parseAllowPoolCurrency",
-      "callee": "BytesLib.toUint128",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseCancelUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.formatAddTranche",
-      "callee": "Messages._stringToBytes128",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseAddCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.formatAddTranche",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.isExecutedCollectInvest",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.formatAddTranche",
-      "callee": "Messages._stringToBytes32",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.updateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.isAddTranche",
-      "callee": "Messages.messageType",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.isUpdateMember",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "Messages._bytes32ToString",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseTransferTrancheTokens20",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "Messages._bytes128ToString",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseExecutedCollectInvest",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.toUint8",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.isUpdateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.slice",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseUpdateMember",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.toBytes16",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseUpdateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.toUint128",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "Messages.isAddPool",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.toBytes32",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "InvestmentManagerLike.handleExecutedCollectRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.parseAddTranche",
-      "callee": "BytesLib.toUint64",
-      "external": true
+      "caller": "Gateway.handle",
+      "callee": "InvestmentManagerLike.handleExecutedDecreaseInvestOrder",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.formatUpdateMember",
-      "callee": "Messages.formatUpdateMember",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "PoolManagerLike.allowPoolCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "Messages.formatUpdateMember",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.isExecutedDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.isUpdateMember",
-      "callee": "Messages.messageType",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "Messages.parseAddPool",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Messages.parseUpdateMember",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateMember",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateMember",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateMember",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatUpdateTrancheTokenPrice",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isUpdateTrancheTokenPrice",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenPrice",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenPrice",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenPrice",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenPrice",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatTransfer",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isTransfer",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseTransfer",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransfer",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransfer",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransfer",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncomingTransfer",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncomingTransfer",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncomingTransfer",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatTransferTrancheTokens",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatTransferTrancheTokens",
-      "callee": "Messages.formatTransferTrancheTokens",
-      "external": false
-    },
-    {
-      "caller": "Messages.isTransferTrancheTokens",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseTransferTrancheTokens20",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransferTrancheTokens20",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransferTrancheTokens20",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseTransferTrancheTokens20",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatIncreaseInvestOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isIncreaseInvestOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseIncreaseInvestOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncreaseInvestOrder",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncreaseInvestOrder",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncreaseInvestOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseIncreaseInvestOrder",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatDecreaseInvestOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isDecreaseInvestOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseDecreaseInvestOrder",
-      "callee": "Messages.parseIncreaseInvestOrder",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatIncreaseRedeemOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isIncreaseRedeemOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseIncreaseRedeemOrder",
-      "callee": "Messages.parseIncreaseInvestOrder",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatDecreaseRedeemOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isDecreaseRedeemOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseDecreaseRedeemOrder",
-      "callee": "Messages.parseDecreaseInvestOrder",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatCollectInvest",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isCollectInvest",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseCollectInvest",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectInvest",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectInvest",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectInvest",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatCollectRedeem",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isCollectRedeem",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseCollectRedeem",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectRedeem",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectRedeem",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCollectRedeem",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatExecutedDecreaseInvestOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isExecutedDecreaseInvestOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseInvestOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseInvestOrder",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseInvestOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseInvestOrder",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseInvestOrder",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatExecutedDecreaseRedeemOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isExecutedDecreaseRedeemOrder",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseRedeemOrder",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseRedeemOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseRedeemOrder",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseRedeemOrder",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedDecreaseRedeemOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatExecutedCollectInvest",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isExecutedCollectInvest",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectInvest",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatExecutedCollectRedeem",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isExecutedCollectRedeem",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseExecutedCollectRedeem",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatScheduleUpgrade",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isScheduleUpgrade",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseScheduleUpgrade",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatCancelUpgrade",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isCancelUpgrade",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseCancelUpgrade",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatUpdateTrancheTokenMetadata",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatUpdateTrancheTokenMetadata",
-      "callee": "Messages._stringToBytes128",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatUpdateTrancheTokenMetadata",
-      "callee": "Messages._stringToBytes32",
-      "external": false
-    },
-    {
-      "caller": "Messages.isUpdateTrancheTokenMetadata",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "Messages._bytes128ToString",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "Messages._bytes32ToString",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "BytesLib.slice",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheTokenMetadata",
-      "callee": "BytesLib.toBytes32",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatCancelInvestOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseCancelInvestOrder",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelInvestOrder",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelInvestOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelInvestOrder",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatCancelRedeemOrder",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseCancelRedeemOrder",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelRedeemOrder",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelRedeemOrder",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseCancelRedeemOrder",
-      "callee": "BytesLib.toAddress",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatUpdateTrancheInvestmentLimit",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.isUpdateTrancheInvestmentLimit",
-      "callee": "Messages.messageType",
-      "external": false
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheInvestmentLimit",
-      "callee": "BytesLib.toUint128",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheInvestmentLimit",
-      "callee": "BytesLib.toBytes16",
-      "external": true
-    },
-    {
-      "caller": "Messages.parseUpdateTrancheInvestmentLimit",
-      "callee": "BytesLib.toUint64",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatDomain",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatDomain",
-      "callee": "BytesLib.slice",
-      "external": true
-    },
-    {
-      "caller": "Messages._bytes128ToString",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "Messages._stringToBytes32",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.file",
-      "callee": "Auth.auth",
-      "external": false
+      "caller": "Gateway.handle",
+      "callee": "InvestmentManagerLike.updateTrancheTokenPrice",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "AxelarRouter.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "AxelarRouter.execute",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "AxelarRouter.execute",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
       "callee": "AxelarRouter.onlyCentrifugeChainOrigin",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.execute",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.execute",
-      "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
       "callee": "GatewayLike.handle",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
       "callee": "AxelarGatewayLike.validateContractCall",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.send",
       "callee": "AxelarRouter.onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.send",
       "callee": "AxelarGatewayLike.callContract",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.file",
-      "callee": "Auth.auth",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.handle",
       "callee": "XCMRouter.onlyCentrifugeChainOrigin",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.handle",
       "callee": "GatewayLike.handle",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.send",
-      "callee": "XCMRouter.onlyGateway",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
       "callee": "XCMRouter._cfgAssetMultilocation",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
       "callee": "XCMRouter._centrifugeHandleCall",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
       "callee": "XCMRouter._centrifugeParachainMultilocation",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter.send",
+      "callee": "XCMRouter.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
       "callee": "XcmTransactorV2.transactThroughSignedMultilocation",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter._centrifugeHandleCall",
       "callee": "XCMRouter.messageLengthScaleEncoded",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter._centrifugeHandleCall",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.messageLengthScaleEncoded",
       "callee": "revert(string)",
-      "external": false
-    },
-    {
-      "caller": "XCMRouter.messageLengthScaleEncoded",
-      "callee": "Messages.isTransferTrancheTokens",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.messageLengthScaleEncoded",
-      "callee": "Messages.isCollectInvest",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.messageLengthScaleEncoded",
-      "callee": "Messages.isTransfer",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.messageLengthScaleEncoded",
-      "callee": "Messages.isDecreaseInvestOrder",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.messageLengthScaleEncoded",
-      "callee": "Messages.isDecreaseRedeemOrder",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.messageLengthScaleEncoded",
       "callee": "Messages.isIncreaseInvestOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "XCMRouter.messageLengthScaleEncoded",
       "callee": "Messages.isCollectRedeem",
-      "external": true
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "XCMRouter.messageLengthScaleEncoded",
       "callee": "Messages.isIncreaseRedeemOrder",
-      "external": true
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isCollectInvest",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "XCMRouter._centrifugeParachainMultilocation",
       "callee": "XCMRouter._parachainId",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter._cfgAssetMultilocation",
       "callee": "XCMRouter._parachainId",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter._parachainId",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.rely",
       "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.deny",
       "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._calculateDomainSeparator",
       "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "ERC20._calculateDomainSeparator",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20._calculateDomainSeparator",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20._calculateDomainSeparator",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20._calculateDomainSeparator",
-      "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.DOMAIN_SEPARATOR",
       "callee": "ERC20._calculateDomainSeparator",
-      "external": false
-    },
-    {
-      "caller": "ERC20.file",
-      "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.file",
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.approve",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.approve",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.decreaseAllowance",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.decreaseAllowance",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.decreaseAllowance",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.decreaseAllowance",
       "callee": "Context._msgSender",
-      "external": false
-    },
-    {
-      "caller": "ERC20.decreaseAllowance",
-      "callee": "Context._msgSender",
-      "external": false
-    },
-    {
-      "caller": "ERC20.decreaseAllowance",
-      "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.mint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.mint",
       "callee": "ERC20.auth",
-      "external": false
-    },
-    {
-      "caller": "ERC20.burn",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.burn",
-      "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.burn",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.burn",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._isValidSignature",
       "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
-      "external": false
-    },
-    {
-      "caller": "ERC20._isValidSignature",
-      "callee": "abi.encodeWithSelector()",
-      "external": false
-    },
-    {
-      "caller": "ERC20._isValidSignature",
-      "callee": "mload(uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._isValidSignature",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._isValidSignature",
       "callee": "mload(uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "abi.encodeWithSelector()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._isValidSignature",
       "callee": "byte(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "ERC20._isValidSignature",
-      "callee": "mload(uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20._isValidSignature",
       "callee": "low_level_call",
-      "external": true
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "ERC20._calculateDomainSeparator",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "ERC20._isValidSignature",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "abi.encode()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "abi.encode()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "ERC20._calculateDomainSeparator",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "ERC20.permit",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.slitherConstructorConstantVariables",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.detectTransferRestriction",
       "callee": "RestrictionManager.hasMember",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.member",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "RestrictionManager.updateMember",
-      "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMember",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "RestrictionManager.updateMember",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMembers",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMembers",
       "callee": "RestrictionManager.updateMember",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.file",
-      "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken.file",
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.addLiquidityPool",
       "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.removeLiquidityPool",
       "callee": "ERC20.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken.transfer",
+      "callee": "TrancheToken.restricted",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transfer",
       "callee": "ERC20.transfer",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transfer",
       "callee": "TrancheToken._msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.transfer",
-      "callee": "TrancheToken.restricted",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transferFrom",
       "callee": "TrancheToken.restricted",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transferFrom",
       "callee": "ERC20.transferFrom",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
       "callee": "TrancheToken.restricted",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
       "callee": "ERC20.mint",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
       "callee": "TrancheToken._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.detectTransferRestriction",
       "callee": "ERC1404Like.detectTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.checkTransferRestriction",
       "callee": "TrancheToken.SUCCESS_CODE",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.checkTransferRestriction",
       "callee": "ERC1404Like.detectTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.messageForTransferRestriction",
       "callee": "ERC1404Like.messageForTransferRestriction",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.SUCCESS_CODE",
       "callee": "ERC1404Like.SUCCESS_CODE",
-      "external": true
-    },
-    {
-      "caller": "TrancheToken._msgSender",
-      "callee": "TrancheToken.isTrustedForwarder",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken._msgSender",
-      "callee": "calldatasize()",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken._msgSender",
       "callee": "Context._msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "calldatasize()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "TrancheToken.isTrustedForwarder",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken._msgSender",
       "callee": "calldataload(uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.slitherConstructorConstantVariables",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Auth.rely",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Auth.deny",
       "callee": "Auth.auth",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mstore(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mstore(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mstore(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mstore(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mstore(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.slice",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toAddress",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toAddress",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint8",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint8",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint64",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint64",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint128",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toUint128",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toBytes32",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toBytes32",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toBytes16",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "BytesLib.toBytes16",
-      "callee": "mload(uint256)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
       "callee": "LiquidityPool.rely",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPoolFactory.newLiquidityPool",
+      "callee": "LiquidityPool.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
       "callee": "LiquidityPool.deny",
-      "external": true
-    },
-    {
-      "caller": "LiquidityPoolFactory.newLiquidityPool",
-      "callee": "LiquidityPool.rely",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheTokenFactory._newRestrictionManager",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "Auth.auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheTokenFactory._newRestrictionManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "TrancheToken.file",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.rely",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.rely",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.file",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "TrancheToken.deny",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "TrancheToken.file",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheToken.file",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheToken.rely",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheToken.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory._newRestrictionManager",
       "callee": "RestrictionManager.rely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory._newRestrictionManager",
       "callee": "RestrictionManager.updateMember",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory._newRestrictionManager",
-      "callee": "RestrictionManager.deny",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory._newRestrictionManager",
       "callee": "RootLike.escrow",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory._newRestrictionManager",
       "callee": "RestrictionManager.rely",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "MathLib.mulDiv",
-      "callee": "require(bool)",
-      "external": false
-    },
-    {
-      "caller": "MathLib.mulDiv",
-      "callee": "mulmod(uint256,uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "MathLib.mulDiv",
-      "callee": "mulmod(uint256,uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "MathLib.mulDiv",
-      "callee": "mulmod(uint256,uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "MathLib.mulDiv",
-      "callee": "MathLib.mulDiv",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransferFrom",
-      "callee": "abi.encodeWithSelector()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransferFrom",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransferFrom",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransferFrom",
-      "callee": "low_level_call",
-      "external": true
-    },
-    {
-      "caller": "SafeTransferLib.safeTransfer",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransfer",
-      "callee": "abi.encodeWithSelector()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransfer",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeTransfer",
-      "callee": "low_level_call",
-      "external": true
-    },
-    {
-      "caller": "SafeTransferLib.safeApprove",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeApprove",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeApprove",
-      "callee": "abi.encodeWithSelector()",
-      "external": false
-    },
-    {
-      "caller": "SafeTransferLib.safeApprove",
-      "callee": "low_level_call",
-      "external": true
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RestrictionManager.deny",
+      "external": true,
+      "library_callee": false
     }
   ],
   "verification_surface": [

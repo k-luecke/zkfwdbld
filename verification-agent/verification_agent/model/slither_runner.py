@@ -186,6 +186,18 @@ def run_slither(target: Path) -> SlitherExtract:
         # low-level-call edges. Downstream reachability (protocol_rules / seer)
         # traverses this transitively, so a privileged sink reached only via an
         # internal chain (ext -> A -> B -> sink) is now visible.
+        #
+        # Library functions are skipped as callers: nothing inside a Solidity
+        # library is privileged or attacker-reachable — they're pure helpers
+        # called from non-library protocol code (which we DO emit edges for,
+        # including the call into the library). Emitting outgoing edges from
+        # library bodies puts library functions into internal_nodes as callers,
+        # defeating the library_callee filter on callees. (2026-06-30
+        # precision-regression fix, follow-up: marking callees alone wasn't
+        # enough because library functions emit self-recursive edges that
+        # register them as callers.)
+        if contract.is_library:
+            continue
         for func in getattr(contract, "functions", []):
             declarer = getattr(func, "contract_declarer", None)
             if declarer is not None and declarer != contract:
@@ -262,22 +274,50 @@ def _qualify_internal(target, default_contract: str) -> str:
 def _function_edges(func, contract_name: str) -> list[CallEdge]:
     """All outgoing call edges for one function: internal (qualified), high-level
     (qualified, external) and low-level (call/delegatecall/staticcall, external).
-    Pure/duck-typed over Slither's accessors so it is unit-testable without Slither."""
+    Pure/duck-typed over Slither's accessors so it is unit-testable without Slither.
+
+    Library callees are marked structurally (``library_callee=True``) so downstream
+    consumers (protocol_rules, Seer) can exclude pure helpers from the
+    privileged-effect universe by construction, not by allowlist."""
     caller = f"{contract_name}.{getattr(func, 'name', '')}"
     out: list[CallEdge] = []
     for ic in getattr(func, "internal_calls", []) or []:
         target = getattr(ic, "function", None) or ic
         out.append(CallEdge(caller=caller,
                             callee=_qualify_internal(target, contract_name),
-                            external=False))
+                            external=False,
+                            library_callee=_is_library_callee(target)))
     for hc in getattr(func, "high_level_calls", []) or []:
         callee = _hlc_name(hc)
         if callee:
-            out.append(CallEdge(caller=caller, callee=callee, external=True))
+            out.append(CallEdge(caller=caller, callee=callee, external=True,
+                                library_callee=_is_library_hlc(hc)))
     for lc in getattr(func, "low_level_calls", []) or []:
         callee = str(getattr(lc, "name", "low_level_call"))
+        # Low-level calls are never to a library by definition (they're raw
+        # .call/.delegatecall/.staticcall), so library_callee stays False.
         out.append(CallEdge(caller=caller, callee=callee, external=True))
     return out
+
+
+def _is_library_callee(target) -> bool:
+    """True when the call target's defining contract is a Solidity library."""
+    cd = getattr(target, "contract_declarer", None) or getattr(target, "contract", None)
+    return bool(getattr(cd, "is_library", False))
+
+
+def _is_library_hlc(hc) -> bool:
+    """True when a high-level call targets a function defined in a library.
+    Slither's high_level_calls return either ``(Contract, IR_Op)`` tuples (>=0.10)
+    or ``(Contract, Function)`` (older). The Contract object exposes is_library."""
+    try:
+        if isinstance(hc, tuple) and len(hc) == 2:
+            return bool(getattr(hc[0], "is_library", False))
+        inner_fn = getattr(hc, "function", None)
+        cd = getattr(inner_fn, "contract", None) or getattr(inner_fn, "contract_declarer", None)
+        return bool(getattr(cd, "is_library", False))
+    except Exception:
+        return False
 
 
 def _calls(func) -> tuple[list[str], list[tuple[str, bool]]]:
