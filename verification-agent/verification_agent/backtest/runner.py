@@ -35,8 +35,17 @@ class BlindRunner:
         orch = PathOrchestrator()
         found = []
         seen = set()
+        # Toolchain stamp: union of versions seen across loaded models, so the
+        # FREEZE artifact is attributable to a known forge/slither/solc. Motivated
+        # by the slither >= 0.10 IR-tuple regression — a Sequence number whose
+        # toolchain isn't recorded can't be reproduced or trusted across machines.
+        tool_versions: dict[str, set[str]] = {}
         for mp in model_paths:
             model = json.loads(Path(mp).read_text())
+            for ts in model.get("tool_status", []) or []:
+                v = ts.get("version")
+                if v:
+                    tool_versions.setdefault(ts["name"], set()).add(v)
             surfaced |= {f"{f['contract']}.{f['name']}"
                          for f in model.get("verification_surface", [])}
             mh = engine.run(model)
@@ -69,6 +78,7 @@ class BlindRunner:
         return {
             "contest_id": contest_id,
             "models": model_paths,
+            "tool_versions": {name: sorted(vs) for name, vs in sorted(tool_versions.items())},
             "counts": {
                 "surfaced": len(surfaced),
                 "hypotheses": len(hyps),

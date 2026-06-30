@@ -9,8 +9,15 @@
       "name": "foundry",
       "available": true,
       "ran": true,
-      "version": null,
+      "version": "1.5.1-stable",
       "detail": "forge build ok"
+    },
+    {
+      "name": "solc",
+      "available": true,
+      "ran": false,
+      "version": "0.8.20",
+      "detail": "version captured (compiler invoked by forge, not directly)"
     },
     {
       "name": "slither",
@@ -1315,32 +1322,17 @@
     },
     {
       "caller": "UTB.performSwap",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "UTB.performSwap",
       "callee": "abi.decode()",
       "external": false
     },
     {
       "caller": "UTB.performSwap",
-      "callee": "IERC20.transferFrom",
-      "external": true
+      "callee": "require(bool,string)",
+      "external": false
     },
     {
       "caller": "UTB.performSwap",
-      "callee": "IERC20.approve",
-      "external": true
-    },
-    {
-      "caller": "UTB.performSwap",
-      "callee": "ISwapper.updateSwapParams",
-      "external": true
-    },
-    {
-      "caller": "UTB.performSwap",
-      "callee": "IWETH.deposit",
+      "callee": "ISwapper.swap",
       "external": true
     },
     {
@@ -1350,7 +1342,22 @@
     },
     {
       "caller": "UTB.performSwap",
-      "callee": "ISwapper.swap",
+      "callee": "IERC20.transferFrom",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "ISwapper.updateSwapParams",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IWETH.deposit",
       "external": true
     },
     {
@@ -1375,6 +1382,11 @@
     },
     {
       "caller": "UTB._swapAndExecute",
+      "callee": "IUTBExecutor.execute",
+      "external": true
+    },
+    {
+      "caller": "UTB._swapAndExecute",
       "callee": "IERC20.approve",
       "external": true
     },
@@ -1384,18 +1396,13 @@
       "external": true
     },
     {
-      "caller": "UTB._swapAndExecute",
-      "callee": "IUTBExecutor.execute",
-      "external": true
-    },
-    {
       "caller": "UTB.swapAndModifyPostBridge",
-      "callee": "UTB.performSwap",
+      "callee": "abi.decode()",
       "external": false
     },
     {
       "caller": "UTB.swapAndModifyPostBridge",
-      "callee": "abi.decode()",
+      "callee": "UTB.performSwap",
       "external": false
     },
     {
@@ -1420,6 +1427,11 @@
     },
     {
       "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.callBridge",
+      "external": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
       "callee": "UTB.swapAndModifyPostBridge",
       "external": false
     },
@@ -1431,11 +1443,6 @@
     {
       "caller": "UTB.bridgeAndExecute",
       "callee": "UTB.retrieveAndCollectFees",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "UTB.callBridge",
       "external": false
     },
     {
@@ -1495,12 +1502,12 @@
     },
     {
       "caller": "UTBExecutor.execute",
-      "callee": "IERC20.transfer",
+      "callee": "IERC20.balanceOf",
       "external": true
     },
     {
       "caller": "UTBExecutor.execute",
-      "callee": "IERC20.balanceOf",
+      "callee": "IERC20.transfer",
       "external": true
     },
     {
@@ -1510,12 +1517,12 @@
     },
     {
       "caller": "UTBExecutor.execute",
-      "callee": "IERC20.balanceOf",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
       "caller": "UTBExecutor.execute",
-      "callee": "IERC20.approve",
+      "callee": "IERC20.balanceOf",
       "external": true
     },
     {
@@ -1550,7 +1557,17 @@
     },
     {
       "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
       "callee": "require(bool,string)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
       "external": false
     },
     {
@@ -1561,31 +1578,6 @@
     {
       "caller": "UTBFeeCollector.splitSignature",
       "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.splitSignature",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.splitSignature",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "UTBFeeCollector.splitSignature",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "require(bool,string)",
       "external": false
     },
     {
@@ -1606,6 +1598,21 @@
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "abi.encodePacked()",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "UTBFeeCollector.splitSignature",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "require(bool,string)",
       "external": false
     },
     {
@@ -1650,13 +1657,18 @@
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
-      "callee": "IDecentEthRouter.estimateSendAndCallFee",
+      "callee": "IDecentEthRouter.MT_ETH_TRANSFER_WITH_PAYLOAD",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
-      "callee": "IDecentEthRouter.MT_ETH_TRANSFER_WITH_PAYLOAD",
+      "callee": "IDecentEthRouter.estimateSendAndCallFee",
       "external": true
+    },
+    {
+      "caller": "DecentBridgeAdapter.bridge",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
@@ -1685,8 +1697,8 @@
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "UTBOwned.onlyUtb",
-      "external": false
+      "callee": "IERC20.transferFrom",
+      "external": true
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
@@ -1696,11 +1708,6 @@
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "IERC20.approve",
-      "external": true
-    },
-    {
-      "caller": "DecentBridgeAdapter.bridge",
-      "callee": "IERC20.transferFrom",
       "external": true
     },
     {
@@ -1715,7 +1722,7 @@
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "IUTB.receiveFromBridge",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
@@ -1725,7 +1732,7 @@
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "IERC20.approve",
+      "callee": "IUTB.receiveFromBridge",
       "external": true
     },
     {
@@ -1770,12 +1777,12 @@
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "IERC20.approve",
+      "callee": "IERC20.transferFrom",
       "external": true
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "IERC20.transferFrom",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
@@ -1865,12 +1872,12 @@
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "IUTB.receiveFromBridge",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "IERC20.approve",
+      "callee": "IUTB.receiveFromBridge",
       "external": true
     },
     {
@@ -1905,12 +1912,17 @@
     },
     {
       "caller": "UniSwapper.swap",
-      "callee": "abi.decode()",
+      "callee": "UTBOwned.onlyUtb",
       "external": false
     },
     {
       "caller": "UniSwapper.swap",
       "callee": "UniSwapper.swapExactIn",
+      "external": false
+    },
+    {
+      "caller": "UniSwapper.swap",
+      "callee": "abi.decode()",
       "external": false
     },
     {
@@ -1921,11 +1933,6 @@
     {
       "caller": "UniSwapper.swap",
       "callee": "UniSwapper.swapNoPath",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swap",
-      "callee": "UTBOwned.onlyUtb",
       "external": false
     },
     {
@@ -1955,12 +1962,12 @@
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "UniSwapper.routerIsSet",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "UniSwapper._receiveAndWrapIfNeeded",
+      "callee": "UniSwapper.routerIsSet",
       "external": false
     },
     {
@@ -1970,12 +1977,12 @@
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "IERC20.approve",
+      "callee": "IV3SwapRouter.exactInput",
       "external": true
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "IV3SwapRouter.exactInput",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
@@ -1990,22 +1997,22 @@
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "UniSwapper.routerIsSet",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swapExactOut",
       "callee": "UniSwapper._sendToRecipient",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "IV3SwapRouter.exactOutput",
-      "external": true
+      "callee": "UniSwapper.routerIsSet",
+      "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
       "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UniSwapper.swapExactOut",
+      "callee": "IV3SwapRouter.exactOutput",
       "external": true
     }
   ],
