@@ -48,8 +48,13 @@ CONTESTS = [
     },
 ]
 
-# (id, title, mechanism, severity, hosts). hosts = candidate host functions; the
-# finding is "surfaced" if ANY host is on the model's verification surface.
+# (id, title, mechanism, severity, hosts[, void_info]). hosts = candidate host
+# functions; the finding is "surfaced" if ANY host is on the model's verification
+# surface. An optional 6th element {"voided": True, "reason": "..."} marks rows
+# that fail the three-field verification (host / bug class / adversary-exists)
+# against the actual C4 issue — those rows are excluded from the in-lane
+# denominator and called out in the FREEZE artifact, rather than silently
+# inflating or deflating recall while the key is being re-audited.
 ANSWER_KEYS = {
     "2024-01-decent": [
         ("H-01", "DcntEth router settable by anyone", "access-control", "High",
@@ -73,7 +78,17 @@ ANSWER_KEYS = {
     ],
     "2023-09-centrifuge": [
         ("M-01", "onlyCentrifugeChainOrigin can't require msg.sender == axelarGateway",
-         "cross-domain-auth", "Medium", ["Gateway.handle"]),
+         "cross-domain-auth", "Medium", ["Gateway.handle"],
+         {"voided": True,
+          "reason": ("answer-key mis-keyed: C4 #537 places the finding in "
+                     "AxelarRouter.execute (modifier onlyCentrifugeChainOrigin), "
+                     "and the mechanism is denial-of-service (msg.sender == "
+                     "axelarGateway can never hold under real Axelar flow), not "
+                     "access-control bypass. Gateway.handle is guarded by a "
+                     "different modifier (onlyIncomingRouter) and is not the "
+                     "vulnerable function. Re-audit pending; row excluded from "
+                     "in-lane denominator so a substrate hit on Gateway.handle "
+                     "cannot score against this finding.")}),
         ("M-02", "requestRedeemWithPermit front-run with different liquidity pool",
          "signature-verification", "Medium", ["LiquidityPool.requestRedeemWithPermit"]),
         ("M-03", "Cached DOMAIN_SEPARATOR incorrect for tranche tokens (permit)",
