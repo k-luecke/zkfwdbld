@@ -91,19 +91,54 @@ ANSWER_KEYS = {
                      "cannot score against this finding.")}),
         ("M-02", "requestRedeemWithPermit front-run with different liquidity pool",
          "signature-verification", "Medium", ["LiquidityPool.requestRedeemWithPermit"]),
+        # M-03 voided 2026-06-30: published mechanism (C4 #146) is "permit() always
+        # reverts on tranche tokens because cached DOMAIN_SEPARATOR is computed
+        # with empty name". Pure liveness — no adversary, no privileged effect
+        # reached. Same shape as M-01: gate cannot adjudicate honest-path-broken.
         ("M-03", "Cached DOMAIN_SEPARATOR incorrect for tranche tokens (permit)",
          "signature-verification", "Medium",
-         ["LiquidityPool.requestDepositWithPermit", "ERC20.permit"]),
-        ("M-04", "Deposit tiny amount to DoS other users", "dos", "Medium",
-         ["LiquidityPool.requestDeposit"]),
+         ["LiquidityPool.requestDepositWithPermit", "ERC20.permit"],
+         {"voided": True,
+          "reason": ("re-audit (2026-06-30): C4 #146 mechanism is 'permit() "
+                     "always reverts for tranche tokens because the cached "
+                     "DOMAIN_SEPARATOR is computed with empty name'. Pure "
+                     "liveness / DoS for legitimate permit integrations, no "
+                     "adversary. Fails three-field check on adversary-exists, "
+                     "same shape as M-01. See docs/NEXT_SESSION_KEY_REAUDIT.md.")}),
+        # M-04 re-keyed 2026-06-30: C4 #143's first line is "Deposit and mint
+        # under LiquidityPool lack access control"; the DoS is the IMPACT,
+        # missing-access-control is the MECHANISM. Adversary exists (attacker
+        # DoSes a victim). The finding's recommendation is literally "Have some
+        # access control modifiers like withApproval". In-lane access-control.
+        ("M-04", "Deposit tiny amount to DoS other users (lack of access control on receiver)",
+         "access-control", "Medium",
+         ["LiquidityPool.deposit", "LiquidityPool.mint"]),
         ("M-05", "maxDeposit claiming blocks other users", "accounting", "Medium",
          ["LiquidityPool.deposit"]),
+        # M-06 voided 2026-06-30: C4 #92's bug is "DelayedAdmin's implementation
+        # doesn't include a function to call PauseAdmin.removePauser, which the
+        # README spec says it should". This is missing capability / spec-conformance
+        # — there is no adversary and no privileged-effect-reached-without-guard.
+        # The previous session's leading gate-generalization candidate; killed by
+        # the re-audit on mechanism and adversary-exists fields.
         ("M-06", "DelayedAdmin cannot PauseAdmin.removePauser", "access-control", "Medium",
-         ["PauseAdmin.removePauser", "DelayedAdmin.removePauser"]),
+         ["PauseAdmin.removePauser", "DelayedAdmin.removePauser"],
+         {"voided": True,
+          "reason": ("re-audit (2026-06-30): C4 #92 is 'DelayedAdmin lacks a "
+                     "function its README spec promises (removePauser caller)'. "
+                     "Missing capability / spec-conformance bug, NOT access-control "
+                     "bypass. No adversary; no privileged effect reached. Fails "
+                     "three-field check on mechanism and adversary-exists. KILLS "
+                     "the prior session's leading gate-generalization target.")}),
         ("M-07", "trancheTokenAmount should round up on withdrawal", "rounding", "Medium",
          ["LiquidityPool.withdraw"]),
+        # M-08: hosts tightened 2026-06-30 — RestrictionManager.member is a view
+        # getter the bug *uses*, not the vulnerable function. The bug lives in
+        # detectTransferRestriction, which checks only the receiver's membership
+        # and lets a blacklisted sender bypass the restriction. Mechanism + host
+        # + adversary all check out for the remaining host.
         ("M-08", "RestrictionManager incompletely implements ERC1404",
          "access-control", "Medium",
-         ["RestrictionManager.detectTransferRestriction", "RestrictionManager.member"]),
+         ["RestrictionManager.detectTransferRestriction"]),
     ],
 }
