@@ -122,6 +122,40 @@ or the protocol-rule extractor pairs too aggressively on the new internal
 edges. Out of scope for this audit; do NOT silence by relaxing the
 assertion.
 
+## Systematic mis-keying bias in the original key
+
+The two voids the re-audit produced (M-01, M-06) share the **same defect
+shape**, not just the same outcome. Both rows were labeled in-lane
+(`cross-domain-auth` and `access-control` respectively); both pointed at
+a host whose function name *suggested* the labeled bug class
+(`Gateway.handle`, `PauseAdmin.removePauser`); and both, on inspection,
+turned out to have a published mechanism that was liveness or
+spec-conformance, not adversarial bypass. M-01's true bug is in
+`AxelarRouter.execute` (DoS); M-06's true bug is "DelayedAdmin lacks a
+function its README spec promises" (missing capability).
+
+That is twice now the registry has labeled a finding "access-control"
+because the function name pattern-matched access-control, when reading
+the issue body would have shown the mechanism is something else
+entirely. **The original key was built by keying on function-name
+resemblance, not by reading each finding's mechanism.**
+
+The bias is directional and silent: it inflates the in-lane denominator
+with findings the gate cannot adjudicate, it credits surfacing hits that
+aren't substantively about the bug, and it doesn't announce itself —
+M-01 only surfaced because the substrate produced a CONFIRMED that
+forced inspection; if the substrate had stayed quiet on it, the
+mis-keying would have remained invisible.
+
+The forward pass of this re-audit checked the surviving rows for the
+bias one row at a time. The bias **itself** — the construction
+discipline that produced two wrong rows from the same wrong reflex —
+has not been retroactively applied as a review criterion to the rest of
+the registry's lane-assignment decisions. Any future contest added to
+`ANSWER_KEYS` should be keyed by reading the mechanism first, host
+second; "function name suggests bug class" should be treated as a yellow
+flag in review, not a green one.
+
 ## Stop
 
 This session ends here. No gate-case authoring. Next session: pick from
