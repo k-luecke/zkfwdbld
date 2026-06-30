@@ -304,15 +304,23 @@ def _calls(func) -> tuple[list[str], list[tuple[str, bool]]]:
 
 
 def _hlc_name(hc) -> str | None:
+    """Qualified ``Contract.function`` for a high-level call. Slither >= 0.10
+    returns ``(Contract, HighLevelCall)`` tuples; the IR Operation has the target
+    Function at ``op.function``, not directly at ``op.name`` (which is None).
+    Older slither variants returned ``(Contract, Function)`` — handled by the
+    bare ``.name`` fallback. Returns None when neither shape resolves, so the
+    edge is skipped rather than poisoned with the raw IR string."""
     try:
         if isinstance(hc, tuple) and len(hc) == 2:
-            contract, function = hc
-            cn = getattr(contract, "name", None) or str(contract)
-            fn = getattr(function, "name", None) or str(function)
-            return f"{cn}.{fn}"
-        # Newer slither: object with .destination / .function
-        fn = getattr(getattr(hc, "function", None), "name", None)
-        return fn
+            contract, second = hc
+            cn = getattr(contract, "name", None)
+            inner_fn = getattr(second, "function", None)
+            fn = getattr(inner_fn, "name", None) or getattr(second, "name", None)
+            if cn and fn:
+                return f"{cn}.{fn}"
+            return None
+        inner_fn = getattr(hc, "function", None)
+        return getattr(inner_fn, "name", None)
     except Exception:
         return None
 

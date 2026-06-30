@@ -1295,157 +1295,282 @@
   "call_graph": [
     {
       "caller": "UTB.setExecutor",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "UTB.setWrapped",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "UTB.setFeeCollector",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
-      "caller": "UTB.swapAndExecute",
-      "callee": "_swapAndExecute",
+      "caller": "UTB.performSwap",
+      "callee": "UTB.performSwap",
       "external": false
     },
     {
-      "caller": "UTB.swapAndExecute",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "UTB.swapAndExecute",
-      "callee": "retrieveAndCollectFees",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "swapAndModifyPostBridge",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "callBridge",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "retrieveAndCollectFees",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "UTB.receiveFromBridge",
-      "callee": "_swapAndExecute",
-      "external": false
-    },
-    {
-      "caller": "UTB.registerSwapper",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTB.registerSwapper",
-      "callee": "ISwapper.TMP_69(uint8) = HIGH_LEVEL_CALL, dest:s(ISwapper), function:getId, arguments:[]  ",
-      "external": true
-    },
-    {
-      "caller": "UTB.registerBridge",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTB.registerBridge",
-      "callee": "IBridgeAdapter.TMP_72(uint8) = HIGH_LEVEL_CALL, dest:b(IBridgeAdapter), function:getId, arguments:[]  ",
-      "external": true
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "execute",
-      "external": false
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.TMP_114(bool) = HIGH_LEVEL_CALL, dest:TMP_113(IERC20), function:transfer, arguments:['refund', 'remainingBalance']  ",
-      "external": true
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.TMP_100(uint256) = HIGH_LEVEL_CALL, dest:TMP_98(IERC20), function:balanceOf, arguments:['TMP_99']  ",
-      "external": true
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.TMP_110(uint256) = HIGH_LEVEL_CALL, dest:TMP_108(IERC20), function:balanceOf, arguments:['TMP_109']  ",
-      "external": true
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.TMP_103(bool) = HIGH_LEVEL_CALL, dest:TMP_101(IERC20), function:transferFrom, arguments:['msg.sender', 'TMP_102', 'amount']  ",
-      "external": true
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.TMP_105(bool) = HIGH_LEVEL_CALL, dest:TMP_104(IERC20), function:approve, arguments:['paymentOperator', 'amount']  ",
-      "external": true
-    },
-    {
-      "caller": "UTBFeeCollector.setUtb",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.setSigner",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.collectFees",
+      "caller": "UTB.performSwap",
       "callee": "require(bool,string)",
       "external": false
     },
     {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "abi.encodePacked()",
+      "caller": "UTB.performSwap",
+      "callee": "abi.decode()",
       "external": false
     },
     {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "keccak256(bytes)",
+      "caller": "UTB.performSwap",
+      "callee": "IERC20.transferFrom",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "ISwapper.updateSwapParams",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IWETH.deposit",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IWETH.withdraw",
+      "external": true
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "ISwapper.swap",
+      "external": true
+    },
+    {
+      "caller": "UTB.swapAndExecute",
+      "callee": "abi.encode()",
       "external": false
     },
     {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "onlyUtb",
+      "caller": "UTB.swapAndExecute",
+      "callee": "UTB.retrieveAndCollectFees",
       "external": false
     },
     {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "keccak256(bytes)",
+      "caller": "UTB.swapAndExecute",
+      "callee": "UTB._swapAndExecute",
       "external": false
     },
     {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "splitSignature",
+      "caller": "UTB._swapAndExecute",
+      "callee": "UTB.performSwap",
+      "external": false
+    },
+    {
+      "caller": "UTB._swapAndExecute",
+      "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UTB._swapAndExecute",
+      "callee": "IUTBExecutor.execute",
+      "external": true
+    },
+    {
+      "caller": "UTB._swapAndExecute",
+      "callee": "IUTBExecutor.execute",
+      "external": true
+    },
+    {
+      "caller": "UTB.swapAndModifyPostBridge",
+      "callee": "UTB.performSwap",
+      "external": false
+    },
+    {
+      "caller": "UTB.swapAndModifyPostBridge",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "UTB.swapAndModifyPostBridge",
+      "callee": "IBridgeAdapter.getBridgedAmount",
+      "external": true
+    },
+    {
+      "caller": "UTB.swapAndModifyPostBridge",
+      "callee": "ISwapper.updateSwapParams",
+      "external": true
+    },
+    {
+      "caller": "UTB.approveAndCheckIfNative",
+      "callee": "IBridgeAdapter.getBridgeToken",
+      "external": true
+    },
+    {
+      "caller": "UTB.approveAndCheckIfNative",
+      "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.swapAndModifyPostBridge",
+      "external": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "abi.encode()",
+      "external": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.retrieveAndCollectFees",
+      "external": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.callBridge",
+      "external": false
+    },
+    {
+      "caller": "UTB.callBridge",
+      "callee": "UTB.approveAndCheckIfNative",
+      "external": false
+    },
+    {
+      "caller": "UTB.callBridge",
+      "callee": "IBridgeAdapter.bridge",
+      "external": true
+    },
+    {
+      "caller": "UTB.callBridge",
+      "callee": "IBridgeAdapter.bridge",
+      "external": true
+    },
+    {
+      "caller": "UTB.receiveFromBridge",
+      "callee": "UTB._swapAndExecute",
+      "external": false
+    },
+    {
+      "caller": "UTB.registerSwapper",
+      "callee": "Owned.onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "UTB.registerSwapper",
+      "callee": "ISwapper.getId",
+      "external": true
+    },
+    {
+      "caller": "UTB.registerBridge",
+      "callee": "Owned.onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "UTB.registerBridge",
+      "callee": "IBridgeAdapter.getId",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "UTBExecutor.execute",
+      "external": false
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "Owned.onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "Owned.onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.transfer",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.balanceOf",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.transferFrom",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.balanceOf",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.approve",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "low_level_call",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "low_level_call",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "low_level_call",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "low_level_call",
+      "external": true
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "low_level_call",
+      "external": true
+    },
+    {
+      "caller": "UTBFeeCollector.setSigner",
+      "callee": "Owned.onlyOwner",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "require(bool,string)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "byte(uint256,uint256)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
       "external": false
     },
     {
@@ -1455,52 +1580,67 @@
     },
     {
       "caller": "UTBFeeCollector.collectFees",
-      "callee": "IERC20.TMP_146(bool) = HIGH_LEVEL_CALL, dest:TMP_144(IERC20), function:transferFrom, arguments:['utb', 'TMP_145', 'REF_102']  ",
+      "callee": "UTBFeeCollector.splitSignature",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "require(bool,string)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "keccak256(bytes)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "keccak256(bytes)",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "abi.encodePacked()",
+      "external": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "IERC20.transferFrom",
       "external": true
     },
     {
       "caller": "UTBFeeCollector.redeemFees",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "UTBFeeCollector.redeemFees",
-      "callee": "IERC20.TMP_153(bool) = HIGH_LEVEL_CALL, dest:TMP_152(IERC20), function:transfer, arguments:['owner', 'amount']  ",
+      "callee": "IERC20.transfer",
       "external": true
     },
     {
       "caller": "UTBOwned.setUtb",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "BaseAdapter.setUtb",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "BaseAdapter.setBridgeExecutor",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.setBridgeExecutor",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.setUtb",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "DecentBridgeAdapter.setRouter",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "DecentBridgeAdapter.registerRemoteBridgeAdapter",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
@@ -1510,17 +1650,17 @@
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
-      "callee": "IDecentEthRouter.TMP_201(uint8) = HIGH_LEVEL_CALL, dest:router(IDecentEthRouter), function:MT_ETH_TRANSFER_WITH_PAYLOAD, arguments:[]  ",
+      "callee": "IDecentEthRouter.estimateSendAndCallFee",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
-      "callee": "IDecentEthRouter.TUPLE_11(uint256,uint256) = HIGH_LEVEL_CALL, dest:router(IDecentEthRouter), function:estimateSendAndCallFee, arguments:['TMP_201', 'REF_112', 'target', 'REF_113', 'dstGas', 'False', 'payload']  ",
+      "callee": "IDecentEthRouter.MT_ETH_TRANSFER_WITH_PAYLOAD",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "onlyUtb",
+      "callee": "require(bool,string)",
       "external": false
     },
     {
@@ -1535,33 +1675,38 @@
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.bridge",
       "callee": "abi.encodeCall()",
       "external": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "require(bool,string)",
+      "callee": "abi.decode()",
       "external": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "IDecentEthRouter.HIGH_LEVEL_CALL, dest:router(IDecentEthRouter), function:bridgeWithPayload, arguments:['REF_124', 'REF_125', 'REF_126', 'False', 'dstGas', 'bridgePayload'] value:msg.value ",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false
+    },
+    {
+      "caller": "DecentBridgeAdapter.bridge",
+      "callee": "IDecentEthRouter.bridgeWithPayload",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "IERC20.TMP_215(bool) = HIGH_LEVEL_CALL, dest:TMP_213(IERC20), function:approve, arguments:['TMP_214', 'amt2Bridge']  ",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
-      "callee": "IERC20.TMP_212(bool) = HIGH_LEVEL_CALL, dest:TMP_210(IERC20), function:transferFrom, arguments:['msg.sender', 'TMP_211', 'amt2Bridge']  ",
+      "callee": "IERC20.transferFrom",
       "external": true
+    },
+    {
+      "caller": "DecentBridgeAdapter.receiveFromBridge",
+      "callee": "BaseAdapter.onlyExecutor",
+      "external": false
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
@@ -1570,47 +1715,32 @@
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "onlyExecutor",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "IERC20.TMP_221(bool) = HIGH_LEVEL_CALL, dest:TMP_219(IERC20), function:transferFrom, arguments:['msg.sender', 'TMP_220', 'REF_131']  ",
+      "callee": "IUTB.receiveFromBridge",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "IUTB.HIGH_LEVEL_CALL, dest:TMP_224(IUTB), function:receiveFromBridge, arguments:['postBridge', 'target', 'paymentOperator', 'payload', 'refund']  ",
+      "callee": "IERC20.transferFrom",
       "external": true
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "IERC20.TMP_223(bool) = HIGH_LEVEL_CALL, dest:TMP_222(IERC20), function:approve, arguments:['utb', 'REF_134']  ",
+      "callee": "IERC20.approve",
       "external": true
-    },
-    {
-      "caller": "StargateBridgeAdapter.setBridgeExecutor",
-      "callee": "onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.setUtb",
-      "callee": "onlyOwner",
-      "external": false
     },
     {
       "caller": "StargateBridgeAdapter.setRouter",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.setStargateEth",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.registerRemoteBridgeAdapter",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
@@ -1620,32 +1750,102 @@
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.bridge",
       "callee": "abi.encode()",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "callBridge",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.bridge",
       "callee": "abi.decode()",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "onlyUtb",
+      "callee": "StargateBridgeAdapter.callBridge",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "IERC20.TMP_259(bool) = HIGH_LEVEL_CALL, dest:TMP_257(IERC20), function:approve, arguments:['TMP_258', 'amt2Bridge']  ",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
-      "callee": "IERC20.TMP_256(bool) = HIGH_LEVEL_CALL, dest:TMP_254(IERC20), function:transferFrom, arguments:['msg.sender', 'TMP_255', 'amt2Bridge']  ",
+      "callee": "IERC20.transferFrom",
+      "external": true
+    },
+    {
+      "caller": "StargateBridgeAdapter.getValue",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getLzTxObj",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getDstChainId",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getSrcPoolId",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getDstPoolId",
+      "callee": "abi.decode()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getDestAdapter",
+      "callee": "string.concat()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.getDestAdapter",
+      "callee": "require(bool,string)",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDstChainId",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDestAdapter",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDstPoolId",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "abi.encodePacked()",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getSrcPoolId",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getLzTxObj",
+      "external": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "IStargateRouter.swap",
       "external": true
     },
     {
@@ -1660,32 +1860,27 @@
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "onlyExecutor",
+      "callee": "BaseAdapter.onlyExecutor",
       "external": false
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "IUTB.HIGH_LEVEL_CALL, dest:TMP_281(IUTB), function:receiveFromBridge, arguments:['postBridge', 'target', 'paymentOperator', 'utbPayload', 'refund']  ",
+      "callee": "IUTB.receiveFromBridge",
       "external": true
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "IERC20.TMP_280(bool) = HIGH_LEVEL_CALL, dest:TMP_279(IERC20), function:approve, arguments:['utb', 'REF_167']  ",
+      "callee": "IERC20.approve",
       "external": true
-    },
-    {
-      "caller": "UniSwapper.setUtb",
-      "callee": "onlyOwner",
-      "external": false
     },
     {
       "caller": "UniSwapper.setRouter",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
       "caller": "UniSwapper.setWrapped",
-      "callee": "onlyOwner",
+      "callee": "Owned.onlyOwner",
       "external": false
     },
     {
@@ -1699,98 +1894,118 @@
       "external": false
     },
     {
+      "caller": "UniSwapper._refundUser",
+      "callee": "IERC20.transfer",
+      "external": true
+    },
+    {
+      "caller": "UniSwapper._sendToRecipient",
+      "callee": "IERC20.transfer",
+      "external": true
+    },
+    {
       "caller": "UniSwapper.swap",
       "callee": "abi.decode()",
       "external": false
     },
     {
       "caller": "UniSwapper.swap",
-      "callee": "onlyUtb",
+      "callee": "UniSwapper.swapExactIn",
       "external": false
     },
     {
       "caller": "UniSwapper.swap",
-      "callee": "swapExactOut",
+      "callee": "UniSwapper.swapExactOut",
       "external": false
     },
     {
       "caller": "UniSwapper.swap",
-      "callee": "swapExactIn",
+      "callee": "UniSwapper.swapNoPath",
       "external": false
     },
     {
       "caller": "UniSwapper.swap",
-      "callee": "swapNoPath",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false
+    },
+    {
+      "caller": "UniSwapper._receiveAndWrapIfNeeded",
+      "callee": "IERC20.transferFrom",
+      "external": true
+    },
+    {
+      "caller": "UniSwapper._receiveAndWrapIfNeeded",
+      "callee": "IWETH.deposit",
+      "external": true
+    },
+    {
+      "caller": "UniSwapper.swapNoPath",
+      "callee": "UniSwapper._sendToRecipient",
       "external": false
     },
     {
       "caller": "UniSwapper.swapNoPath",
-      "callee": "_refundUser",
+      "callee": "UniSwapper._refundUser",
       "external": false
     },
     {
       "caller": "UniSwapper.swapNoPath",
-      "callee": "_sendToRecipient",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swapNoPath",
-      "callee": "_receiveAndWrapIfNeeded",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "_sendToRecipient",
+      "callee": "UniSwapper.routerIsSet",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "_receiveAndWrapIfNeeded",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "routerIsSet",
+      "callee": "UniSwapper._sendToRecipient",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "IV3SwapRouter.TMP_332(uint256) = HIGH_LEVEL_CALL, dest:TMP_331(IV3SwapRouter), function:exactInput, arguments:['params']  ",
+      "callee": "IERC20.approve",
       "external": true
     },
     {
       "caller": "UniSwapper.swapExactIn",
-      "callee": "IERC20.TMP_330(bool) = HIGH_LEVEL_CALL, dest:TMP_329(IERC20), function:approve, arguments:['uniswap_router', 'REF_204']  ",
+      "callee": "IV3SwapRouter.exactInput",
       "external": true
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "_refundUser",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "_sendToRecipient",
+      "callee": "UniSwapper._refundUser",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "_receiveAndWrapIfNeeded",
+      "callee": "UniSwapper.routerIsSet",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "routerIsSet",
+      "callee": "UniSwapper._sendToRecipient",
       "external": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "IERC20.TMP_339(bool) = HIGH_LEVEL_CALL, dest:TMP_338(IERC20), function:approve, arguments:['uniswap_router', 'REF_213']  ",
+      "callee": "IV3SwapRouter.exactOutput",
       "external": true
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "IV3SwapRouter.TMP_341(uint256) = HIGH_LEVEL_CALL, dest:TMP_340(IV3SwapRouter), function:exactOutput, arguments:['params']  ",
+      "callee": "IERC20.approve",
       "external": true
     }
   ],
@@ -1976,7 +2191,6 @@
     }
   ],
   "notes": [
-    "using local path /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/decent_work/repo (no clone)",
     "build: forge build ok",
     "verification surface: 7 of 56 entry points tagged priority"
   ]

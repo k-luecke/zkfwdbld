@@ -40,7 +40,10 @@ def test_seer_rediscovers_m03_path():
                 hit = r
                 break
     assert hit is not None, "Seer failed to rediscover the M-03 path"
-    assert "_swapAndExecute" in hit.reaches
+    # The reached sink is the protocol-internal effect Seer prefers (qualified
+    # Contract.fn) — _swapAndExecute or, with the richer transitive graph,
+    # performSwap (its deeper sibling, shared by the same guarded entrypoints).
+    assert any(s in hit.reaches for s in ("UTB._swapAndExecute", "UTB.performSwap"))
     assert hit.guard_bypassed == "retrieveAndCollectFees"
     assert hit.gate_binding == "DecentReceiveFromBridgeBypass"
 

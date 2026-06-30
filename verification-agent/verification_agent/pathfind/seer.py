@@ -81,8 +81,13 @@ class SeerStructuralBackend:
             guard_mods = sorted({m for g in guarded_entries for m in modifiers.get(g, [])})
             for u in sorted(unguarded_entries):
                 bypasses.append((u, sink, guard_mods))
-        # Deterministic ordering (sink-set iteration is otherwise unordered).
-        bypasses.sort(key=lambda b: (b[0], b[1]))
+        # Prefer sinks that are protocol-INTERNAL effects (qualified Contract.fn
+        # appearing as a caller in the graph) over external token/library calls.
+        # The internal effect is the protocol's protected state operation; an
+        # external high-level call is a side-effect of many unrelated paths and
+        # is weaker auditor signal.
+        internal_nodes = {e.get("caller", "") for e in model.get("call_graph", [])}
+        bypasses.sort(key=lambda b: (b[0], 0 if b[1] in internal_nodes else 1, b[1]))
 
         if not bypasses:
             return done(status=PathStatus.NO_PATH,
