@@ -87,6 +87,15 @@ class CallEdge:
     caller: str
     callee: str
     external: bool = False
+    # True when the callee's defining contract is a Solidity library (per
+    # Slither's contract.is_library). Library functions are pure helpers
+    # (math, byte parsing, safe-transfer wrappers) and are NEVER privileged
+    # protocol effects — they're called from many intentionally-unrelated
+    # paths. Marked at emission so every downstream consumer can exclude
+    # them by construction rather than reaching for an allowlist. Added
+    # after the 2026-06-30 precision regression diagnosis; old models
+    # default this to False (their edges behave as before).
+    library_callee: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

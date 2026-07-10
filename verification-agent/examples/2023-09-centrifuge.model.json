@@ -9,8 +9,15 @@
       "name": "foundry",
       "available": true,
       "ran": true,
-      "version": null,
+      "version": "1.5.1-stable",
       "detail": "forge build ok"
+    },
+    {
+      "name": "solc",
+      "available": true,
+      "ran": false,
+      "version": "0.8.20",
+      "detail": "version captured (compiler invoked by forge, not directly)"
     },
     {
       "name": "slither",
@@ -4440,3004 +4447,3670 @@
   ],
   "call_graph": [
     {
-      "caller": "Escrow.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "Escrow.deny",
-      "callee": "auth",
-      "external": false
+      "caller": "Escrow.approve",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Escrow.approve",
-      "callee": "auth",
-      "external": false
+      "callee": "SafeTransferLib.safeApprove",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "Escrow.approve",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeApprove(address,address,uint256), arguments:['token', 'spender', 'value'] ",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.deny",
-      "callee": "auth",
-      "external": false
+      "caller": "InvestmentManager.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.file",
       "callee": "revert(string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.file",
-      "callee": "auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "auth",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "_isAllowedToInvest",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager._isAllowedToInvest",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_40(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.isAllowedAsPoolCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_35(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:cancelInvestOrder, arguments:['TMP_33', 'TMP_34', 'user', 'TMP_36']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_27(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_25(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_33(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:increaseInvestOrder, arguments:['TMP_40', 'TMP_41', 'user', 'TMP_43', '_currencyAmount']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.TMP_43(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_42']  ",
-      "external": true
+      "callee": "GatewayLike.increaseInvestOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.TMP_36(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_35']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "PoolManagerLike.TMP_28(bool) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:isAllowedAsPoolCurrency, arguments:['TMP_27', 'currency']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_30(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "GatewayLike.cancelInvestOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransferFrom(address,address,address,uint256), arguments:['currency', 'user', 'TMP_38', '_currencyAmount'] ",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_41(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_29(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_42(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestDeposit",
-      "callee": "LiquidityPoolLike.TMP_34(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "_isAllowedToInvest",
-      "external": false
+      "callee": "InvestmentManager._isAllowedToInvest",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_49(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.isAllowedAsPoolCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_51(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "PoolManagerLike.TMP_66(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_65']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_58(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_52(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_57(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:cancelRedeemOrder, arguments:['TMP_56', 'TMP_57', 'user', 'TMP_59']  ",
-      "external": true
+      "callee": "GatewayLike.increaseRedeemOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_53(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "GatewayLike.cancelRedeemOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_48(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_64(bytes16) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "PoolManagerLike.TMP_50(bool) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:isAllowedAsPoolCurrency, arguments:['TMP_48', 'TMP_49']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:increaseRedeemOrder, arguments:['TMP_63', 'TMP_64', 'user', 'TMP_66', '_trancheTokenAmount']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_65(address) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.transferFrom",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_56(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "PoolManagerLike.TMP_59(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_58']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_63(uint64) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.requestRedeem",
-      "callee": "LiquidityPoolLike.TMP_62(bool) = HIGH_LEVEL_CALL, dest:lPool(LiquidityPoolLike), function:transferFrom, arguments:['user', 'TMP_61', '_trancheTokenAmount']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "auth",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.TMP_72(bool) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:checkTransferRestriction, arguments:['TMP_71', 'user', '0']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.TMP_75(bytes16) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:decreaseInvestOrder, arguments:['TMP_74', 'TMP_75', 'user', 'TMP_77', 'currencyAmount']  ",
-      "external": true
+      "callee": "GatewayLike.decreaseInvestOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.TMP_76(address) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "LiquidityPoolLike.TMP_74(uint64) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseDepositRequest",
-      "callee": "PoolManagerLike.TMP_77(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_76']  ",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.TMP_86(bytes16) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:decreaseRedeemOrder, arguments:['TMP_85', 'TMP_86', 'user', 'TMP_88', 'trancheTokenAmount']  ",
-      "external": true
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.TMP_87(address) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.TMP_83(bool) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:checkTransferRestriction, arguments:['TMP_82', 'user', '0']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "LiquidityPoolLike.TMP_85(uint64) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "GatewayLike.decreaseRedeemOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.decreaseRedeemRequest",
-      "callee": "PoolManagerLike.TMP_88(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_87']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseRedeemRequest",
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.decreaseRedeemRequest",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectDeposit",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "auth",
-      "external": false
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.TMP_93(bool) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:checkTransferRestriction, arguments:['TMP_92', 'user', '0']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "PoolManagerLike.TMP_98(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_97']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.TMP_96(bytes16) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.TMP_97(address) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectDeposit",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:collectInvest, arguments:['TMP_95', 'TMP_96', 'user', 'TMP_98']  ",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectDeposit",
-      "callee": "LiquidityPoolLike.TMP_95(uint64) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
-    },
-    {
-      "caller": "InvestmentManager.collectRedeem",
-      "callee": "auth",
-      "external": false
+      "callee": "GatewayLike.collectInvest",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.TMP_107(address) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:collectRedeem, arguments:['TMP_105', 'TMP_106', 'user', 'TMP_108']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.TMP_105(uint64) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:poolId, arguments:[]  ",
-      "external": true
+      "callee": "GatewayLike.collectRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "PoolManagerLike.TMP_108(uint128) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyAddressToId, arguments:['TMP_107']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.trancheId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.TMP_103(bool) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:checkTransferRestriction, arguments:['TMP_102', 'user', '0']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyAddressToId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.collectRedeem",
-      "callee": "LiquidityPoolLike.TMP_106(bytes16) = HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPoolLike), function:trancheId, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.collectRedeem",
+      "callee": "LiquidityPoolLike.poolId",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "InvestmentManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
-      "callee": "PoolManagerLike.TMP_111(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyIdToAddress, arguments:['currencyId']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
-      "callee": "LiquidityPoolLike.HIGH_LEVEL_CALL, dest:TMP_116(LiquidityPoolLike), function:updatePrice, arguments:['price']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.updatePrice",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.updateTrancheTokenPrice",
-      "callee": "PoolManagerLike.TMP_112(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:getLiquidityPool, arguments:['poolId', 'trancheId', 'currency']  ",
-      "external": true
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "onlyGateway",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "_updateLiquidityPoolPrice",
-      "external": false
+      "callee": "InvestmentManager._updateLiquidityPoolPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "PoolManagerLike.TMP_122(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:getLiquidityPool, arguments:['poolId', 'trancheId', '_currency']  ",
-      "external": true
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "LiquidityPoolLike.HIGH_LEVEL_CALL, dest:TMP_128(LiquidityPoolLike), function:mint, arguments:['TMP_129', 'trancheTokensPayout']  ",
-      "external": true
+      "callee": "InvestmentManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectInvest",
-      "callee": "PoolManagerLike.TMP_121(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyIdToAddress, arguments:['currency']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.mint",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedCollectInvest",
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedCollectInvest",
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "InvestmentManager.onlyGateway",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedCollectRedeem",
+      "callee": "InvestmentManager._updateLiquidityPoolPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "_updateLiquidityPoolPrice",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "PoolManagerLike.TMP_136(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:getLiquidityPool, arguments:['poolId', 'trancheId', '_currency']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.burn",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "UserEscrowLike.HIGH_LEVEL_CALL, dest:userEscrow(UserEscrowLike), function:transferIn, arguments:['_currency', 'TMP_142', 'recipient', 'currencyPayout']  ",
-      "external": true
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "LiquidityPoolLike.HIGH_LEVEL_CALL, dest:TMP_144(LiquidityPoolLike), function:burn, arguments:['TMP_145', 'trancheTokensPayout']  ",
-      "external": true
+      "callee": "UserEscrowLike.transferIn",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedCollectRedeem",
-      "callee": "PoolManagerLike.TMP_135(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyIdToAddress, arguments:['currency']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
+      "callee": "InvestmentManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
-      "callee": "onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransferFrom(address,address,address,uint256), arguments:['_currency', 'TMP_160', 'user', 'currencyPayout'] ",
-      "external": true
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
-      "callee": "PoolManagerLike.TMP_151(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyIdToAddress, arguments:['currency']  ",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
-      "callee": "LiquidityPoolLike.TMP_157(address) = HIGH_LEVEL_CALL, dest:TMP_156(LiquidityPoolLike), function:asset, arguments:[]  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseInvestOrder",
-      "callee": "PoolManagerLike.TMP_152(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:getLiquidityPool, arguments:['poolId', 'trancheId', '_currency']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "InvestmentManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "PoolManagerLike.TMP_166(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:getLiquidityPool, arguments:['poolId', 'trancheId', '_currency']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "PoolManagerLike.TMP_165(address) = HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:currencyIdToAddress, arguments:['currency']  ",
-      "external": true
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "LiquidityPoolLike.TMP_177(bool) = HIGH_LEVEL_CALL, dest:TMP_175(LiquidityPoolLike), function:transferFrom, arguments:['TMP_176', 'user', 'trancheTokenPayout']  ",
-      "external": true
+      "callee": "PoolManagerLike.currencyIdToAddress",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.handleExecutedDecreaseRedeemOrder",
-      "callee": "LiquidityPoolLike.TMP_173(bool) = HIGH_LEVEL_CALL, dest:TMP_171(LiquidityPoolLike), function:checkTransferRestriction, arguments:['TMP_172', 'user', '0']  ",
-      "external": true
+      "callee": "LiquidityPoolLike.transferFrom",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.totalAssets",
-      "callee": "convertToAssets",
-      "external": false
+      "callee": "InvestmentManager.convertToAssets",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
-      "callee": "_getPoolDecimals",
-      "external": false
+      "callee": "InvestmentManager._getPoolDecimals",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
-      "callee": "auth",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
-      "callee": "LiquidityPoolLike.TMP_186(uint128) = HIGH_LEVEL_CALL, dest:TMP_185(LiquidityPoolLike), function:latestPrice, arguments:[]  ",
-      "external": true
+      "callee": "LiquidityPoolLike.latestPrice",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToShares",
-      "callee": "MathLib.TMP_187(uint256) = LIBRARY_CALL, dest:MathLib, function:MathLib.mulDiv(uint256,uint256,uint256,MathLib.Rounding), arguments:['assets', 'TMP_184', 'TMP_186', 'REF_97'] ",
-      "external": true
+      "callee": "MathLib.mulDiv",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.convertToAssets",
-      "callee": "_getPoolDecimals",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager._getPoolDecimals",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
-      "callee": "MathLib.TMP_195(uint256) = LIBRARY_CALL, dest:MathLib, function:MathLib.mulDiv(uint256,uint256,uint256,MathLib.Rounding), arguments:['shares', 'TMP_191', 'TMP_194', 'REF_100'] ",
-      "external": true
+      "callee": "LiquidityPoolLike.latestPrice",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.convertToAssets",
-      "callee": "LiquidityPoolLike.TMP_191(uint128) = HIGH_LEVEL_CALL, dest:TMP_190(LiquidityPoolLike), function:latestPrice, arguments:[]  ",
-      "external": true
+      "callee": "MathLib.mulDiv",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "InvestmentManager.previewDeposit",
-      "callee": "_calculateTrancheTokenAmount",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewDeposit",
-      "callee": "calculateDepositPrice",
-      "external": false
+      "callee": "InvestmentManager._calculateTrancheTokenAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewDeposit",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager.calculateDepositPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
-      "callee": "_calculateCurrencyAmount",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
-      "callee": "calculateDepositPrice",
-      "external": false
+      "callee": "InvestmentManager._calculateCurrencyAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewMint",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager.calculateDepositPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
-      "callee": "_calculateTrancheTokenAmount",
-      "external": false
+      "callee": "InvestmentManager.calculateRedeemPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
-      "callee": "calculateRedeemPrice",
-      "external": false
+      "callee": "InvestmentManager._calculateTrancheTokenAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewWithdraw",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
-      "callee": "calculateRedeemPrice",
-      "external": false
+      "callee": "InvestmentManager._calculateCurrencyAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
-      "callee": "_calculateCurrencyAmount",
-      "external": false
+      "callee": "InvestmentManager.calculateRedeemPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.previewRedeem",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processDeposit",
+      "callee": "InvestmentManager._deposit",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processDeposit",
+      "callee": "InvestmentManager.calculateDepositPrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
-      "callee": "_deposit",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processDeposit",
-      "callee": "_toUint128",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processDeposit",
-      "callee": "calculateDepositPrice",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processDeposit",
-      "callee": "_calculateTrancheTokenAmount",
-      "external": false
+      "callee": "InvestmentManager._calculateTrancheTokenAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processDeposit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processDeposit",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
-      "callee": "_toUint128",
-      "external": false
+      "callee": "InvestmentManager.calculateDepositPrice",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processMint",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processMint",
+      "callee": "InvestmentManager._calculateCurrencyAmount",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processMint",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
-      "callee": "calculateDepositPrice",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processMint",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processMint",
-      "callee": "_calculateCurrencyAmount",
-      "external": false
+      "callee": "InvestmentManager._deposit",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processMint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "InvestmentManager.processMint",
-      "callee": "_deposit",
-      "external": false
+      "caller": "InvestmentManager._deposit",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._deposit",
+      "callee": "InvestmentManager._decreaseDepositLimits",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._deposit",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._deposit",
+      "callee": "LiquidityPoolLike.transferFrom",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._deposit",
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processRedeem",
-      "callee": "_toUint128",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processRedeem",
-      "callee": "calculateRedeemPrice",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processRedeem",
-      "callee": "_calculateCurrencyAmount",
-      "external": false
+      "callee": "InvestmentManager._calculateCurrencyAmount",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processRedeem",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processRedeem",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processRedeem",
-      "callee": "_redeem",
-      "external": false
+      "callee": "InvestmentManager.calculateRedeemPrice",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "InvestmentManager.processWithdraw",
-      "callee": "_toUint128",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processWithdraw",
-      "callee": "_redeem",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processWithdraw",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processWithdraw",
-      "callee": "calculateRedeemPrice",
-      "external": false
-    },
-    {
-      "caller": "InvestmentManager.processWithdraw",
-      "callee": "_calculateTrancheTokenAmount",
-      "external": false
+      "caller": "InvestmentManager.processRedeem",
+      "callee": "InvestmentManager._redeem",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processWithdraw",
+      "callee": "InvestmentManager.calculateRedeemPrice",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processWithdraw",
+      "callee": "InvestmentManager._redeem",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processWithdraw",
+      "callee": "InvestmentManager._calculateTrancheTokenAmount",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processWithdraw",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.processWithdraw",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager.processWithdraw",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._redeem",
+      "callee": "InvestmentManager._decreaseRedemptionLimits",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._redeem",
+      "callee": "UserEscrowLike.transferOut",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._redeem",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.calculateDepositPrice",
-      "callee": "_calculatePrice",
-      "external": false
+      "callee": "InvestmentManager._calculatePrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager.calculateRedeemPrice",
-      "callee": "_calculatePrice",
-      "external": false
+      "callee": "InvestmentManager._calculatePrice",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
-      "callee": "_getPoolDecimals",
-      "external": false
+      "callee": "InvestmentManager._toPriceDecimals",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
-      "callee": "_toPriceDecimals",
-      "external": false
+      "callee": "InvestmentManager._toPriceDecimals",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
-      "callee": "_toPriceDecimals",
-      "external": false
+      "callee": "InvestmentManager._getPoolDecimals",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "InvestmentManager._calculatePrice",
-      "callee": "MathLib.TMP_289(uint256) = LIBRARY_CALL, dest:MathLib, function:MathLib.mulDiv(uint256,uint256,uint256,MathLib.Rounding), arguments:['currencyAmountInPriceDecimals', 'TMP_288', 'trancheTokenAmountInPriceDecimals', 'REF_140'] ",
-      "external": true
+      "callee": "MathLib.mulDiv",
+      "external": true,
+      "library_callee": true
     },
     {
-      "caller": "LiquidityPool.rely",
-      "callee": "auth",
-      "external": false
+      "caller": "InvestmentManager._updateLiquidityPoolPrice",
+      "callee": "InvestmentManager._calculatePrice",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "LiquidityPool.deny",
-      "callee": "auth",
-      "external": false
+      "caller": "InvestmentManager._updateLiquidityPoolPrice",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._updateLiquidityPoolPrice",
+      "callee": "LiquidityPoolLike.updatePrice",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateTrancheTokenAmount",
+      "callee": "InvestmentManager._toPriceDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateTrancheTokenAmount",
+      "callee": "InvestmentManager._fromPriceDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateTrancheTokenAmount",
+      "callee": "InvestmentManager._getPoolDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateTrancheTokenAmount",
+      "callee": "MathLib.mulDiv",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "InvestmentManager._calculateCurrencyAmount",
+      "callee": "InvestmentManager._getPoolDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateCurrencyAmount",
+      "callee": "InvestmentManager._fromPriceDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateCurrencyAmount",
+      "callee": "InvestmentManager._toPriceDecimals",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._calculateCurrencyAmount",
+      "callee": "MathLib.mulDiv",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "InvestmentManager._isAllowedToInvest",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._isAllowedToInvest",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._isAllowedToInvest",
+      "callee": "PoolManagerLike.getLiquidityPool",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._isAllowedToInvest",
+      "callee": "LiquidityPoolLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._toUint128",
+      "callee": "revert(string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._fromPriceDecimals",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._fromPriceDecimals",
+      "callee": "InvestmentManager._toUint128",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._getPoolDecimals",
+      "callee": "LiquidityPoolLike.asset",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._getPoolDecimals",
+      "callee": "LiquidityPoolLike.decimals",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "InvestmentManager._getPoolDecimals",
+      "callee": "ERC20Like.decimals",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.file",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalAssets",
-      "callee": "totalSupply",
-      "external": false
+      "callee": "LiquidityPool.totalSupply",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalAssets",
-      "callee": "InvestmentManagerLike.TMP_360(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:totalAssets, arguments:['TMP_358', 'TMP_359']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.totalAssets",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.convertToShares",
-      "callee": "InvestmentManagerLike.TMP_362(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:convertToShares, arguments:['assets', 'TMP_361']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.convertToShares",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.convertToAssets",
-      "callee": "InvestmentManagerLike.TMP_364(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:convertToAssets, arguments:['shares', 'TMP_363']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.convertToAssets",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxDeposit",
-      "callee": "InvestmentManagerLike.TMP_366(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:maxDeposit, arguments:['receiver', 'TMP_365']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.maxDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewDeposit",
-      "callee": "InvestmentManagerLike.TMP_368(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:previewDeposit, arguments:['msg.sender', 'TMP_367', 'assets']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.previewDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.deposit",
-      "callee": "InvestmentManagerLike.TMP_369(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:processDeposit, arguments:['receiver', 'assets']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.processDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.mint",
-      "callee": "InvestmentManagerLike.TMP_372(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:processMint, arguments:['receiver', 'shares']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.processMint",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxMint",
-      "callee": "InvestmentManagerLike.TMP_376(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:maxMint, arguments:['receiver', 'TMP_375']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.maxMint",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewMint",
-      "callee": "InvestmentManagerLike.TMP_378(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:previewMint, arguments:['msg.sender', 'TMP_377', 'shares']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.previewMint",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxWithdraw",
-      "callee": "InvestmentManagerLike.TMP_380(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:maxWithdraw, arguments:['receiver', 'TMP_379']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.maxWithdraw",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewWithdraw",
-      "callee": "InvestmentManagerLike.TMP_382(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:previewWithdraw, arguments:['msg.sender', 'TMP_381', 'assets']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.previewWithdraw",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.withdraw",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.withdraw",
-      "callee": "InvestmentManagerLike.TMP_383(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:processWithdraw, arguments:['assets', 'receiver', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.processWithdraw",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.maxRedeem",
-      "callee": "InvestmentManagerLike.TMP_388(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:maxRedeem, arguments:['owner', 'TMP_387']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.maxRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.previewRedeem",
-      "callee": "InvestmentManagerLike.TMP_390(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:previewRedeem, arguments:['msg.sender', 'TMP_389', 'shares']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.previewRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.redeem",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.redeem",
-      "callee": "InvestmentManagerLike.TMP_391(uint256) = HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:processRedeem, arguments:['shares', 'receiver', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.processRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDeposit",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDeposit",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestDeposit, arguments:['assets', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.requestDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDepositWithPermit",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestDeposit, arguments:['assets', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.requestDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestDepositWithPermit",
-      "callee": "ERC20PermitLike.HIGH_LEVEL_CALL, dest:TMP_398(ERC20PermitLike), function:permit, arguments:['owner', 'TMP_399', 'assets', 'deadline', 'v', 'r', 's']  ",
-      "external": true
+      "callee": "ERC20PermitLike.permit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeem",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeem",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestRedeem, arguments:['shares', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.requestRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeemWithPermit",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:permit, arguments:['owner', 'TMP_406', 'shares', 'deadline', 'v', 'r', 's']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.requestRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.requestRedeemWithPermit",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:requestRedeem, arguments:['shares', 'owner']  ",
-      "external": true
+      "callee": "TrancheTokenLike.permit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseDepositRequest",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseDepositRequest",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:decreaseDepositRequest, arguments:['assets', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.decreaseDepositRequest",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseRedeemRequest",
-      "callee": "withApproval",
-      "external": false
+      "callee": "LiquidityPool.withApproval",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decreaseRedeemRequest",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:decreaseRedeemRequest, arguments:['shares', 'owner']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.decreaseRedeemRequest",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.collectDeposit",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:collectDeposit, arguments:['receiver']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.collectDeposit",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.collectRedeem",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:collectRedeem, arguments:['receiver']  ",
-      "external": true
+      "callee": "InvestmentManagerLike.collectRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.name",
-      "callee": "TrancheTokenLike.TMP_418(string) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:name, arguments:[]  ",
-      "external": true
+      "callee": "TrancheTokenLike.name",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.symbol",
-      "callee": "TrancheTokenLike.TMP_419(string) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:symbol, arguments:[]  ",
-      "external": true
+      "callee": "TrancheTokenLike.symbol",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.decimals",
-      "callee": "TrancheTokenLike.TMP_420(uint8) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:decimals, arguments:[]  ",
-      "external": true
+      "callee": "TrancheTokenLike.decimals",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.totalSupply",
-      "callee": "TrancheTokenLike.TMP_421(uint256) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:totalSupply, arguments:[]  ",
-      "external": true
+      "callee": "TrancheTokenLike.totalSupply",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.balanceOf",
-      "callee": "TrancheTokenLike.TMP_422(uint256) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:balanceOf, arguments:['owner']  ",
-      "external": true
+      "callee": "TrancheTokenLike.balanceOf",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.allowance",
-      "callee": "TrancheTokenLike.TMP_423(uint256) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:allowance, arguments:['owner', 'spender']  ",
-      "external": true
+      "callee": "TrancheTokenLike.allowance",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
       "callee": "bytes.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
-      "callee": "_successCheck",
-      "external": false
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transferFrom",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.transferFrom",
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
-      "callee": "bytes.concat()",
-      "external": false
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.transfer",
-      "callee": "_successCheck",
-      "external": false
+      "callee": "bytes.concat()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.transfer",
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.approve",
+      "callee": "bytes.concat()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.approve",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.approve",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.approve",
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.mint",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.mint",
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.mint",
       "callee": "bytes.concat()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.approve",
-      "callee": "_successCheck",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.mint",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.mint",
-      "callee": "bytes.concat()",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPool.mint",
-      "callee": "_successCheck",
-      "external": false
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.burn",
       "callee": "bytes.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.burn",
-      "callee": "_successCheck",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.burn",
-      "callee": "auth",
-      "external": false
+      "callee": "LiquidityPool._successCheck",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool.burn",
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.updatePrice",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPool.checkTransferRestriction",
-      "callee": "TrancheTokenLike.TMP_453(bool) = HIGH_LEVEL_CALL, dest:share(TrancheTokenLike), function:checkTransferRestriction, arguments:['from', 'to', 'value']  ",
-      "external": true
+      "callee": "TrancheTokenLike.checkTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "PoolManager.rely",
-      "callee": "auth",
-      "external": false
+      "caller": "LiquidityPool._successCheck",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "PoolManager.deny",
-      "callee": "auth",
-      "external": false
+      "caller": "LiquidityPool._successCheck",
+      "callee": "returndatacopy(uint256,uint256,uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "PoolManager.file",
-      "callee": "auth",
-      "external": false
+      "caller": "LiquidityPool._successCheck",
+      "callee": "revert(uint256,uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "LiquidityPool._successCheck",
+      "callee": "returndatasize()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.file",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transfer",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transfer",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:transfer, arguments:['currency', 'msg.sender', 'recipient', 'amount']  ",
-      "external": true
+      "callee": "GatewayLike.transfer",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transfer",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransferFrom(address,address,address,uint256), arguments:['currencyAddress', 'msg.sender', 'TMP_480', 'amount'] ",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "PoolManager.transferTrancheTokensToCentrifuge",
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
-      "callee": "getTrancheToken",
-      "external": false
+      "callee": "TrancheTokenLike.burn",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToCentrifuge",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:burn, arguments:['msg.sender', 'amount']  ",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.transferTrancheTokensToCentrifuge",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:transferTrancheTokensToCentrifuge, arguments:['poolId', 'trancheId', 'msg.sender', 'destinationAddress', 'amount']  ",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.transferTrancheTokensToEVM",
-      "callee": "getTrancheToken",
-      "external": false
+      "callee": "GatewayLike.transferTrancheTokensToCentrifuge",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:burn, arguments:['msg.sender', 'amount']  ",
-      "external": true
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.transferTrancheTokensToEVM",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:transferTrancheTokensToEVM, arguments:['poolId', 'trancheId', 'msg.sender', 'destinationChainId', 'destinationAddress', 'amount']  ",
-      "external": true
+      "callee": "GatewayLike.transferTrancheTokensToEVM",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.transferTrancheTokensToEVM",
+      "callee": "TrancheTokenLike.burn",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.addPool",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addPool",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.addPool",
-      "callee": "onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.allowPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.allowPoolCurrency",
-      "callee": "onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.allowPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.allowPoolCurrency",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addTranche",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.addTranche",
-      "callee": "onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.addTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.addTranche",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
-      "callee": "getTrancheToken",
-      "external": false
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:file, arguments:['symbol', 'tokenSymbol']  ",
-      "external": true
+      "callee": "TrancheTokenLike.file",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateTrancheTokenMetadata",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:file, arguments:['name', 'tokenName']  ",
-      "external": true
-    },
-    {
-      "caller": "PoolManager.updateMember",
-      "callee": "getTrancheToken",
-      "external": false
+      "callee": "TrancheTokenLike.file",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
-      "callee": "TrancheTokenLike.TMP_531(address) = HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:restrictionManager, arguments:[]  ",
-      "external": true
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.updateMember",
-      "callee": "MemberlistLike.HIGH_LEVEL_CALL, dest:memberlist(MemberlistLike), function:updateMember, arguments:['user', 'validUntil']  ",
-      "external": true
+      "callee": "TrancheTokenLike.restrictionManager",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.updateMember",
+      "callee": "MemberlistLike.updateMember",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransfer",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransfer",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransfer",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransferFrom(address,address,address,uint256), arguments:['currencyAddress', 'TMP_558', 'recipient', 'amount'] ",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "PoolManager.handleTransfer",
-      "callee": "EscrowLike.HIGH_LEVEL_CALL, dest:TMP_555(EscrowLike), function:approve, arguments:['currencyAddress', 'TMP_556', 'amount']  ",
-      "external": true
+      "callee": "EscrowLike.approve",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.handleTransferTrancheTokens",
+      "callee": "PoolManager.onlyGateway",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.handleTransferTrancheTokens",
+      "callee": "PoolManager.getTrancheToken",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "getTrancheToken",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "onlyGateway",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "TrancheTokenLike.TMP_567(address) = HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:restrictionManager, arguments:[]  ",
-      "external": true
+      "callee": "MemberlistLike.hasMember",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "MemberlistLike.TMP_570(bool) = HIGH_LEVEL_CALL, dest:TMP_569(MemberlistLike), function:hasMember, arguments:['destinationAddress']  ",
-      "external": true
+      "callee": "TrancheTokenLike.restrictionManager",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.handleTransferTrancheTokens",
-      "callee": "TrancheTokenLike.HIGH_LEVEL_CALL, dest:trancheToken(TrancheTokenLike), function:mint, arguments:['destinationAddress', 'amount']  ",
-      "external": true
+      "callee": "TrancheTokenLike.mint",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployTranche",
-      "callee": "TrancheTokenFactoryLike.TMP_586(address) = HIGH_LEVEL_CALL, dest:trancheTokenFactory(TrancheTokenFactoryLike), function:newTrancheToken, arguments:['poolId', 'trancheId', 'REF_278', 'REF_279', 'REF_280', 'trancheTokenWards', 'memberlistWards']  ",
-      "external": true
+      "callee": "TrancheTokenFactoryLike.newTrancheToken",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "PoolManager.deployLiquidityPool",
-      "callee": "isAllowedAsPoolCurrency",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "ERC2771Like.HIGH_LEVEL_CALL, dest:TMP_608(ERC2771Like), function:addLiquidityPool, arguments:['liquidityPool']  ",
-      "external": true
+      "callee": "PoolManager.isAllowedAsPoolCurrency",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "AuthLike.HIGH_LEVEL_CALL, dest:TMP_606(AuthLike), function:rely, arguments:['liquidityPool']  ",
-      "external": true
+      "callee": "EscrowLike.approve",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "AuthLike.HIGH_LEVEL_CALL, dest:TMP_604(AuthLike), function:rely, arguments:['liquidityPool']  ",
-      "external": true
+      "callee": "AuthLike.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "EscrowLike.HIGH_LEVEL_CALL, dest:TMP_610(EscrowLike), function:approve, arguments:['liquidityPool', 'TMP_611', 'TMP_613']  ",
-      "external": true
+      "callee": "ERC2771Like.addLiquidityPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "LiquidityPoolFactoryLike.TMP_602(address) = HIGH_LEVEL_CALL, dest:liquidityPoolFactory(LiquidityPoolFactoryLike), function:newLiquidityPool, arguments:['poolId', 'trancheId', 'currency', 'REF_292', 'TMP_601', 'liquidityPoolWards']  ",
-      "external": true
+      "callee": "EscrowLike.approve",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.deployLiquidityPool",
-      "callee": "EscrowLike.HIGH_LEVEL_CALL, dest:TMP_615(EscrowLike), function:approve, arguments:['liquidityPool', 'liquidityPool', 'TMP_617']  ",
-      "external": true
+      "callee": "LiquidityPoolFactoryLike.newLiquidityPool",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "PoolManager.deployLiquidityPool",
+      "callee": "AuthLike.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.isAllowedAsPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PoolManager.isAllowedAsPoolCurrency",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "Root.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "Root.deny",
-      "callee": "auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.file",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.pause",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.unpause",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.scheduleRely",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.cancelRely",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.executeScheduledRely",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.executeScheduledRely",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.relyContract",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.relyContract",
-      "callee": "AuthLike.HIGH_LEVEL_CALL, dest:TMP_653(AuthLike), function:rely, arguments:['user']  ",
-      "external": true
+      "callee": "AuthLike.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Root.denyContract",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Root.denyContract",
-      "callee": "AuthLike.HIGH_LEVEL_CALL, dest:TMP_657(AuthLike), function:deny, arguments:['user']  ",
-      "external": true
-    },
-    {
-      "caller": "UserEscrow.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "UserEscrow.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "AuthLike.deny",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferIn",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferIn",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransferFrom(address,address,address,uint256), arguments:['token', 'source', 'TMP_668', 'amount'] ",
-      "external": true
+      "callee": "SafeTransferLib.safeTransferFrom",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "UserEscrow.transferOut",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
-      "callee": "ERC20Like.TMP_676(uint256) = HIGH_LEVEL_CALL, dest:TMP_675(ERC20Like), function:allowance, arguments:['destination', 'receiver']  ",
-      "external": true
+      "callee": "ERC20Like.allowance",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UserEscrow.transferOut",
-      "callee": "SafeTransferLib.LIBRARY_CALL, dest:SafeTransferLib, function:SafeTransferLib.safeTransfer(address,address,uint256), arguments:['token', 'receiver', 'amount'] ",
-      "external": true
-    },
-    {
-      "caller": "DelayedAdmin.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "DelayedAdmin.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "SafeTransferLib.safeTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "DelayedAdmin.pause",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.pause",
-      "callee": "Root.HIGH_LEVEL_CALL, dest:root(Root), function:pause, arguments:[]  ",
-      "external": true
+      "callee": "Root.pause",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.unpause",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.unpause",
-      "callee": "Root.HIGH_LEVEL_CALL, dest:root(Root), function:unpause, arguments:[]  ",
-      "external": true
+      "callee": "Root.unpause",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.scheduleRely",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.scheduleRely",
-      "callee": "Root.HIGH_LEVEL_CALL, dest:root(Root), function:scheduleRely, arguments:['target']  ",
-      "external": true
+      "callee": "Root.scheduleRely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.cancelRely",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DelayedAdmin.cancelRely",
-      "callee": "Root.HIGH_LEVEL_CALL, dest:root(Root), function:cancelRely, arguments:['target']  ",
-      "external": true
-    },
-    {
-      "caller": "PauseAdmin.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "PauseAdmin.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "Root.cancelRely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.addPauser",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.removePauser",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.pause",
-      "callee": "canPause",
-      "external": false
+      "callee": "PauseAdmin.canPause",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "PauseAdmin.pause",
-      "callee": "Root.HIGH_LEVEL_CALL, dest:root(Root), function:pause, arguments:[]  ",
-      "external": true
-    },
-    {
-      "caller": "Gateway.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "Gateway.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "Root.pause",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.file",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.addIncomingRouter",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.removeIncomingRouter",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.updateOutgoingRouter",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "onlyPoolManager",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.onlyPoolManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "Messages.TMP_743(bytes9) = LIBRARY_CALL, dest:Messages, function:Messages.formatDomain(Messages.Domain), arguments:['REF_367'] ",
-      "external": true
+      "callee": "Messages.formatDomain",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_744']  ",
-      "external": true
+      "callee": "Messages.formatTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToCentrifuge",
-      "callee": "Messages.TMP_744(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatTransferTrancheTokens(uint64,bytes16,bytes32,bytes9,bytes32,uint128), arguments:['poolId', 'trancheId', 'TMP_742', 'TMP_743', 'destinationAddress', 'amount'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "onlyPoolManager",
-      "external": false
+      "callee": "Gateway.onlyPoolManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "Messages.TMP_749(bytes9) = LIBRARY_CALL, dest:Messages, function:Messages.formatDomain(Messages.Domain,uint64), arguments:['REF_371', 'destinationChainId'] ",
-      "external": true
+      "callee": "Messages.formatTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "Messages.TMP_750(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatTransferTrancheTokens(uint64,bytes16,bytes32,bytes9,address,uint128), arguments:['poolId', 'trancheId', 'TMP_748', 'TMP_749', 'destinationAddress', 'amount'] ",
-      "external": true
+      "callee": "Messages.formatDomain",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transferTrancheTokensToEVM",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_750']  ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
-      "callee": "onlyPoolManager",
-      "external": false
+      "callee": "Gateway.onlyPoolManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.transfer",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_755']  ",
-      "external": true
+      "callee": "Messages.formatTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.transfer",
-      "callee": "Messages.TMP_755(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatTransfer(uint128,bytes32,bytes32,uint128), arguments:['token', 'TMP_754', 'receiver', 'amount'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseInvestOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_760']  ",
-      "external": true
+      "callee": "Messages.formatIncreaseInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.increaseInvestOrder",
-      "callee": "Messages.TMP_760(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatIncreaseInvestOrder(uint64,bytes16,bytes32,uint128,uint128), arguments:['poolId', 'trancheId', 'TMP_759', 'currency', 'currencyAmount'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
-      "callee": "Messages.TMP_765(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatDecreaseInvestOrder(uint64,bytes16,bytes32,uint128,uint128), arguments:['poolId', 'trancheId', 'TMP_764', 'currency', 'currencyAmount'] ",
-      "external": true
+      "callee": "Messages.formatDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.decreaseInvestOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_765']  ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_770']  ",
-      "external": true
+      "callee": "Messages.formatIncreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.increaseRedeemOrder",
-      "callee": "Messages.TMP_770(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatIncreaseRedeemOrder(uint64,bytes16,bytes32,uint128,uint128), arguments:['poolId', 'trancheId', 'TMP_769', 'currency', 'trancheTokenAmount'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "Messages.TMP_775(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatDecreaseRedeemOrder(uint64,bytes16,bytes32,uint128,uint128), arguments:['poolId', 'trancheId', 'TMP_774', 'currency', 'trancheTokenAmount'] ",
-      "external": true
+      "callee": "Messages.formatDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.decreaseRedeemOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_775']  ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectInvest",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_780']  ",
-      "external": true
+      "callee": "Messages.formatCollectInvest",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.collectInvest",
-      "callee": "Messages.TMP_780(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatCollectInvest(uint64,bytes16,bytes32,uint128), arguments:['poolId', 'trancheId', 'TMP_779', 'currency'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.collectRedeem",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_785']  ",
-      "external": true
+      "callee": "Messages.formatCollectRedeem",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.collectRedeem",
-      "callee": "Messages.TMP_785(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatCollectRedeem(uint64,bytes16,bytes32,uint128), arguments:['poolId', 'trancheId', 'TMP_784', 'currency'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelInvestOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_790']  ",
-      "external": true
+      "callee": "Messages.formatCancelInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.cancelInvestOrder",
-      "callee": "Messages.TMP_790(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatCancelInvestOrder(uint64,bytes16,bytes32,uint128), arguments:['poolId', 'trancheId', 'TMP_789', 'currency'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
-      "callee": "_addressToBytes32",
-      "external": false
+      "callee": "Gateway._addressToBytes32",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
-      "callee": "onlyInvestmentManager",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.onlyInvestmentManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
-      "callee": "RouterLike.HIGH_LEVEL_CALL, dest:outgoingRouter(RouterLike), function:send, arguments:['TMP_795']  ",
-      "external": true
+      "callee": "Messages.formatCancelRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.cancelRedeemOrder",
-      "callee": "Messages.TMP_795(bytes) = LIBRARY_CALL, dest:Messages, function:Messages.formatCancelRedeemOrder(uint64,bytes16,bytes32,uint128), arguments:['poolId', 'trancheId', 'TMP_794', 'currency'] ",
-      "external": true
+      "callee": "RouterLike.send",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "onlyIncomingRouter",
-      "external": false
+      "callee": "Gateway.pauseable",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "pauseable",
-      "external": false
+      "callee": "Gateway.onlyIncomingRouter",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_16(uint64,bytes16,address,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseTransferTrancheTokens20(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isUpdateTrancheTokenPrice",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_818(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isExecutedDecreaseRedeemOrder(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseExecutedDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:updateTrancheTokenPrice, arguments:['poolId_scope_5', 'trancheId_scope_6', 'currencyId', 'price']  ",
-      "external": true
+      "callee": "Messages.isExecutedCollectRedeem",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:handleExecutedDecreaseInvestOrder, arguments:['poolId_scope_11', 'trancheId_scope_12', 'investor', 'currency_scope_13', 'currencyPayout']  ",
-      "external": true
+      "callee": "Messages.isAllowPoolCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_806(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isAddTranche(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseUpdateTrancheTokenPrice",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_814(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isTransferTrancheTokens(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseAllowPoolCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:handleTransferTrancheTokens, arguments:['poolId_scope_8', 'trancheId_scope_9', 'destinationAddress', 'amount_scope_10']  ",
-      "external": true
+      "callee": "PoolManagerLike.handleTransfer",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_808(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isUpdateMember(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseExecutedCollectRedeem",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_816(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isExecutedDecreaseInvestOrder(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "PoolManagerLike.addTranche",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_804(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isAllowPoolCurrency(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "InvestmentManagerLike.handleExecutedDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_820(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isExecutedCollectInvest(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isScheduleUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_20(uint64,bytes16,address,uint128,uint128,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseExecutedCollectRedeem(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "RootLike.scheduleRely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_10(uint128,address) = LIBRARY_CALL, dest:Messages, function:Messages.parseAddCurrency(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isExecutedDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_802(uint64) = LIBRARY_CALL, dest:Messages, function:Messages.parseAddPool(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:addCurrency, arguments:['currency', 'currencyAddress']  ",
-      "external": true
+      "callee": "Messages.parseScheduleUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:addPool, arguments:['poolId']  ",
-      "external": true
+      "callee": "PoolManagerLike.addCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_12(uint64,bytes16,string,string,uint8,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseAddTranche(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isAddTranche",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "RootLike.HIGH_LEVEL_CALL, dest:root(RootLike), function:cancelRely, arguments:['target_scope_30']  ",
-      "external": true
+      "callee": "Messages.parseExecutedDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:handleExecutedDecreaseRedeemOrder, arguments:['poolId_scope_14', 'trancheId_scope_15', 'investor_scope_16', 'currency_scope_17', 'trancheTokensPayout']  ",
-      "external": true
+      "callee": "Messages.parseAddTranche",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_822(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isExecutedCollectRedeem(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseIncomingTransfer",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_11(uint64,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseAllowPoolCurrency(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isCancelUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_13(uint64,bytes16,address,uint64) = LIBRARY_CALL, dest:Messages, function:Messages.parseUpdateMember(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "PoolManagerLike.handleTransferTrancheTokens",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:addTranche, arguments:['poolId_scope_2', 'trancheId', 'tokenName', 'tokenSymbol', 'decimals']  ",
-      "external": true
+      "callee": "RootLike.cancelRely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_15(uint128,address,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseIncomingTransfer(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isAddCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:handleExecutedCollectInvest, arguments:['poolId_scope_18', 'trancheId_scope_19', 'investor_scope_20', 'currency_scope_21', 'currencyPayout_scope_22', 'trancheTokensPayout_scope_23']  ",
-      "external": true
+      "callee": "PoolManagerLike.updateMember",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:allowPoolCurrency, arguments:['poolId_scope_0', 'currency_scope_1']  ",
-      "external": true
+      "callee": "PoolManagerLike.addPool",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_21(uint64,bytes16,string,string) = LIBRARY_CALL, dest:Messages, function:Messages.parseUpdateTrancheTokenMetadata(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_799(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isAddCurrency(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "InvestmentManagerLike.handleExecutedCollectInvest",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_17(uint64,bytes16,address,uint128,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseExecutedDecreaseInvestOrder(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseCancelUpgrade",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_801(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isAddPool(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseAddCurrency",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_18(uint64,bytes16,address,uint128,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseExecutedDecreaseRedeemOrder(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isExecutedCollectInvest",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "RootLike.HIGH_LEVEL_CALL, dest:root(RootLike), function:scheduleRely, arguments:['target']  ",
-      "external": true
+      "callee": "PoolManagerLike.updateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_828(address) = LIBRARY_CALL, dest:Messages, function:Messages.parseCancelUpgrade(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isUpdateMember",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:handleTransfer, arguments:['currency_scope_7', 'recipient', 'amount']  ",
-      "external": true
+      "callee": "Messages.parseTransferTrancheTokens20",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_830(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isUpdateTrancheTokenMetadata(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseExecutedCollectInvest",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_14(uint64,bytes16,uint128,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseUpdateTrancheTokenPrice(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isUpdateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:updateMember, arguments:['poolId_scope_3', 'trancheId_scope_4', 'user', 'validUntil']  ",
-      "external": true
+      "callee": "Messages.parseUpdateMember",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "PoolManagerLike.HIGH_LEVEL_CALL, dest:poolManager(PoolManagerLike), function:updateTrancheTokenMetadata, arguments:['poolId_scope_31', 'trancheId_scope_32', 'tokenName_scope_33', 'tokenSymbol_scope_34']  ",
-      "external": true
+      "callee": "Messages.parseUpdateTrancheTokenMetadata",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_810(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isUpdateTrancheTokenPrice(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.isAddPool",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_824(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isScheduleUpgrade(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "InvestmentManagerLike.handleExecutedCollectRedeem",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_827(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isCancelUpgrade(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "InvestmentManagerLike.handleExecutedDecreaseInvestOrder",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_825(address) = LIBRARY_CALL, dest:Messages, function:Messages.parseScheduleUpgrade(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "PoolManagerLike.allowPoolCurrency",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "Gateway.handle",
-      "callee": "InvestmentManagerLike.HIGH_LEVEL_CALL, dest:investmentManager(InvestmentManagerLike), function:handleExecutedCollectRedeem, arguments:['poolId_scope_24', 'trancheId_scope_25', 'investor_scope_26', 'currency_scope_27', 'currencyPayout_scope_28', 'trancheTokensPayout_scope_29']  ",
-      "external": true
+      "callee": "Messages.isExecutedDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TUPLE_19(uint64,bytes16,address,uint128,uint128,uint128) = LIBRARY_CALL, dest:Messages, function:Messages.parseExecutedCollectInvest(bytes), arguments:['message'] ",
-      "external": true
+      "callee": "Messages.parseAddPool",
+      "external": true,
+      "library_callee": true
     },
     {
       "caller": "Gateway.handle",
-      "callee": "Messages.TMP_812(bool) = LIBRARY_CALL, dest:Messages, function:Messages.isTransfer(bytes), arguments:['message'] ",
-      "external": true
-    },
-    {
-      "caller": "Messages.formatDomain",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "Messages.formatDomain",
-      "callee": "BytesLib.TMP_1044(bytes) = LIBRARY_CALL, dest:BytesLib, function:BytesLib.slice(bytes,uint256,uint256), arguments:['TMP_1043', '0', '9'] ",
-      "external": true
-    },
-    {
-      "caller": "AxelarRouter.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "InvestmentManagerLike.updateTrancheTokenPrice",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.file",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.execute",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "AxelarRouter.execute",
-      "callee": "onlyCentrifugeChainOrigin",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:handle, arguments:['payload']  ",
-      "external": true
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.execute",
-      "callee": "AxelarGatewayLike.TMP_1090(bool) = HIGH_LEVEL_CALL, dest:axelarGateway(AxelarGatewayLike), function:validateContractCall, arguments:['commandId', 'sourceChain', 'sourceAddress', 'payloadHash']  ",
-      "external": true
+      "callee": "AxelarRouter.onlyCentrifugeChainOrigin",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "AxelarRouter.execute",
+      "callee": "GatewayLike.handle",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "AxelarRouter.execute",
+      "callee": "AxelarGatewayLike.validateContractCall",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.send",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "AxelarRouter.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "AxelarRouter.send",
-      "callee": "AxelarGatewayLike.HIGH_LEVEL_CALL, dest:axelarGateway(AxelarGatewayLike), function:callContract, arguments:['axelarCentrifugeChainId', 'centrifugeGatewayPrecompileAddress', 'message']  ",
-      "external": true
-    },
-    {
-      "caller": "XCMRouter.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "XCMRouter.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "AxelarGatewayLike.callContract",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.handle",
-      "callee": "onlyCentrifugeChainOrigin",
-      "external": false
+      "callee": "XCMRouter.onlyCentrifugeChainOrigin",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.handle",
-      "callee": "GatewayLike.HIGH_LEVEL_CALL, dest:gateway(GatewayLike), function:handle, arguments:['_message']  ",
-      "external": true
+      "callee": "GatewayLike.handle",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
-      "callee": "onlyGateway",
-      "external": false
+      "callee": "XCMRouter._cfgAssetMultilocation",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
-      "callee": "_centrifugeHandleCall",
-      "external": false
+      "callee": "XCMRouter._centrifugeHandleCall",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
-      "callee": "_centrifugeParachainMultilocation",
-      "external": false
+      "callee": "XCMRouter._centrifugeParachainMultilocation",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
-      "callee": "_cfgAssetMultilocation",
-      "external": false
+      "callee": "XCMRouter.onlyGateway",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "XCMRouter.send",
-      "callee": "XcmTransactorV2.HIGH_LEVEL_CALL, dest:transactorContract(XcmTransactorV2), function:transactThroughSignedMultilocation, arguments:['TMP_1136', 'TMP_1137', 'REF_618', 'centChainCall', 'REF_619', 'REF_620']  ",
-      "external": true
+      "callee": "XcmTransactorV2.transactThroughSignedMultilocation",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter._centrifugeHandleCall",
+      "callee": "XCMRouter.messageLengthScaleEncoded",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter._centrifugeHandleCall",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "revert(string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isIncreaseInvestOrder",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isCollectRedeem",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isTransfer",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isIncreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isTransferTrancheTokens",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isCollectInvest",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isDecreaseInvestOrder",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter.messageLengthScaleEncoded",
+      "callee": "Messages.isDecreaseRedeemOrder",
+      "external": true,
+      "library_callee": true
+    },
+    {
+      "caller": "XCMRouter._centrifugeParachainMultilocation",
+      "callee": "XCMRouter._parachainId",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter._cfgAssetMultilocation",
+      "callee": "XCMRouter._parachainId",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "XCMRouter._parachainId",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.rely",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._calculateDomainSeparator",
+      "callee": "abi.encode()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.DOMAIN_SEPARATOR",
-      "callee": "_calculateDomainSeparator",
-      "external": false
+      "callee": "ERC20._calculateDomainSeparator",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.file",
       "callee": "revert(string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.file",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.transfer",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.transfer",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.transfer",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.transfer",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "ERC20.transfer",
-      "callee": "_msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transfer",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.transfer",
-      "callee": "_msgSender",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.transferFrom",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.approve",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.approve",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.decreaseAllowance",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.decreaseAllowance",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "ERC20.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.mint",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.mint",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.burn",
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
-      "callee": "auth",
-      "external": false
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.burn",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.burn",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "ERC20.burn",
-      "callee": "_msgSender",
-      "external": false
+      "caller": "ERC20._isValidSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "ERC20.burn",
-      "callee": "_msgSender",
-      "external": false
+      "caller": "ERC20._isValidSignature",
+      "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "abi.decode()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "abi.encodeWithSelector()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "byte(uint256,uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20._isValidSignature",
+      "callee": "low_level_call",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
-      "callee": "_isValidSignature",
-      "external": false
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "ERC20._isValidSignature",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "abi.encode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "ERC20.permit",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "abi.encode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "_calculateDomainSeparator",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "ERC20.permit",
-      "callee": "permit",
-      "external": false
+      "callee": "ERC20._calculateDomainSeparator",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "ERC20.permit",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "RestrictionManager.rely",
-      "callee": "auth",
-      "external": false
+      "caller": "ERC20.permit",
+      "callee": "ERC20.permit",
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "RestrictionManager.deny",
-      "callee": "auth",
-      "external": false
+      "caller": "ERC20.slitherConstructorConstantVariables",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.detectTransferRestriction",
-      "callee": "hasMember",
-      "external": false
+      "callee": "RestrictionManager.hasMember",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.member",
       "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "RestrictionManager.updateMember",
-      "callee": "auth",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMember",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "RestrictionManager.updateMember",
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMembers",
-      "callee": "updateMember",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "RestrictionManager.updateMembers",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.deny",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.DOMAIN_SEPARATOR",
-      "callee": "_calculateDomainSeparator",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.file",
-      "callee": "auth",
-      "external": false
+      "callee": "RestrictionManager.updateMember",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.file",
       "callee": "revert(string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.approve",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.approve",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.increaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.decreaseAllowance",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.decreaseAllowance",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "_msgSender",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.burn",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "_calculateDomainSeparator",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "require(bool,string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "_isValidSignature",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.permit",
-      "callee": "permit",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.file",
-      "callee": "revert(string)",
-      "external": false
-    },
-    {
-      "caller": "TrancheToken.file",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.addLiquidityPool",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.removeLiquidityPool",
-      "callee": "auth",
-      "external": false
+      "callee": "ERC20.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transfer",
-      "callee": "transfer",
-      "external": false
+      "callee": "TrancheToken.restricted",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transfer",
-      "callee": "restricted",
-      "external": false
+      "callee": "ERC20.transfer",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transfer",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "TrancheToken._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transferFrom",
-      "callee": "restricted",
-      "external": false
+      "callee": "TrancheToken.restricted",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.transferFrom",
-      "callee": "transferFrom",
-      "external": false
+      "callee": "ERC20.transferFrom",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
-      "callee": "restricted",
-      "external": false
+      "callee": "TrancheToken.restricted",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
-      "callee": "mint",
-      "external": false
+      "callee": "ERC20.mint",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.mint",
-      "callee": "_msgSender",
-      "external": false
+      "callee": "TrancheToken._msgSender",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.detectTransferRestriction",
-      "callee": "ERC1404Like.TMP_1483(uint8) = HIGH_LEVEL_CALL, dest:restrictionManager(ERC1404Like), function:detectTransferRestriction, arguments:['from', 'to', 'value']  ",
-      "external": true
+      "callee": "ERC1404Like.detectTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.checkTransferRestriction",
-      "callee": "SUCCESS_CODE",
-      "external": false
+      "callee": "TrancheToken.SUCCESS_CODE",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.checkTransferRestriction",
-      "callee": "ERC1404Like.TMP_1484(uint8) = HIGH_LEVEL_CALL, dest:restrictionManager(ERC1404Like), function:detectTransferRestriction, arguments:['from', 'to', 'value']  ",
-      "external": true
+      "callee": "ERC1404Like.detectTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.messageForTransferRestriction",
-      "callee": "ERC1404Like.TMP_1487(string) = HIGH_LEVEL_CALL, dest:restrictionManager(ERC1404Like), function:messageForTransferRestriction, arguments:['restrictionCode']  ",
-      "external": true
+      "callee": "ERC1404Like.messageForTransferRestriction",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheToken.SUCCESS_CODE",
-      "callee": "ERC1404Like.TMP_1488(uint8) = HIGH_LEVEL_CALL, dest:restrictionManager(ERC1404Like), function:SUCCESS_CODE, arguments:[]  ",
-      "external": true
+      "callee": "ERC1404Like.SUCCESS_CODE",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "Context._msgSender",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "calldatasize()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "TrancheToken.isTrustedForwarder",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken._msgSender",
+      "callee": "calldataload(uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheToken.slitherConstructorConstantVariables",
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Auth.rely",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "Auth.deny",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPoolFactory.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "LiquidityPoolFactory.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
-      "callee": "auth",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
-      "callee": "LiquidityPool.HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPool), function:deny, arguments:['TMP_1594']  ",
-      "external": true
+      "callee": "LiquidityPool.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
-      "callee": "LiquidityPool.HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPool), function:rely, arguments:['REF_769']  ",
-      "external": true
+      "callee": "LiquidityPool.rely",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "LiquidityPoolFactory.newLiquidityPool",
-      "callee": "LiquidityPool.HIGH_LEVEL_CALL, dest:liquidityPool(LiquidityPool), function:rely, arguments:['root']  ",
-      "external": true
-    },
-    {
-      "caller": "TrancheTokenFactory.rely",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheTokenFactory.deny",
-      "callee": "auth",
-      "external": false
+      "callee": "LiquidityPool.deny",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "keccak256(bytes)",
-      "external": false
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "auth",
-      "external": false
-    },
-    {
-      "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "_newRestrictionManager",
-      "external": false
+      "callee": "Auth.auth",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:rely, arguments:['root']  ",
-      "external": true
+      "callee": "keccak256(bytes)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:rely, arguments:['REF_782']  ",
-      "external": true
+      "callee": "TrancheTokenFactory._newRestrictionManager",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:file, arguments:['restrictionManager', 'restrictionManager']  ",
-      "external": true
+      "callee": "TrancheToken.file",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:file, arguments:['symbol', 'symbol']  ",
-      "external": true
+      "callee": "TrancheToken.deny",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:deny, arguments:['TMP_1617']  ",
-      "external": true
+      "callee": "TrancheToken.file",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "TrancheTokenFactory.newTrancheToken",
-      "callee": "TrancheToken.HIGH_LEVEL_CALL, dest:token(TrancheToken), function:file, arguments:['name', 'name']  ",
-      "external": true
+      "callee": "TrancheToken.file",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheToken.rely",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory.newTrancheToken",
+      "callee": "TrancheToken.rely",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RestrictionManager.rely",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RestrictionManager.updateMember",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RootLike.escrow",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RestrictionManager.rely",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "TrancheTokenFactory._newRestrictionManager",
+      "callee": "RestrictionManager.deny",
+      "external": true,
+      "library_callee": false
     }
   ],
   "verification_surface": [
@@ -8934,7 +9607,6 @@
     }
   ],
   "notes": [
-    "using local path /tmp/claude-0/-home-user/9b3dcd6b-9f3c-5eac-9dcd-c86b28898562/scratchpad/centrifuge (no clone)",
     "build: forge build ok",
     "verification surface: 62 of 200 entry points tagged priority"
   ]

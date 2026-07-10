@@ -9,8 +9,15 @@
       "name": "foundry",
       "available": true,
       "ran": true,
-      "version": null,
+      "version": "1.5.1-stable",
       "detail": "forge build ok"
+    },
+    {
+      "name": "solc",
+      "available": true,
+      "ran": false,
+      "version": "0.8.20",
+      "detail": "version captured (compiler invoked by forge, not directly)"
     },
     {
       "name": "slither",
@@ -1296,717 +1303,860 @@
     {
       "caller": "UTB.setExecutor",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.setWrapped",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.setFeeCollector",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "UTB.performSwap",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "UTB.performSwap",
-      "callee": "IERC20.transferFrom",
-      "external": true
-    },
-    {
-      "caller": "UTB.performSwap",
-      "callee": "IERC20.approve",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "ISwapper.updateSwapParams",
-      "external": true
-    },
-    {
-      "caller": "UTB.performSwap",
-      "callee": "IWETH.deposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "IWETH.withdraw",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IWETH.deposit",
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IERC20.transferFrom",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.performSwap",
       "callee": "ISwapper.swap",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.performSwap",
+      "callee": "IERC20.approve",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.swapAndExecute",
       "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "UTB.swapAndExecute",
-      "callee": "UTB.retrieveAndCollectFees",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.swapAndExecute",
       "callee": "UTB._swapAndExecute",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.swapAndExecute",
+      "callee": "UTB.retrieveAndCollectFees",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB._swapAndExecute",
       "callee": "UTB.performSwap",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB._swapAndExecute",
+      "callee": "IUTBExecutor.execute",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB._swapAndExecute",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB._swapAndExecute",
       "callee": "IUTBExecutor.execute",
-      "external": true
-    },
-    {
-      "caller": "UTB._swapAndExecute",
-      "callee": "IUTBExecutor.execute",
-      "external": true
-    },
-    {
-      "caller": "UTB.swapAndModifyPostBridge",
-      "callee": "UTB.performSwap",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.swapAndModifyPostBridge",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.swapAndModifyPostBridge",
+      "callee": "UTB.performSwap",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.swapAndModifyPostBridge",
       "callee": "IBridgeAdapter.getBridgedAmount",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.swapAndModifyPostBridge",
       "callee": "ISwapper.updateSwapParams",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.approveAndCheckIfNative",
       "callee": "IBridgeAdapter.getBridgeToken",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.approveAndCheckIfNative",
       "callee": "IERC20.approve",
-      "external": true
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "UTB.swapAndModifyPostBridge",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "abi.encode()",
-      "external": false
-    },
-    {
-      "caller": "UTB.bridgeAndExecute",
-      "callee": "UTB.retrieveAndCollectFees",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.bridgeAndExecute",
       "callee": "UTB.callBridge",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.swapAndModifyPostBridge",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "abi.encode()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTB.bridgeAndExecute",
+      "callee": "UTB.retrieveAndCollectFees",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.callBridge",
       "callee": "UTB.approveAndCheckIfNative",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.callBridge",
       "callee": "IBridgeAdapter.bridge",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.callBridge",
       "callee": "IBridgeAdapter.bridge",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.receiveFromBridge",
       "callee": "UTB._swapAndExecute",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.registerSwapper",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.registerSwapper",
       "callee": "ISwapper.getId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTB.registerBridge",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTB.registerBridge",
       "callee": "IBridgeAdapter.getId",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "UTBExecutor.execute",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "Owned.onlyOwner",
-      "external": false
-    },
-    {
-      "caller": "UTBExecutor.execute",
-      "callee": "IERC20.transfer",
-      "external": true
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "IERC20.balanceOf",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "IERC20.transferFrom",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "IERC20.balanceOf",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UTBExecutor.execute",
+      "callee": "IERC20.transfer",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBExecutor.execute",
       "callee": "low_level_call",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.setSigner",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.splitSignature",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTBFeeCollector.splitSignature",
+      "callee": "mload(uint256)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.splitSignature",
       "callee": "byte(uint256,uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.splitSignature",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.splitSignature",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.splitSignature",
-      "callee": "mload(uint256)",
-      "external": false
-    },
-    {
-      "caller": "UTBFeeCollector.collectFees",
-      "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "UTBFeeCollector.splitSignature",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "keccak256(bytes)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "UTBOwned.onlyUtb",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "abi.encodePacked()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UTBFeeCollector.collectFees",
+      "callee": "ecrecover(bytes32,uint8,bytes32,bytes32)",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.collectFees",
       "callee": "IERC20.transferFrom",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.redeemFees",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UTBFeeCollector.redeemFees",
       "callee": "IERC20.transfer",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UTBOwned.setUtb",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "BaseAdapter.setBridgeExecutor",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.setRouter",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.registerRemoteBridgeAdapter",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
       "callee": "IDecentEthRouter.estimateSendAndCallFee",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.estimateFees",
       "callee": "IDecentEthRouter.MT_ETH_TRANSFER_WITH_PAYLOAD",
-      "external": true
-    },
-    {
-      "caller": "DecentBridgeAdapter.bridge",
-      "callee": "require(bool,string)",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "DecentBridgeAdapter.bridge",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "DecentBridgeAdapter.bridge",
+      "callee": "require(bool,string)",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "DecentBridgeAdapter.bridge",
+      "callee": "abi.decode()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "string.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "abi.encodeCall()",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.bridge",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "DecentBridgeAdapter.bridge",
-      "callee": "UTBOwned.onlyUtb",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "IDecentEthRouter.bridgeWithPayload",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.bridge",
       "callee": "IERC20.transferFrom",
-      "external": true
-    },
-    {
-      "caller": "DecentBridgeAdapter.receiveFromBridge",
-      "callee": "BaseAdapter.onlyExecutor",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "DecentBridgeAdapter.receiveFromBridge",
+      "callee": "BaseAdapter.onlyExecutor",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
       "callee": "IUTB.receiveFromBridge",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
       "callee": "IERC20.transferFrom",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "DecentBridgeAdapter.receiveFromBridge",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.setRouter",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.setStargateEth",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.registerRemoteBridgeAdapter",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getBridgeToken",
       "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.bridge",
-      "callee": "UTBOwned.onlyUtb",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
       "callee": "abi.encode()",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.bridge",
+      "callee": "UTBOwned.onlyUtb",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
       "callee": "StargateBridgeAdapter.callBridge",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.bridge",
       "callee": "IERC20.transferFrom",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getValue",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getLzTxObj",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getDstChainId",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getSrcPoolId",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getDstPoolId",
       "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.getDestAdapter",
-      "callee": "string.concat()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.getDestAdapter",
       "callee": "require(bool,string)",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "StargateBridgeAdapter.callBridge",
-      "callee": "StargateBridgeAdapter.getDstChainId",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.callBridge",
-      "callee": "StargateBridgeAdapter.getDestAdapter",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.callBridge",
-      "callee": "StargateBridgeAdapter.getDstPoolId",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.callBridge",
-      "callee": "abi.encodePacked()",
-      "external": false
-    },
-    {
-      "caller": "StargateBridgeAdapter.callBridge",
-      "callee": "StargateBridgeAdapter.getSrcPoolId",
-      "external": false
+      "caller": "StargateBridgeAdapter.getDestAdapter",
+      "callee": "string.concat()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.callBridge",
       "callee": "StargateBridgeAdapter.getLzTxObj",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDstChainId",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDestAdapter",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getDstPoolId",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "abi.encodePacked()",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.callBridge",
+      "callee": "StargateBridgeAdapter.getSrcPoolId",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.callBridge",
       "callee": "IStargateRouter.swap",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
       "callee": "BaseAdapter.onlyExecutor",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "StargateBridgeAdapter.sgReceive",
+      "callee": "IERC20.approve",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "StargateBridgeAdapter.sgReceive",
       "callee": "IUTB.receiveFromBridge",
-      "external": true
-    },
-    {
-      "caller": "StargateBridgeAdapter.sgReceive",
-      "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.setRouter",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.setWrapped",
       "callee": "Owned.onlyOwner",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.updateSwapParams",
       "callee": "abi.decode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.updateSwapParams",
       "callee": "abi.encode()",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper._refundUser",
       "callee": "IERC20.transfer",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper._sendToRecipient",
       "callee": "IERC20.transfer",
-      "external": true
-    },
-    {
-      "caller": "UniSwapper.swap",
-      "callee": "abi.decode()",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swap",
-      "callee": "UniSwapper.swapExactIn",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swap",
       "callee": "UniSwapper.swapExactOut",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swap",
       "callee": "UniSwapper.swapNoPath",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swap",
       "callee": "UTBOwned.onlyUtb",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
-      "caller": "UniSwapper._receiveAndWrapIfNeeded",
-      "callee": "IERC20.transferFrom",
-      "external": true
+      "caller": "UniSwapper.swap",
+      "callee": "UniSwapper.swapExactIn",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UniSwapper.swap",
+      "callee": "abi.decode()",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper._receiveAndWrapIfNeeded",
       "callee": "IWETH.deposit",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
-      "caller": "UniSwapper.swapNoPath",
-      "callee": "UniSwapper._sendToRecipient",
-      "external": false
+      "caller": "UniSwapper._receiveAndWrapIfNeeded",
+      "callee": "IERC20.transferFrom",
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapNoPath",
       "callee": "UniSwapper._refundUser",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapNoPath",
       "callee": "UniSwapper._receiveAndWrapIfNeeded",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UniSwapper.swapNoPath",
+      "callee": "UniSwapper._sendToRecipient",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
       "callee": "UniSwapper.routerIsSet",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swapExactIn",
-      "callee": "UniSwapper._receiveAndWrapIfNeeded",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
       "callee": "UniSwapper._sendToRecipient",
-      "external": false
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UniSwapper.swapExactIn",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactIn",
       "callee": "IV3SwapRouter.exactInput",
-      "external": true
-    },
-    {
-      "caller": "UniSwapper.swapExactOut",
-      "callee": "UniSwapper._receiveAndWrapIfNeeded",
-      "external": false
+      "external": true,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
       "callee": "UniSwapper._refundUser",
-      "external": false
-    },
-    {
-      "caller": "UniSwapper.swapExactOut",
-      "callee": "UniSwapper.routerIsSet",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
       "callee": "UniSwapper._sendToRecipient",
-      "external": false
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
-      "callee": "IV3SwapRouter.exactOutput",
-      "external": true
+      "callee": "UniSwapper.routerIsSet",
+      "external": false,
+      "library_callee": false
+    },
+    {
+      "caller": "UniSwapper.swapExactOut",
+      "callee": "UniSwapper._receiveAndWrapIfNeeded",
+      "external": false,
+      "library_callee": false
     },
     {
       "caller": "UniSwapper.swapExactOut",
       "callee": "IERC20.approve",
-      "external": true
+      "external": true,
+      "library_callee": false
+    },
+    {
+      "caller": "UniSwapper.swapExactOut",
+      "callee": "IV3SwapRouter.exactOutput",
+      "external": true,
+      "library_callee": false
     }
   ],
   "verification_surface": [

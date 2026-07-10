@@ -79,6 +79,11 @@ def test_protocol_aware_goes_quiet_on_centrifuge_false_positives():
     after = HypothesisEngine().run(model, protocol_aware=True)
     # Centrifuge's structural leads were ALL design-permissionless false positives
     # (its real findings are non-structural). The hunter must go much quieter.
+    # After the 2026-06-30 precision-regression fix (qualified-modifier filter,
+    # structural library marking, low_level_call to NOISE_EXACT, library bodies
+    # not emitting outgoing edges), the only remaining leads are the
+    # pre-registered Root.pause "OR-authorized-path" shape (category D),
+    # documented at docs/SEQUENCE_PRE_REGISTRATION.md.
     assert len(before) > 20
     assert len(after) < len(before) // 4
 

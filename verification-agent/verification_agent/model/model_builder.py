@@ -12,7 +12,12 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from ..ingest.build import compile_project, detect_build_system, foundry_root
+from ..ingest.build import (
+    compile_project,
+    detect_build_system,
+    foundry_root,
+    solc_version,
+)
 from ..ingest.clone import clone_repo, resolved_commit
 from ..schema import TargetModel, ToolStatus
 from . import lite, slither_runner
@@ -46,9 +51,20 @@ def build_model(
         name=build_system if build_system != "unknown" else "build",
         available=build_result.compiled or "not installed" not in build_result.detail,
         ran=build_result.compiled,
+        version=build_result.version,
         detail=build_result.detail,
     ))
     notes.append(f"build: {build_result.detail}")
+
+    # Stamp the solidity compiler version so a run is reproducible against a
+    # known toolchain. Captured independently of forge — solc-select switches
+    # are global state and worth recording in the model itself.
+    sv = solc_version()
+    tool_status.append(ToolStatus(
+        name="solc", available=sv is not None, ran=False,
+        version=sv,
+        detail="version captured (compiler invoked by forge, not directly)"
+               if sv else "solc not on PATH"))
 
     model = TargetModel(
         repo_url=repo_url,

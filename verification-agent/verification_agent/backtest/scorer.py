@@ -47,7 +47,17 @@ def score_contest(run: dict[str, Any], answer_key: list[tuple]) -> dict[str, Any
     lead_fns = {_qualified(p) for p in run.get("found_paths", [])}
 
     findings = []
-    for fid, title, mechanism, severity, hosts in answer_key:
+    for entry in answer_key:
+        # Tuples may carry an optional 6th element {"voided": True, "reason": ...}
+        # for rows that fail the three-field verification (host / bug class /
+        # adversary-exists) against the actual C4 issue. Voided rows are recorded
+        # but excluded from the in-lane denominator until re-audited.
+        if len(entry) == 6:
+            fid, title, mechanism, severity, hosts, void_info = entry
+        else:
+            fid, title, mechanism, severity, hosts = entry
+            void_info = None
+        voided = bool(void_info and void_info.get("voided"))
         # Answer-key hosts are already fully qualified (e.g. UTB.receiveFromBridge);
         # compare qualified-to-qualified everywhere so a function name repeated
         # across contracts cannot be cross-credited.
@@ -60,7 +70,12 @@ def score_contest(run: dict[str, Any], answer_key: list[tuple]) -> dict[str, Any
                         poc_synthesized=poc)
         findings.append({
             "id": fid, "title": title, "mechanism": mechanism, "severity": severity,
-            "in_lane": in_lane(mechanism),
+            # Voided rows are NEVER in-lane regardless of mechanism, so a hit
+            # against a mis-keyed host cannot inflate (and a miss cannot deflate)
+            # the lane recall while the key is being re-audited.
+            "in_lane": in_lane(mechanism) and not voided,
+            "voided": voided,
+            "voided_reason": (void_info or {}).get("reason") if voided else None,
             "surfaced": surfaced, "path_found": path_found,
             "gate_confirmed": gate_confirmed, "tier": tier.value,
         })

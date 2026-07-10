@@ -371,9 +371,16 @@ def _cmd_backtest(args) -> int:
     # ---- SCORE (answer keys opened now) ----
     print("\n--- opening answer keys and scoring against the frozen taxonomy ---")
     scored = [score_contest(r, ANSWER_KEYS[r["contest_id"]]) for r in runs]
+    voided_findings = []
     for s in scored:
         print(f"\n{s['contest_id']} ({'blind' if s['blind'] else 'calibration'}):")
         for f in s["findings"]:
+            if f.get("voided"):
+                # Print voided rows with provenance so the read can't quietly skip them.
+                voided_findings.append({"contest": s["contest_id"], **f})
+                print(f"   {f['id']:4s} [{f['mechanism']:18s}] [VOID]  — {f['title'][:54]}")
+                print(f"        reason: {f['voided_reason']}")
+                continue
             if not f["in_lane"]:
                 continue
             mark = {"tier1_autonomous_path_and_verdict": "TIER-1 CATCH",
@@ -397,8 +404,27 @@ def _cmd_backtest(args) -> int:
     print(f"  Seer path-leads on findings      : {agg['path_found_leads_on_findings']['count']} "
           f"(NOT catches — leads only)")
 
+    # Surface answer-key voids prominently in the printed report; the FREEZE
+    # artifact also carries them at top level so post-hoc readers cannot miss
+    # that a row was excluded for reasons unrelated to substrate performance.
+    if voided_findings:
+        print("\n================ ANSWER-KEY VOIDS (excluded from in-lane denominator) ================")
+        for v in voided_findings:
+            print(f"  [{v['contest']}] {v['id']} — {v['title'][:80]}")
+            print(f"     reason: {v['voided_reason']}")
+
     if args.json:
-        payload = {"taxonomy": "frozen", "runs": runs, "scored": scored, "aggregate": agg}
+        payload = {
+            "taxonomy": "frozen", "runs": runs, "scored": scored, "aggregate": agg,
+            "voided_findings": voided_findings,
+            "notes": [
+                ("Centrifuge M-01 voided after the substrate's own read of "
+                 "C4 #537 surfaced that the answer key is mis-keyed (wrong host "
+                 "function, wrong bug class, no adversary). Pending a full "
+                 "three-field re-audit (host / mechanism / adversary-exists) "
+                 "across all in-lane rows before any surfacing claim is restated."),
+            ] if voided_findings else [],
+        }
         Path(args.json).write_text(_json.dumps(payload, indent=2))
         print(f"\nfrozen scorecard -> {args.json}")
     return 0
