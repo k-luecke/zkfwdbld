@@ -1,0 +1,59 @@
+name: discovery-engine
+
+# Scoped to the discovery-engine/ subproject, mirroring the verification-agent
+# workflow. The engine core is stdlib-only and every lane's real work happens in
+# a subprocess, so this job needs no Foundry, no Slither and no network: it runs
+# the invariant tests and a dry-run smoke that spends no headless call.
+on:
+  push:
+    paths:
+      - "discovery-engine/**"
+      - ".github/workflows/discovery-engine.yml"
+  pull_request:
+    paths:
+      - "discovery-engine/**"
+      - ".github/workflows/discovery-engine.yml"
+
+defaults:
+  run:
+    working-directory: discovery-engine
+
+jobs:
+  invariants:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test deps
+        run: pip install -r requirements.txt
+      - name: Invariant tests
+        run: python -m pytest -q
+      - name: Offline CLI smoke (no headless call, no oracle)
+        run: |
+          python cli.py status
+          python cli.py run --dry-run
+          python cli.py queue
+      - name: The refusal invariant must hold in CI, not just on the bench
+        # A refused riddle that quietly becomes eligible is the one regression
+        # that would make every other check meaningless, so it is asserted here
+        # rather than trusted to the test suite alone.
+        run: |
+          python - <<'PY'
+          from discovery_engine import build_registry
+          reg = build_registry()
+          eligible = {l.name for l in reg.eligible()}
+          refused = {l.name for l in reg.refused()}
+          for name in ("I_bedside_witness", "II_quantum_gravity", "VIII_biosignatures"):
+              assert name in refused, f"{name} must stay refused — no oracle exists for its floor"
+              assert name not in eligible
+          for lane in reg.eligible():
+              assert lane.validated and lane.oracle is not None
+          print(f"refused: {sorted(refused)}")
+          print(f"eligible: {sorted(eligible)}")
+          PY
