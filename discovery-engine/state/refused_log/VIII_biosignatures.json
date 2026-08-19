@@ -1,0 +1,7 @@
+{
+  "eligible": false,
+  "kind": "science",
+  "lane": "VIII_biosignatures",
+  "logged": "20260811_211110_068204",
+  "reason": "NO ORACLE: floor = n=1, no ground truth. More telescope time doesn't move it."
+}

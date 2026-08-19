@@ -1,0 +1,56 @@
+{
+  "blind_precision": "UNMEASURED",
+  "dry_run": true,
+  "lanes": [
+    {
+      "accepted": 0,
+      "degraded": null,
+      "generated": 0,
+      "kind": "verification",
+      "lane": "contract_verification",
+      "oracle_unavailable": 0,
+      "queued": [],
+      "rejected": 0,
+      "unmet_prerequisites": [
+        "forge (Foundry) not installed \u2014 the gate fork-executes Solidity"
+      ]
+    },
+    {
+      "accepted": 0,
+      "degraded": null,
+      "generated": 0,
+      "kind": "science",
+      "lane": "study001_nrr_audit",
+      "oracle_unavailable": 0,
+      "queued": [],
+      "rejected": 0,
+      "unmet_prerequisites": []
+    },
+    {
+      "accepted": 0,
+      "degraded": null,
+      "generated": 0,
+      "kind": "science",
+      "lane": "study002_deception_probe",
+      "oracle_unavailable": 0,
+      "queued": [],
+      "rejected": 0,
+      "unmet_prerequisites": []
+    }
+  ],
+  "refused": [
+    {
+      "lane": "I_bedside_witness",
+      "reason": "NO ORACLE: floor = you can never verify a negative. Human judgment only."
+    },
+    {
+      "lane": "II_quantum_gravity",
+      "reason": "NO ORACLE: floor = LOCC; the open part is an inference, not a checkable event."
+    },
+    {
+      "lane": "VIII_biosignatures",
+      "reason": "NO ORACLE: floor = n=1, no ground truth. More telescope time doesn't move it."
+    }
+  ],
+  "started": "20260811_211110_067526"
+}

@@ -1,0 +1,31 @@
+# Secrets — never in the tree. The engine's credentials live in the systemd
+# EnvironmentFile on the compute host, not here.
+.env
+.env.*
+*.key
+*.pem
+credentials*.json
+rclone.conf
+secrets/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Bulk artifacts belong in DRIVE_DIR, not in git. If one of these ever matches
+# something inside state/, the storage boundary leaked — move it to Drive and
+# keep only the drive:// pointer.
+*.pdf
+*.h5
+*.hdf5
+*.parquet
+*.npz
+*.tar.gz
+*.zip
+
+# The queue dirs themselves ARE tracked (each carries a .gitkeep) — they are how
+# review items reach the phone and the browser. Only the run-scratch is ignored.
+state/scratch/

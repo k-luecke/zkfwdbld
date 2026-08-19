@@ -1,0 +1,16 @@
+# The engine core is deliberately stdlib-only: json, subprocess, pathlib,
+# dataclasses. An unattended process that runs for months should have as little
+# dependency surface as possible, and every lane's real work happens in a
+# subprocess (headless claude, forge, slither) rather than in this process.
+#
+# So the pins below are the TEST harness, not the runtime.
+pytest==9.1.1
+
+# The contract lane's oracle is the verification-agent next door; it brings its
+# own pins (slither-analyzer, solc-select) plus Foundry, installed on the compute
+# host. Do not duplicate them here — one source of truth per tool:
+#     pip install -e ../verification-agent
+#     curl -L https://foundry.paradigm.xyz | bash && foundryup
+#
+# Prompt 2 (literature pull for study001) will add its own pinned deps when that
+# lane's generator is wired. Not before — an unused pin is a lie about what runs.

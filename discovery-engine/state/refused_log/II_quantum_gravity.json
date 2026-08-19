@@ -1,0 +1,7 @@
+{
+  "eligible": false,
+  "kind": "science",
+  "lane": "II_quantum_gravity",
+  "logged": "20260811_211110_068064",
+  "reason": "NO ORACLE: floor = LOCC; the open part is an inference, not a checkable event."
+}

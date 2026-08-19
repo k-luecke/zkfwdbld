@@ -1,0 +1,7 @@
+{
+  "eligible": false,
+  "kind": "science",
+  "lane": "I_bedside_witness",
+  "logged": "20260811_211110_067620",
+  "reason": "NO ORACLE: floor = you can never verify a negative. Human judgment only."
+}
