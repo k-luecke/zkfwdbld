@@ -428,6 +428,7 @@ mod tests {
         // Flip t_0 to its complement (0↔1). s_0 stays 1 — the satisfaction
         // constraint sees s_0·1=1 and is satisfied. Only Clause-1 / Clause-2
         // will detect the inconsistency between t_0 and the literal values.
+        #[allow(clippy::identity_op)]
         let t0_idx = 2 + num_vars + 2 + 0; // = 7
         w[t0_idx] = if w[t0_idx] == F::zero() {
             F::one()
@@ -437,6 +438,7 @@ mod tests {
 
         // s_0 must still be 1 to isolate the clause constraint, not the
         // satisfaction constraint, as the failure origin.
+        #[allow(clippy::identity_op)]
         let s0_idx = 1 + num_vars + 0; // = 4
         w[s0_idx] = F::one();
 

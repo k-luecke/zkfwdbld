@@ -69,7 +69,7 @@ pub(crate) fn gaussian_smooth_1d(input: &[f64], sigma: f64) -> Vec<f64> {
 
     let n = input.len();
     let mut output = vec![0.0f64; n];
-    for i in 0..n {
+    for (i, out) in output.iter_mut().enumerate() {
         let mut acc = 0.0f64;
         for (ki, &kval) in kernel.iter().enumerate() {
             let offset = ki as i64 - half as i64;
@@ -82,7 +82,7 @@ pub(crate) fn gaussian_smooth_1d(input: &[f64], sigma: f64) -> Vec<f64> {
             let j = (j as usize).min(n - 1);
             acc += input[j] * kval;
         }
-        output[i] = acc;
+        *out = acc;
     }
     output
 }
