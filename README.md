@@ -141,13 +141,13 @@ npm run app:packet
 
 The app is intentionally thin for now:
 
-- Node server in [app/server.mjs](/home/kyle_w_luecke/zkfwdbld/app/server.mjs)
-- static UI in [app/static/index.html](/home/kyle_w_luecke/zkfwdbld/app/static/index.html)
-- packet snapshot builder in [app/generate_packet_json.mjs](/home/kyle_w_luecke/zkfwdbld/app/generate_packet_json.mjs)
+- Node server in [app/server.mjs](app/server.mjs)
+- static UI in [app/static/index.html](app/static/index.html)
+- packet snapshot builder in [app/generate_packet_json.mjs](app/generate_packet_json.mjs)
 - packet API at `GET /api/packet`
 
 The current app-shape notes live in
-[docs/app_surface.md](/home/kyle_w_luecke/zkfwdbld/docs/app_surface.md).
+[docs/app_surface.md](docs/app_surface.md).
 
 Run the Tauri desktop shell with:
 
@@ -161,7 +161,7 @@ Build the release binary and Debian package with:
 npm run tauri:build
 ```
 
-The desktop shell lives in [src-tauri](/home/kyle_w_luecke/zkfwdbld/src-tauri)
+The desktop shell lives in [src-tauri](src-tauri)
 and uses a generated packet snapshot from `app/static/generated/packet.json`.
 
 ## Prover Scaling Experiment
@@ -228,7 +228,7 @@ node examples/harness_to_artifact.mjs
 ```
 
 This scans the actual
-[phase0_form_workflow.html](/home/kyle_w_luecke/zkfwdbld/harness/phase0_form_workflow.html)
+[phase0_form_workflow.html](harness/phase0_form_workflow.html)
 fixture and emits canonical `verified_finding` artifacts from the matches.
 
 Run the first supported prove/verify path with:
@@ -289,7 +289,7 @@ Run the real file-based inbound draft path with:
 node examples/ingest_message_drafts.mjs
 ```
 
-This consumes [real_message_drafts.json](/home/kyle_w_luecke/zkfwdbld/examples/fixtures/real_message_drafts.json)
+This consumes [real_message_drafts.json](examples/fixtures/real_message_drafts.json)
 and emits the same report bundle shape from a real file-based workflow handoff.
 
 ## Native Ops Loop
@@ -301,7 +301,7 @@ node examples/run_ops_loop.mjs
 ```
 
 This reads queued outbound-message actions from
-[outbound_messages.json](/home/kyle_w_luecke/zkfwdbld/ops/queue/outbound_messages.json)
+[outbound_messages.json](ops/queue/outbound_messages.json)
 and emits the same trust artifact bundle from an internal queue + policy gate
 flow.
 
