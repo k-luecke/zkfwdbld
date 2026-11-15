@@ -147,7 +147,7 @@ End-to-end: M-03 resolves with attack_entrypoint=receiveFromBridge,
 reaches=['UTB._swapAndExecute'], guard=retrieveAndCollectFees. 80/80.
 ```
 
-The previous session committed under the Claude identity (`Claude <noreply@anthropic.com>`). For your own work, the current `git config user.email` is `kyle_w_luecke@users.noreply.local`. Decide which identity should land this commit before pushing.
+The previous session committed under the Claude identity (`Claude <noreply@anthropic.com>`). For your own work, the current `git config user.email` is `47488006+k-luecke@users.noreply.github.com`. Decide which identity should land this commit before pushing.
 
 Signing: the previous session's two tip commits are SSH-signed via the environment's configured `commit.gpgsign`. Locally signed commits appear `N` (unverified) via `git log --show-signature` because there's no `allowedSignersFile`, but GitHub verifies them against Anthropic's registered key. On WSL, ensure `git config commit.gpgsign` and `gpg.format` / `user.signingkey` match whatever signing scheme you want.
 
