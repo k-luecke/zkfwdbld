@@ -46,6 +46,17 @@ CONTESTS = [
         "models": ["2023-09-centrifuge.model.json"],
         "lane": "cross-chain / access-control / signature",
     },
+    {
+        # The unseen-target contest. Loop runs blind; the answer key is
+        # constructed AFTER FREEZE in the same session, with three-field
+        # rigor per row, then scored. The FREEZE artifact is what asserts
+        # the substrate's output is keyed-on-its-own-judgment, not on the
+        # findings — opening the findings before FREEZE would destroy that.
+        "id": "2025-10-sequence",
+        "blind": True,
+        "models": ["2025-10-sequence.model.json"],
+        "lane": "account-abstraction / signature / replay",
+    },
 ]
 
 # (id, title, mechanism, severity, hosts[, void_info]). hosts = candidate host
@@ -141,4 +152,8 @@ ANSWER_KEYS = {
          "access-control", "Medium",
          ["RestrictionManager.detectTransferRestriction"]),
     ],
+    # Sequence answer key is EMPTY until after the FREEZE — opening it
+    # before would destroy the blind discipline. Constructed in the same
+    # session post-FREEZE with three-field rigor per row.
+    "2025-10-sequence": [],
 }
